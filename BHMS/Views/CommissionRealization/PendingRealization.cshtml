@@ -1,0 +1,448 @@
+﻿
+@{
+    ViewBag.Title = "PendingRealization";
+}
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">List of Pending Realization</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group form-group-xs">
+                            <div class="col-md-4">
+                                @Html.DropDownList("searchType", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.TextBox("searchValue", null, new { @class = "form-control", @id = "searchValue" })
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-success" id="searchState">Search<i class="icon-search4 position-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:150px;" rowspan="2">Proceed Type</th>
+                        <th style="min-width:100px;" rowspan="2">FDBC/TT no.</th>
+                        <th style="min-width:50px;" rowspan="2">Proceed Date</th>
+                        <th style="min-width:100px;" rowspan="2">Proceed Value</th>
+                        <th style="min-width:100px;" rowspan="2">RDL Invoice Value</th>
+                        <th style="min-width:200px;text-align:center;" colspan="2">No. Of FDD</th>
+                        <th style="min-width:100px;" rowspan="2">Comission Realization Status</th>
+                        <th style="min-width:100px;" rowspan="2">Amount</th>
+                        <th style="min-width:100px;" rowspan="2">Details</th>
+                    </tr>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:100px;text-align:center;">Pending</th>
+                        <th style="min-width:100px;text-align:center;">Paid</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div> <!-- panel body -->
+</div>
+
+
+
+
+@*<div>
+        @Html.ActionLink("Back to List", "FDDPayment", null, new { @class = "btn btn-default" })
+    </div>*@
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        //-- global var---
+        var currSelDelivRow = 0; //
+        var cnOrderTempId = 0; //
+        var currSelOrderTempId = 0; //
+        //var currSelOrderId = 0;
+        //--------------
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+        $(document).ready(function () {
+            $('body').addClass("sidebar-xs");
+            $(".select2").select2();
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+            LoadFDBCData();
+            //$("#searchState").attr("disabled", "disabled");
+        });
+
+        //$('#searchValue').change(function () {
+        //    if ($('#searchType').val() != "" && $(this).val != "")
+        //    {
+        //        $('#searchState').removeAttr("disabled");
+        //    }
+
+        //});
+
+
+        function LoadFDBCData() {
+            $.ajax({
+                type: "post",
+                url: "/FDDPayment/FDBCList",
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    //alert('flag->' + data.flag);
+                    if (data.flag == true) {
+                        $('table.OrderItemTable tbody').empty();
+                        var tableLength = data.FDBCdata.length;
+                        //alert('tableLength->' + tableLength);
+
+                        for (var i = 0; i < tableLength; i++) {
+                            //alert(data.FDBCdata[i].Pending);
+                            if (data.FDBCdata[i].Pending <= 0) {
+                                if (data.FDBCdata[i].ProceedTypeId == 0) {
+                                    cnOrderTempId++;
+                                    var newRow = $('<tr>'
+                                        + '<td>'
+                                        + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                                        + '<input type="hidden" name = "ProceedTypeId" value="' + data.FDBCdata[i].ProceedTypeId + '" class="ProceedTypeId form-control">'
+                                        + '<input type="hidden" name = "ProceedRealizationDetId" value="' + data.FDBCdata[i].ProceedRealizationMasId + '" class="ProceedRealizationDetId form-control">'
+                                        + '<input type="hidden" name = "ProceedRealizationMasId" value="' + data.FDBCdata[i].ProceedRealizationMasId + '" class="ProceedRealizationMasId form-control">'
+                                        + '<label class="ProceedType text-bold">' + data.FDBCdata[i].ProceedType + '</label></td>'
+                                        + '<td><label class="FDBCNo text-bold">' + data.FDBCdata[i].FDBCNo + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="ProceedDate text-bold text-right">' + data.FDBCdata[i].ProceedDate + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="ProceedValue text-bold text-right">' + data.FDBCdata[i].ProceedValue + '</label></td>'
+                                         ///previous running code
+                                        //+ '<td class="bg-green-300 text-right"><label class="RDLInvoiceValue text-bold text-right">' + data.FDBCdata[i].RDLInvoiceValue + '</label></td>'
+                                        //19/9/2018
+                                         // + '<td class="bg-green-300 text-right"><label class="RDLInvoiceValue text-bold text-right">' + (data.FDBCdata[i].RDLInvoiceValueWithDiscount).toFixed(2) + '</label></td>'
+                                         //+'<td></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="RDLInvoiceValue text-bold text-right">' + (data.FDBCdata[i].RDLInvoiceValue).toFixed(2) + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="Pending text-bold text-right">' + (data.FDBCdata[i].Pending <= 0 ? "" : data.FDBCdata[i].Pending) + '</label></td>'
+                                        + '<td class="bg-green-300 text-right">' + (data.FDBCdata[i].Paid <= 0 ? "" : '<button onclick="ShowPaidData(this)" type="button" class="btn btn-link">' + data.FDBCdata[i].Paid + '</button>') + '</td>'
+                                        + '<td>' + (data.FDBCdata[i].CheckCommission > 0 ? '<label class="text-bold badge badge-success">Realized</label>' : '<label class="text-bold badge badge-danger">Unrealized</label>') + '</label></td>'
+                                        + '<td><label class="Amount text-bold">' + (data.FDBCdata[i].Pending <= 0 ? data.FDBCdata[i].Amount : "") + '</label><input type="hidden" name = "TotalFDDAmount" value="' + data.FDBCdata[i].TotalFDDAmount + '" class="TotalFDDAmount form-control"></td>'
+
+                                        + '<td>' + (data.FDBCdata[i].CheckCommission > 0 ? '<button onclick="ShowCommissionDetails(this)" type="button" class="btn btn-link"><i>Show Commission Realization</i></button>' : '<button onclick="ShowCommissionForm(this)" type="button" class="btn btn-link"><i>Commission Realization</i></button>') + '</td>'
+                                        + '</tr>');
+                                    $('table.OrderItemTable tbody').append(newRow);
+
+                                    $(".select2").select2();
+
+                                }
+
+                                else {
+
+                                    var newRow = $('<tr>'
+                                        + '<td>'
+                                        + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                                        + '<input type="hidden" name = "ProceedTypeId" value="' + data.FDBCdata[i].ProceedTypeId + '" class="ProceedTypeId form-control">'
+                                        + '<input type="hidden" name = "ProceedRealizationDetIdFinal" value="' + data.FDBCdata[i].ProceedRealizationDetId + '" class="ProceedRealizationDetIdFinal form-control">'
+                                        + '<input type="hidden" name = "ProceedRealizationMasId" value="' + data.FDBCdata[i].ProceedRealizationMasId + '" class="ProceedRealizationMasId form-control">'
+                                        + '<label class="ProceedType text-bold">' + data.FDBCdata[i].ProceedType + '</label></td>'
+                                        + '<td><label class="FDBCNo text-bold">' + data.FDBCdata[i].FDBCNo + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="ProceedDate text-bold text-right">' + data.FDBCdata[i].ProceedDate + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="ProceedValue text-bold text-right">' + data.FDBCdata[i].ProceedValue + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="RDLInvoiceValue text-bold text-right">' + (data.FDBCdata[i].RDLInvoiceValue).toFixed(2) + '</label></td>'
+                                        //+ '<td class="bg-green-300 text-right"><label class="RDLInvoiceValue text-bold text-right">' + (data.FDBCdata[i].RDLInvoiceValueWithDiscount).toFixed(2) + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="Pending text-bold text-right">' + (data.FDBCdata[i].Pending <= 0 ? "" : data.FDBCdata[i].Pending) + '</label></td>'
+                                        //+ '<td class="bg-green-300 text-right"><label class="Paid text-bold text-right">' + data.FDBCdata[i].Paid + '</label></td>'
+                                        + '<td class="bg-green-300 text-right">' + (data.FDBCdata[i].Paid <= 0 ? "" : '<button onclick="ShowPaidData(this)" type="button" class="btn btn-link">' + data.FDBCdata[i].Paid + '</button>') + '</td>'
+                                        + '<td>' + (data.FDBCdata[i].Pending <= 0 ? '<label class="text-bold badge badge-success">Realized</label>' : '<label class="text-bold badge badge-danger">Unrealized</label>') + '</label></td>'
+                                        + '<td><label class="Amount text-bold">' + (data.FDBCdata[i].Pending <= 0 ? data.FDBCdata[i].Amount : "") + '</label><input type="hidden" name = "TotalFDDAmount" value="' + data.FDBCdata[i].TotalFDDAmount + '" class="TotalFDDAmount form-control"></td>'
+                                       // + '<td>' + (data.FDBCdata[i].Pending > 0 ? '<button onclick="ShowTTForm(this)" type="button" class="btn btn-link"><i>TT Payment</i></button>' : '<button onclick="ShowCommissionForm(this)" type="button" class="btn btn-link"><i>Commission Realization</i></button>') + '</td>'
+                                        //+ '<td>' + (data.FDBCdata[i].Pending > 0 ? '<button onclick="ShowTTForm(this)" type="button" class="btn btn-link"><i>TT Payment</i></button>' : '<button onclick="ShowCommissionForm(this)" type="button" class="btn btn-link"><i>Commission Realization</i></button>') + '</td>'
+                                         + '<td>' + (data.FDBCdata[i].CheckCommission > 0 ? '<button onclick="ShowCommissionDetails(this)" type="button" class="btn btn-link"><i>Show Commission Realization</i></button>' : '<button onclick="ShowCommissionForm(this)" type="button" class="btn btn-link"><i>Commission Realization</i></button>') + '</td>'
+
+                                        //+ '<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td>'
+                                        + '</tr>');
+
+                                    //jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+                                    $('table.OrderItemTable tbody').append(newRow);
+
+                                    $(".select2").select2();
+
+                                }
+                            }
+
+                        }
+                    }
+                    else {
+                        $('table.OrderItemTable tbody').empty();
+                        //alert('Data not found!');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        }
+
+
+
+        $('#searchState').click(function () {
+            var selectedType = $('#searchType').val();
+            //alert('selectedType ' + selectedType);
+            var selectedValue = $('#searchValue').val();
+
+            $.ajax({
+                type: "post",
+                url: "/FDDPayment/GetSearchValues",
+                data: { typeId: selectedType, value: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    //alert('flag->' + data.flag);
+                    if (data.flag == true) {
+                        $('table.OrderItemTable tbody').empty();
+                        var tableLength = data.FDBCdata.length;
+                        //alert('tableLength->' + tableLength);
+
+                        for (var i = 0; i < tableLength; i++) {
+                            if (data.FDBCdata[i].Pending <= 0) {
+                                if (data.FDBCdata[i].ProceedTypeId == 0) {
+                                    cnOrderTempId++;
+                                    //alert(data.FDBCdata[i].Pending);
+                                    var newRow = $('<tr>'
+                                        + '<td>'
+                                        + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                                        + '<input type="hidden" name = "ProceedTypeId" value="' + data.FDBCdata[i].ProceedTypeId + '" class="ProceedTypeId form-control">'
+                                        + '<input type="hidden" name = "ProceedRealizationDetId" value="' + data.FDBCdata[i].ProceedRealizationMasId + '" class="ProceedRealizationDetId form-control">'
+                                        + '<input type="hidden" name = "ProceedRealizationMasId" value="' + data.FDBCdata[i].ProceedRealizationMasId + '" class="ProceedRealizationMasId form-control">'
+                                        + '<label class="ProceedType text-bold">' + data.FDBCdata[i].ProceedType + '</label></td>'
+                                        + '<td><label class="FDBCNo text-bold">' + data.FDBCdata[i].FDBCNo + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="ProceedDate text-bold text-right">' + data.FDBCdata[i].ProceedDate + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="ProceedValue text-bold text-right">' + data.FDBCdata[i].ProceedValue + '</label></td>'
+                                         ///previous running code
+                                        //+ '<td class="bg-green-300 text-right"><label class="RDLInvoiceValue text-bold text-right">' + data.FDBCdata[i].RDLInvoiceValue + '</label></td>'
+                                        //19/9/2018
+                                                   + '<td class="bg-green-300 text-right"><label class="RDLInvoiceValue text-bold text-right">' + (data.FDBCdata[i].RDLInvoiceValueWithDiscount).toFixed(2) + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="Pending text-bold text-right">' + (data.FDBCdata[i].Pending <= 0 ? "" : data.FDBCdata[i].Pending) + '</label></td>'
+                                        + '<td class="bg-green-300 text-right">' + (data.FDBCdata[i].Paid <= 0 ? "" : '<button onclick="ShowPaidData(this)" type="button" class="btn btn-link">' + data.FDBCdata[i].Paid + '</button>') + '</td>'
+                                        + '<td>' + (data.FDBCdata[i].Pending <= 0 ? '<label class="text-bold badge badge-success">Realized</label>' : '<label class="text-bold badge badge-danger">Not Realized</label>') + '</label></td>'
+                                        + '<td><label class="Amount text-bold">' + (data.FDBCdata[i].Pending <= 0 ? data.FDBCdata[i].Amount : "") + '</label><input type="hidden" name = "TotalFDDAmount" value="' + data.FDBCdata[i].TotalFDDAmount + '" class="TotalFDDAmount form-control"></td>'
+
+                                        + '<td>' + (data.FDBCdata[i].CheckCommission > 0 ? '<button onclick="ShowCommissionDetails(this)" type="button" class="btn btn-link"><i>Show Commission Realization</i></button>' : '<button onclick="ShowCommissionForm(this)" type="button" class="btn btn-link"><i>Commission Realization</i></button>') + '</td>'
+                                        + '</tr>');
+                                    $('table.OrderItemTable tbody').append(newRow);
+
+                                    $(".select2").select2();
+
+                                }
+
+                                else {
+                                    //alert(data.FDBCdata[i].CheckCommission);
+                                    var newRow = $('<tr>'
+                                        + '<td>'
+                                        + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                                        + '<input type="hidden" name = "ProceedTypeId" value="' + data.FDBCdata[i].ProceedTypeId + '" class="ProceedTypeId form-control">'
+                                        + '<input type="hidden" name = "ProceedRealizationDetIdFinal" value="' + data.FDBCdata[i].ProceedRealizationDetId + '" class="ProceedRealizationDetIdFinal form-control">'
+                                        + '<input type="hidden" name = "ProceedRealizationMasId" value="' + data.FDBCdata[i].ProceedRealizationMasId + '" class="ProceedRealizationMasId form-control">'
+                                        + '<label class="ProceedType text-bold">' + data.FDBCdata[i].ProceedType + '</label></td>'
+                                        + '<td><label class="FDBCNo text-bold">' + data.FDBCdata[i].FDBCNo + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="ProceedDate text-bold text-right">' + data.FDBCdata[i].ProceedDate + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="ProceedValue text-bold text-right">' + data.FDBCdata[i].ProceedValue + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="RDLInvoiceValue text-bold text-right">' + (data.FDBCdata[i].RDLInvoiceValue).toFixed(2) + '</label></td>'
+                                        //+ '<td class="bg-green-300 text-right"><label class="RDLInvoiceValue text-bold text-right">' + (data.FDBCdata[i].RDLInvoiceValueWithDiscount).toFixed(2) + '</label></td>'
+                                        + '<td class="bg-green-300 text-right"><label class="Pending text-bold text-right">' + (data.FDBCdata[i].Pending <= 0 ? "" : data.FDBCdata[i].Pending) + '</label></td>'
+                                        //+ '<td class="bg-green-300 text-right"><label class="Paid text-bold text-right">' + data.FDBCdata[i].Paid + '</label></td>'
+                                        + '<td class="bg-green-300 text-right">' + (data.FDBCdata[i].Paid <= 0 ? "" : '<button onclick="ShowPaidData(this)" type="button" class="btn btn-link">' + data.FDBCdata[i].Paid + '</button>') + '</td>'
+                                        + '<td>' + (data.FDBCdata[i].Pending <= 0 ? '<label class="text-bold badge badge-success">Realized</label>' : '<label class="text-bold badge badge-danger">Not Realized</label>') + '</label></td>'
+                                        + '<td><label class="Amount text-bold">' + (data.FDBCdata[i].Pending <= 0 ? data.FDBCdata[i].Amount : "") + '</label><input type="hidden" name = "TotalFDDAmount" value="' + data.FDBCdata[i].TotalFDDAmount + '" class="TotalFDDAmount form-control"></td>'
+                                       // + '<td>' + (data.FDBCdata[i].Pending > 0 ? '<button onclick="ShowTTForm(this)" type="button" class="btn btn-link"><i>TT Payment</i></button>' : '<button onclick="ShowCommissionForm(this)" type="button" class="btn btn-link"><i>Commission Realization</i></button>') + '</td>'
+                                        //+ '<td>' + (data.FDBCdata[i].Pending > 0 ? '<button onclick="ShowTTForm(this)" type="button" class="btn btn-link"><i>TT Payment</i></button>' : '<button onclick="ShowCommissionForm(this)" type="button" class="btn btn-link"><i>Commission Realization</i></button>') + '</td>'
+                                        + '<td>' + (data.FDBCdata[i].CheckCommission > 0 ? '<button onclick="ShowCommissionDetails(this)" type="button" class="btn btn-link"><i>Show Commission Realization</i></button>' : '<button onclick="ShowCommissionForm(this)" type="button" class="btn btn-link"><i>Commission Realization</i></button>') + '</td>'
+
+                                        //+ '<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td>'
+                                        + '</tr>');
+
+                                    //jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+                                    $('table.OrderItemTable tbody').append(newRow);
+
+                                    $(".select2").select2();
+
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        $('table.OrderItemTable tbody').empty();
+                        alert('Data not found!');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        });
+
+
+        //For TT
+        function ShowCommissionForm(e) {
+            var currRowIndex = $(e).closest('tr').index();
+            var ProceedTypeId = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedTypeId").val();
+            var ProceedType = $('#OrderTable tbody tr').eq(currRowIndex).find("label.ProceedType").text();
+            var ProceedDate = $('#OrderTable tbody tr').eq(currRowIndex).find("label.ProceedDate").text();
+            var FDBCNO = $('#OrderTable tbody tr').eq(currRowIndex).find("label.FDBCNo").text();
+            var RDLInvoiceValue = $('#OrderTable tbody tr').eq(currRowIndex).find("label.RDLInvoiceValue").text();
+            var ProceedValue = $('#OrderTable tbody tr').eq(currRowIndex).find("label.ProceedValue").text();
+            var TotalFDDAmount = $('#OrderTable tbody tr').eq(currRowIndex).find("input.TotalFDDAmount").val();
+            //alert('TotalFDDAmount ' + TotalFDDAmount);
+            //alert(ProceedTypeId + ' ->ProceedType->' + ProceedType + ', ' + ProceedDate + ' ,' + FDBCNO + ' ,' + RDLInvoiceValue + ' ,' + ProceedValue);
+
+            var ProceedRealizationMasId = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedRealizationMasId").val();
+            //alert('ProceedRealizationMasId Comm ' + ProceedRealizationMasId);
+
+            //var ProceedRealizationMasId = document.getElementById("").value ;
+            //alert('ProceedRealizationMasId new ' + ProceedRealizationMasId);
+
+            var url = '@Url.Action("Create", "CommissionRealization")';
+            url += '?ProceedTypeId=' + ProceedTypeId + '&ProceedDate=' + ProceedDate +
+            '&FDBCNO=' + FDBCNO + '&RDLInvoiceValue=' + RDLInvoiceValue + '&ProceedValue=' + ProceedValue + '&TotalFDDAmount=' + TotalFDDAmount + '&ProceedRealizationMasId=' + ProceedRealizationMasId;
+            window.location.href = url;
+        }
+
+
+        //FOR FDD
+        function ShowCommissionDetails(e) {
+            var currRowIndex = $(e).closest('tr').index();
+            //var ProceedRealizationMasId = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedRealizationDetId").val();
+            var ProceedRealizationMasId = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedRealizationMasId").val();
+
+            var url = '@Url.Action("Index", "CommissionRealization")';
+            url += '?ProceedRealizationMasId=' + ProceedRealizationMasId;
+            window.location.href = url;
+        }
+
+
+
+        function ShowFDDForm(e) {
+
+            var currRowIndex = $(e).closest('tr').index();
+
+
+            var ProceedTypeId = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedTypeId").val();
+            var ProceedType = $('#OrderTable tbody tr').eq(currRowIndex).find("label.ProceedType").text();
+            var ProceedDate = $('#OrderTable tbody tr').eq(currRowIndex).find("label.ProceedDate").text();
+            var FDBCNO = $('#OrderTable tbody tr').eq(currRowIndex).find("label.FDBCNo").text();
+            var RDLInvoiceValue = $('#OrderTable tbody tr').eq(currRowIndex).find("label.RDLInvoiceValue").text();
+            var ProceedValue = $('#OrderTable tbody tr').eq(currRowIndex).find("label.ProceedValue").text();
+            var ProceedRealizationMasId = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedRealizationDetId").val();
+
+            //alert(ProceedTypeId + ' ->ProceedType->' + ProceedType + ', ' + ProceedDate + ' ,' + FDBCNO + ' ,' + RDLInvoiceValue + ' ,' + ProceedValue);
+
+            var url = '@Url.Action("Create", "FDDPayment")';
+            url += '?ProceedTypeId=' + ProceedTypeId + '&ProceedDate=' + ProceedDate + '&ProceedRealizationMasId=' + ProceedRealizationMasId +
+                                                      '&FDBCNO=' + FDBCNO + '&RDLInvoiceValue=' + RDLInvoiceValue + '&ProceedValue=' + ProceedValue;
+            window.location.href = url;
+            @*document.location = '@Html.Raw(Url.Action("Create", "FDDPayment", new { ProceedTypeId = "cust"}))';*@
+            @*document.location = '@Url.Action("Create", "FDDPayment",new { ProceedTypeId = 0 })';*@
+            // window.location.href = "/FDDPayment/Create?ProceedTypeId=" + ProceedTypeId + "ProceedDate=" + ProceedDate + "FDBCNO=" + FDBCNO + "RDLInvoiceValue=" + RDLInvoiceValue + "ProceedValue=" + ProceedValue;
+
+            //$.ajax({
+            //    contentType: 'application/json; charset=utf-8',
+            //    dataType: 'json',
+            //    type: 'GET',
+            //    //url: '/FDDPayment/CreateFDDPayment',
+            //    url: '/FDDPayment/Create',
+            //    data: { ProceedTypeId: ProceedTypeId, ProceedDate: ProceedDate, FDBCNO: FDBCNO, RDLInvoiceValue: RDLInvoiceValue, ProceedValue: ProceedValue },
+            //    success: function (result) {
+            //        //if (result.flag == true) {
+            //        //    alert("Record save successfully!");
+            //        // window.location = "/FDDPayment/Create";
+            //        //    //window.location = "/DocSubmission/Edit/" + result.Id;
+
+            //    },
+            //    error: function (jqXHR, textStatus, errorThrown) {
+
+            //    }
+            //});
+
+        }
+
+
+        function ShowTTForm(e) {
+
+            var currRowIndex = $(e).closest('tr').index();
+            var ProceedTypeId = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedTypeId").val();
+            var ProceedType = $('#OrderTable tbody tr').eq(currRowIndex).find("label.ProceedType").text();
+            var ProceedDate = $('#OrderTable tbody tr').eq(currRowIndex).find("label.ProceedDate").text();
+            var FDBCNO = $('#OrderTable tbody tr').eq(currRowIndex).find("label.FDBCNo").text();
+            var RDLInvoiceValue = $('#OrderTable tbody tr').eq(currRowIndex).find("label.RDLInvoiceValue").text();
+            var ProceedValue = $('#OrderTable tbody tr').eq(currRowIndex).find("label.ProceedValue").text();
+            var ProceedRealizationDetId = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedRealizationDetIdFinal").val();
+            //alert(ProceedTypeId + ' ->ProceedType->' + ProceedType + ', ' + ProceedDate + ' ,' + FDBCNO + ' ,' + RDLInvoiceValue + ' ,' + ProceedValue);
+            //alert('ProceedRealizationDetId->' + ProceedRealizationDetId);
+            var url = '@Url.Action("Create", "TTPayment")';
+            url += '?ProceedTypeId=' + ProceedTypeId + '&ProceedDate=' + ProceedDate + '&ProceedRealizationDetId=' + ProceedRealizationDetId +
+                                                      '&FDBCNO=' + FDBCNO + '&RDLInvoiceValue=' + RDLInvoiceValue + '&ProceedValue=' + ProceedValue;
+            window.location.href = url;
+        }
+
+
+
+        function ShowPaidData(e) {
+            var currRowIndex = $(e).closest('tr').index();
+            var FDBCNO = $('#OrderTable tbody tr').eq(currRowIndex).find("label.FDBCNo").text();
+            var ProceedRealizationMasId = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedRealizationDetId").val();
+            var PaymentType = $('#OrderTable tbody tr').eq(currRowIndex).find("input.ProceedTypeId").val();
+
+            if (PaymentType == 0) {
+                var url = '@Url.Action("Index", "FDDPayment")';
+                url += '?ProceedRealizationMasId=' + ProceedRealizationMasId +
+                                                          '&FDBCNO=' + FDBCNO + '&RDLInvoiceValue=';
+                window.location.href = url;
+            }
+            else {
+                var url = '@Url.Action("Index", "TTPayment")';
+                url += '?ProceedRealizationDetId=' + ProceedRealizationMasId +
+                                                          '&FDBCNO=' + FDBCNO + '&RDLInvoiceValue=';
+                window.location.href = url;
+            }
+
+        }
+
+        //function ShowCommissionForm(e)
+        //{
+
+        //}
+
+    </script>
+
+}
+

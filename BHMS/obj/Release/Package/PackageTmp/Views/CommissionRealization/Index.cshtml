@@ -1,0 +1,160 @@
+﻿@model IEnumerable<BHMS.Models.CommissionRealization>
+@using BHMS.Helpers
+@using BHMS.Models
+
+@{
+    ViewBag.Title = "Index";
+    ModelBHMS db = new ModelBHMS();
+}
+
+<div class="panel panel-primary panel-bordered table-hover table-xs">
+    <div class="panel-heading">
+        <h5 class="panel-title">List of Commission Realization</h5>
+    </div>
+    <div class="panel-body">
+        <table class="table datatable-show-all table-hover table-xs">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProceedRealizationMas.DocSubmissionMas.FDBCNo)
+                    </th>
+                    <th>
+                       Comission Amount(USD)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ExchangeRate)
+                    </th>
+                    <th>
+                        Commission In TK
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AITAmount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BankCharge)
+                    </th>
+                    <th>
+                        Net Comission
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RealizationDate)
+                    </th>
+                    <th class="col-lg-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProceedRealizationMas.DocSubmissionMas.FDBCNo)
+                        </td>
+                        @{
+                            var Comissionamount = (from docSubmissionMas in db.DocSubmissionMas
+                                          join docSubmissionDet in db.DocSubmissionDet on docSubmissionMas.Id equals docSubmissionDet.DocSubmissionMasId
+                                          join docSubmissionFactDet in db.DocSubmissionFactDet on docSubmissionDet.Id equals docSubmissionFactDet.DocSubmissionDetId
+                                          join proceedRealizationDet in db.ProceedRealizationDet on docSubmissionDet.Id equals proceedRealizationDet.DocSubmissionDetId
+                                          where proceedRealizationDet.ProceedRealizationMasId == item.ProceedRealizationMasId
+                                          select new
+                                          {
+                                              Amount = db.ProceedRealizationDet.Where(x => x.ProceedRealizationMasId == proceedRealizationDet.ProceedRealizationMasId).Select(x => x.ProceedQty).Sum() -
+                                         (docSubmissionMas.PaymentTypeId == 0 ?
+                                         ((db.FDDPayment.Where(x => x.ProceedRealizationMasId == proceedRealizationDet.ProceedRealizationMasId).Count() == 0 ?
+                                       0 : db.FDDPayment.Where(x => x.ProceedRealizationMasId == proceedRealizationDet.ProceedRealizationMasId).Select(x => x.FDDAmount).Sum())) :
+                                      ((db.TTPayment.Where(x => x.ProceedRealizationDet.DocSubmissionDet.BuyerOrderMasId == docSubmissionDet.BuyerOrderMasId).Count() == 0 ?
+                                         0 : db.TTPayment.Where(x => x.ProceedRealizationDet.DocSubmissionDet.BuyerOrderMasId == docSubmissionDet.BuyerOrderMasId).Select(x => x.FDDAmount).Sum())))
+                                          }).Distinct().FirstOrDefault();
+                            }
+                        <td>
+                            <label>@Comissionamount.Amount</label>
+                        </td>   
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExchangeRate)
+                        </td> 
+                        <td>
+                            @{ 
+                                var comisionTk = Comissionamount.Amount * item.ExchangeRate;
+                            }
+                            <label>@comisionTk.ToString("0.00")</label>
+                        </td>                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AITAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BankCharge)
+                        </td>
+                        @{
+                            var netComission = comisionTk - (item.AITAmount + item.BankCharge);
+                        }
+                        <td>
+                            <label>@netComission.ToString("0.00")</label>
+                        </td>
+                        <td>
+                          @NullHelpers.DateToString(item.RealizationDate)
+                        </td>
+                        <td>
+                            <ul class="icons-list">
+                                @*<li class="text-info"><a href="@Url.Action("Edit", new { id = item.Id } )" data-popup="tooltip" title="Edit"><i class="icon-pencil7"></i></a></li>
+                                 <li>|</li>*@
+                                @*<li class="text-info"><a href="@Url.Action("Details", new { id = item.Id } )" data-popup="tooltip" title="Details"><i class="icon-file-text2"></i></a></li>*@
+                                @*<li>|</li>*@
+                                @*<li class="text-danger"><a href="@Url.Action("Delete", new { id = item.Id } )" data-popup="tooltip" title="Delete"><i class="icon-cross2"></i></a></li>*@
+                                <li class="text-danger"><a href="javascript:deleteFunction(@item.Id)" data-popup="tooltip" title="Delete"><i class="icon-cross2"></i></a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "PendingRealization", "CommissionRealization", null, new { @class = "btn btn-default" })
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/plugins/forms/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/datatables_advanced.js"></script>
+
+    <script>
+    function deleteFunction(Id) {
+        var Con = confirm("Are you sure want to delete this?");
+        if (Con === true) {
+            $.ajax({
+                url: "/CommissionRealization/DeleteRealization",
+                type: "post",
+                data: {
+                    id: Id
+                },
+                dataType: "json",
+
+                success: function (flag) {
+                    //console.log(flag);
+
+                    if (flag.flag === true) {
+                        alert("Successfully deleted !");
+                        window.location = "/CommissionRealization/PendingRealization";
+                    } else {
+                        alert(flag.message);
+                    }
+
+                },
+
+                error: function (xhr) {
+                    alert('error');
+
+                }
+
+
+            });
+        }
+
+    }
+    </script>
+
+
+}

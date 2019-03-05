@@ -1,0 +1,279 @@
+﻿@model BHMS.ViewModels.VMCommissionDistTempMas
+
+@{
+    ViewBag.Title = "Commission Template";
+    ViewBag.SubTitle = "Edit";
+}
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Commission Template</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+            <div class="form-horizontal">
+                                
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.BuyerName, "Buyer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 form-control-static">                        
+                        @Model.BuyerName
+                    </div>
+                </div>
+
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.ProdDepartmentName, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 form-control-static">                        
+                        @Model.ProdDepartmentName
+                    </div>
+                </div>
+
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.CalcType,"Commission Calculated On", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(model => model.CalcType, htmlAttributes : new { @class = "form-control select2 input-xs" } )
+                        @Html.ValidationMessageFor(model => model.CalcType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                                
+            </div>
+        }
+
+    </div> <!-- panel body -->
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-xxs MainTable" id="MainTable">
+            <thead>
+
+                <tr class="bg-primary-400">
+                    <th class="col-sm-2">Min Range</th>
+                    <th class="col-sm-2">Max Range</th>
+                    <th class="col-sm-2">Overseas Commission</th>
+                    <th class="col-sm-2">Other Commission</th>
+                    <th class="col-sm-3">Remark</th>                    
+                    <th class="col-sm-1">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>  
+            <tfoot>
+                <tr>
+                    <td colspan="2"><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button></td>
+                    <td colspan="4"></td>
+                </tr>
+            </tfoot>          
+        </table>
+    </div>
+
+    <div class="panel-footer">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+    
+        //-- global var---
+        var deletedItems = [];
+        //--------------
+
+        $(document).ready(function () {
+            //$("#saveState").attr("disabled", "disabled");
+
+            $(".select2").select2();
+                        
+            $('#MainTable').on('change', '.FactValue', function () {
+                if ($.isNumeric($(this).val()) == false) {
+                    $(this).val('');
+                    alert('Only numeric allowed');
+                }
+                
+            });
+
+            LoadSavedData();
+
+        });
+      
+        function LoadSavedData() {
+
+            var Id = $("#Id").val();
+
+            $.ajax({
+                url: '/CommissionTemplate/GetCommData/',
+                data: { Id: Id },
+                dataType: 'json',
+                TYPE: 'POST',
+                success: function (data) {
+                    
+                    for (var i = 0; i < data.length; i++) {
+
+                        var row = $('<tr><td><input type="hidden" name="CommDetId" class="CommDetId" value="' + data[i].Id + '" /><input type="text" name="MinRange" value="' + data[i].MinRange + '" class="MinRange form-control input-xs text-right" /></td>'
+                        + '<td><input type="text" name="MaxRange" value="' + data[i].MaxRange + '" class="MaxRange form-control input-xs text-right" /></td>'
+                        + '<td><input type="text" name="OverseasComm" value="' + data[i].OverseasComm + '" class="OverseasComm form-control input-xs text-right" /></td>'
+                        + '<td><input type="text" name="OthersComm" value="' + data[i].OthersComm + '" class="OthersComm form-control input-xs text-right" /></td>'
+                        + '<td><input type="text" name="Remarks" value="' + data[i].Remarks + '" class="Remarks form-control input-xs" /></td>'
+                        + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+                        $('#MainTable tbody').append(row);
+
+                    }
+                    
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        }
+
+
+        $('#btnAddRow').click(function () {
+            AddNewRow();
+        });
+
+
+        function AddNewRow() {
+            var newRow = $('<tr><td><input type="hidden" name="CommDetId" class="CommDetId" value="0" /><input type="text" name="MinRange" class="MinRange form-control input-xs text-right" /></td>'
+                        + '<td><input type="text" name="MaxRange" class="MaxRange form-control input-xs text-right" /></td>'
+                        + '<td><input type="text" name="OverseasComm" class="OverseasComm form-control input-xs text-right" /></td>'
+                        + '<td><input type="text" name="OthersComm" class="OthersComm form-control input-xs text-right" /></td>'
+                        + '<td><input type="text" name="Remarks" value="" class="Remarks form-control input-xs" /></td>'                        
+                        + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+            $('#MainTable tbody').append(newRow);
+
+        }
+
+
+        $('#saveState').click(function () {          
+
+            if (CheckOrderGridData() == false) {
+
+            }
+            else {
+                SaveData();
+            }
+
+        });
+
+        function CheckOrderGridData() {
+            // ProdCatId ProdTypeId styleNo unitPrice itemQnty factoryId
+
+            //var totRow = $('#OrderTable tr').length - 1;
+            //for (var i = 1; i < totRow; i++) {
+            //    if ($('#OrderTable tr').eq(i).find(".ProdCatId").val() == "")
+            //    {
+            //        alert('Product category required');
+            //        return false;
+            //    };
+            //}
+            return true;
+        }
+
+
+        function SaveData() {
+
+            $("#saveState").attr("disabled", "disabled");
+            //alert('1');
+            //Id, BuyerInfoId, ProdDepartmentId, CalcType
+            var Id = $('#Id').val();
+            //var ProdDepartmentId = $('#ProdDepartmentId').val();
+            var CalcType = $('#CalcType').val();
+            //alert('2');
+            //Id, MinRange, MaxRange, OverseasComm, OthersComm, Remarks
+
+            var CommDetId = document.getElementsByName("CommDetId");
+            var MinRange = document.getElementsByName("MinRange");
+            var MinRange = document.getElementsByName("MinRange");
+            var MaxRange = document.getElementsByName("MaxRange");
+            var OverseasComm = document.getElementsByName("OverseasComm");
+            var OthersComm = document.getElementsByName("OthersComm");
+            var Remarks = document.getElementsByName("Remarks");           
+
+            //alert('3');
+            //return;
+            var OItems = [];
+
+            for (var i = 0; i < MinRange.length; i++) {
+                if (MinRange[i].value == "") { break; }
+                OItems.push({ Id: CommDetId[i].value, MinRange: MinRange[i].value, MaxRange: MaxRange[i].value, OverseasComm: OverseasComm[i].value, OthersComm: OthersComm[i].value, Remarks: Remarks[i].value });
+            }
+            //alert('4');
+            CommDetails = JSON.stringify({ CommDetails: OItems, Id: Id, CalcType: CalcType, DelItems: deletedItems });
+            //OrderDetails = JSON.stringify({ OrderDetails: OItems});
+            //alert(CommDetails);
+            //return;
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/CommissionTemplate/UpdateComm',
+                data: CommDetails,
+                success: function (result) {
+                    console.log(result);
+                    //$("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        //alert("Record save successfully!");
+                        window.location = "/CommissionTemplate/Edit/" + Id;
+                    }
+                    else {
+                        alert(result.message);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+
+        function RemoveOrderRow(e) {
+            if ($('#MainTable tr').length == 3) {
+                alert('You cannot delete this row.\nCommission requires atleast one record.');
+                return;
+            }
+
+            if (confirm('Do you really want to delete?') == false) {
+                return;
+            }
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+
+            var id = $('#MainTable tr').eq(currRowIndex).find("input.CommDetId").val();
+
+            if (id > 0) {
+                deletedItems.push(id);
+
+                $(e).parent().parent().remove();
+                
+            }
+            else {
+                $(e).parent().parent().remove();
+                
+            }
+
+
+        }
+
+
+    </script>
+
+}

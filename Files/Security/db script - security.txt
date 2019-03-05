@@ -1,0 +1,103 @@
+CREATE TABLE Secu_Team(
+Id						int IDENTITY(1,1) NOT NULL,
+Name					nvarchar(50) NOT NULL,
+TeamHeadId				int,
+CONSTRAINT PK_Secu_Team PRIMARY KEY (Id)
+)
+
+GO
+
+
+CREATE TABLE Designation(
+Id						int IDENTITY(1,1) NOT NULL,
+Name					nvarchar(50) NOT NULL,
+DesigContId				int, 
+CONSTRAINT PK_Designation PRIMARY KEY (Id)
+)
+
+GO
+
+CREATE TABLE Secu_Role(
+Id						int IDENTITY(1,1) NOT NULL,
+Name					nvarchar(50) NOT NULL,
+CONSTRAINT PK_Secu_Role PRIMARY KEY (Id)
+)
+
+GO
+
+
+CREATE TABLE Secu_User(
+Id						int IDENTITY(1,1) NOT NULL,
+UserName				nvarchar(50) NOT NULL,
+Password				nvarchar(155) NOT NULL,
+Salt					nvarchar(100),
+UserFullName			nvarchar(50),
+IsAdmin					bit NOT NULL,
+UserStatus				nvarchar(1) NOT NULL,
+LastLoginDate			datetime,
+InvalidAttempt			int,
+TeamId					int,
+DesignationId			int,
+RoleId					int,
+CONSTRAINT PK_Secu_User PRIMARY KEY (Id)
+)
+
+GO
+
+
+CREATE TABLE Secu_UsersBuyer(
+Id						int IDENTITY(1,1) NOT NULL,
+UserId					int NOT NULL,
+BuyerInfoId				int NOT NULL,
+CONSTRAINT PK_Secu_UsersBuyer PRIMARY KEY (Id),
+CONSTRAINT FK1_Secu_UsersBuyer FOREIGN KEY (BuyerInfoId) REFERENCES BuyerInfo(Id),
+CONSTRAINT UK_Secu_UsersBuyer UNIQUE (UserId,BuyerInfoId)
+)
+
+GO
+
+CREATE TABLE Secu_Forms(
+Id						int IDENTITY(1,1) NOT NULL,
+Name					varchar(50) NOT NULL,
+Description				varchar(100) NOT NULL,
+CONSTRAINT PK_Secu_Forms PRIMARY KEY (Id),
+CONSTRAINT UK_Secu_Forms UNIQUE (Name)
+)
+
+GO
+
+
+
+-- Data perm: 0: No data, 1: Own Data, 2: Subordinate Data, 3: Subordinate + Own Data, 4: All Data
+CREATE TABLE Secu_RolePermission(
+Id						int IDENTITY(1,1) NOT NULL,
+FormId					int NOT NULL,
+RoleId					int NOT NULL,
+DataViewPerm			int NOT NULL,
+DataAddPerm				int NOT NULL,
+DataEditPerm			int NOT NULL,
+DataDeletePerm			int NOT NULL,
+CONSTRAINT PK_Secu_RolePermission PRIMARY KEY (Id),
+CONSTRAINT FK1_Secu_Secu_RolePermission FOREIGN KEY (FormId) REFERENCES Secu_Forms(Id),
+CONSTRAINT FK2_Secu_Secu_RolePermission FOREIGN KEY (RoleId) REFERENCES Secu_Role(Id)
+)
+
+GO
+
+
+CREATE TABLE SystemLog(
+Id						int IDENTITY(1,1) NOT NULL,
+LogDateTime				datetime NOT NULL,
+LogDescription			nvarchar(256) NOT NULL,
+CONSTRAINT PK_SystemLog PRIMARY KEY (Id)
+)
+
+GO
+
+
+
+
+
+
+
+

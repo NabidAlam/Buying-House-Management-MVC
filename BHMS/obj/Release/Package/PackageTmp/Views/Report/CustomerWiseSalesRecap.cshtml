@@ -1,0 +1,146 @@
+﻿@using BHMS.Helpers
+@{
+    ViewBag.Title = "Customer Wise Sales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Customer Wise Sales Report</h5>
+    </div>
+    <div class="panel-body">
+
+        @Html.AntiForgeryToken()
+        @using (Html.BeginForm("CustomerWiseSalesRecap", "Report", FormMethod.Post, htmlAttributes: new { @target = "_blank" }))
+        {
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+
+                    @*<div class="form-group">
+                        @Html.Label("From", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBox("monthFrom", DateTime.Today.Month, new { @class = "form-control datepickers", @id = "monthFrom" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("To", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBox("monthTo", DateTime.Today.Month, new { @class = "form-control datepickers", @id = "monthTo" })
+                            
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBox("date", DateTime.Today.Year, new { @class = "form-control datepicker", @id = "date" })
+                            <span class="error" id="Year_Error"></span>
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        @Html.Label("Buyer", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownList("BuyInfoId", null, "--Select--", htmlAttributes: new { @id = "BuyInfoId", @class = "form-control select2", @style = "!important" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                    @Html.Label("From", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">                     
+                            @Html.DropDownList("MonthFrom", null, "--Select--", htmlAttributes: new { @id = "MonthFrom", @class = "form-control select2", @style = "!important" })                    
+                    </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("To", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                             @Html.DropDownList("MonthTo", null, "--Select--", htmlAttributes: new { @id = "MonthTo", @class = "form-control select2", @style = "!important" })
+
+                           
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Year", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBox("Year", DateTime.Today.Year, new { @class = "form-control datepicker", @id = "Year" })
+                            <span class="error" id="Year_Error"></span>
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                        @Html.Label("From", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBox("dateFrom", null ,new { @class = "form-control datepicker", @id = "dateFrom" })
+                            <span class="error" id="Year_Error"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("To", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBox("dateTo", null , new { @class = "form-control datepicker", @id = "dateTo" })
+                            <span class="error" id="Year_Error"></span>
+                        </div>
+                    </div>*@
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4">
+                    <button type="submit" class="btn btn-primary" id="generateReport"><i class="icon-add position-left"></i>Generate Report</button>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".select2").select2();
+
+        $('.datepicker').datepicker({
+            format: "yyyy",
+            viewMode: "years", 
+            minViewMode: "years",
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+
+        $('.datepickers').datepicker({
+            format: "mm",
+            viewMode: "months",      
+            minViewMode: "months",
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+
+       
+        //$('.datepicker').datepicker({
+        //    format: 'dd/mm/yyyy',
+        //    todayHighlight: true,
+        //    todayBtn: true,
+        //    autoclose: true
+        //});
+
+
+
+    });
+</script>
+
+
+
+

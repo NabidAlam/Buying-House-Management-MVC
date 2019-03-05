@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="LCTransferinfoFactoryWiseDS" targetNamespace="http://tempuri.org/LCTransferinfoFactoryWiseDS.xsd" xmlns:mstns="http://tempuri.org/LCTransferinfoFactoryWiseDS.xsd" xmlns="http://tempuri.org/LCTransferinfoFactoryWiseDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="LCTransferinfoFactoryWiseDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="LCTransferinfoFactoryWiseDS" msprop:Generator_UserDSName="LCTransferinfoFactoryWiseDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="LCTransferFactory" msprop:Generator_TableClassName="LCTransferFactoryDataTable" msprop:Generator_TableVarName="tableLCTransferFactory" msprop:Generator_TablePropName="LCTransferFactory" msprop:Generator_RowDeletingName="LCTransferFactoryRowDeleting" msprop:Generator_RowChangingName="LCTransferFactoryRowChanging" msprop:Generator_RowEvHandlerName="LCTransferFactoryRowChangeEventHandler" msprop:Generator_RowDeletedName="LCTransferFactoryRowDeleted" msprop:Generator_UserTableName="LCTransferFactory" msprop:Generator_RowChangedName="LCTransferFactoryRowChanged" msprop:Generator_RowEvArgName="LCTransferFactoryRowChangeEvent" msprop:Generator_RowClassName="LCTransferFactoryRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FactoryId" msprop:Generator_ColumnVarNameInTable="columnFactoryId" msprop:Generator_ColumnPropNameInRow="FactoryId" msprop:Generator_ColumnPropNameInTable="FactoryIdColumn" msprop:Generator_UserColumnName="FactoryId" type="xs:int" minOccurs="0" />
+              <xs:element name="FactoryName" msprop:Generator_ColumnVarNameInTable="columnFactoryName" msprop:Generator_ColumnPropNameInRow="FactoryName" msprop:Generator_ColumnPropNameInTable="FactoryNameColumn" msprop:Generator_UserColumnName="FactoryName" type="xs:string" minOccurs="0" />
+              <xs:element name="MasterLCId" msprop:Generator_ColumnVarNameInTable="columnMasterLCId" msprop:Generator_ColumnPropNameInRow="MasterLCId" msprop:Generator_ColumnPropNameInTable="MasterLCIdColumn" msprop:Generator_UserColumnName="MasterLCId" type="xs:int" minOccurs="0" />
+              <xs:element name="MasterLCNo" msprop:Generator_ColumnVarNameInTable="columnMasterLCNo" msprop:Generator_ColumnPropNameInRow="MasterLCNo" msprop:Generator_ColumnPropNameInTable="MasterLCNoColumn" msprop:Generator_UserColumnName="MasterLCNo" type="xs:string" minOccurs="0" />
+              <xs:element name="BuyerId" msprop:Generator_ColumnVarNameInTable="columnBuyerId" msprop:Generator_ColumnPropNameInRow="BuyerId" msprop:Generator_ColumnPropNameInTable="BuyerIdColumn" msprop:Generator_UserColumnName="BuyerId" type="xs:int" minOccurs="0" />
+              <xs:element name="BuyerName" msprop:Generator_ColumnVarNameInTable="columnBuyerName" msprop:Generator_ColumnPropNameInRow="BuyerName" msprop:Generator_ColumnPropNameInTable="BuyerNameColumn" msprop:Generator_UserColumnName="BuyerName" type="xs:string" minOccurs="0" />
+              <xs:element name="LCQty" msprop:Generator_ColumnVarNameInTable="columnLCQty" msprop:Generator_ColumnPropNameInRow="LCQty" msprop:Generator_ColumnPropNameInTable="LCQtyColumn" msprop:Generator_UserColumnName="LCQty" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OrderQty" msprop:Generator_ColumnVarNameInTable="columnOrderQty" msprop:Generator_ColumnPropNameInRow="OrderQty" msprop:Generator_ColumnPropNameInTable="OrderQtyColumn" msprop:Generator_UserColumnName="OrderQty" type="xs:int" minOccurs="0" />
+              <xs:element name="LCValue" msprop:Generator_ColumnVarNameInTable="columnLCValue" msprop:Generator_ColumnPropNameInRow="LCValue" msprop:Generator_ColumnPropNameInTable="LCValueColumn" msprop:Generator_UserColumnName="LCValue" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TransferValue" msprop:Generator_ColumnVarNameInTable="columnTransferValue" msprop:Generator_ColumnPropNameInRow="TransferValue" msprop:Generator_ColumnPropNameInTable="TransferValueColumn" msprop:Generator_UserColumnName="TransferValue" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TransferDate" msprop:Generator_ColumnVarNameInTable="columnTransferDate" msprop:Generator_ColumnPropNameInRow="TransferDate" msprop:Generator_ColumnPropNameInTable="TransferDateColumn" msprop:Generator_UserColumnName="TransferDate" type="xs:string" minOccurs="0" />
+              <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

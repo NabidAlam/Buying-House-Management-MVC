@@ -1,0 +1,75 @@
+﻿@model IEnumerable<BHMS.Models.CommissionDistTempMas>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BuyerInfo.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProdDepartment.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CalcType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAuth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AuthBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AuthOn)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BuyerInfo.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProdDepartment.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CalcType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAuth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OpBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OpOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuthBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuthOn)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

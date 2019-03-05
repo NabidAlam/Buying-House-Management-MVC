@@ -1,0 +1,317 @@
+﻿@model BHMS.Models.FabricItem
+
+@{
+    ViewBag.Title = "Fabric Items";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Fabric Description Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.FabricType.ProdCategory.BuyerInfoId, "Buyer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                        @Html.ValidationMessageFor(model => model.FabricType.ProdCategory.BuyerInfoId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.FabricType.ProdCategoryId, "Product Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ProdCategoryId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                        @Html.ValidationMessageFor(model => model.FabricType.ProdCategoryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.FabricTypeId, "Fabric Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("FabricTypeId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                        @Html.ValidationMessageFor(model => model.FabricTypeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group form-group-xs">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-xs">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.IsAuth, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.IsAuth)
+                                @Html.ValidationMessageFor(model => model.IsAuth, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OpBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OpBy, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.OpBy, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OpOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OpOn, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                            @Html.ValidationMessageFor(model => model.OpOn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AuthBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.AuthBy, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AuthBy, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AuthOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.AuthOn, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                            @Html.ValidationMessageFor(model => model.AuthOn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-success" />
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>*@
+            </div>
+        }
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+            <thead>
+                <tr class="bg-primary-400">
+                    <th style="min-width:280px;">Name</th>
+                    <th style="min-width:380px;">Description</th>
+                    <th style="min-width:50px;">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>
+                    <td colspan="3"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            @*<div class="col-md-12">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                </div>*@
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        var cnOrderTempId = 0;
+        $(document).ready(function () {
+            $(".select2").select2();
+            AddNewRow();
+        });
+
+        $('#BuyerInfoId').change(function () {
+            var selectedValue = $("#BuyerInfoId option:selected").val();
+
+            $("#ProdCategoryId option:selected").prop("selected", false);
+            if (selectedValue.length == 0) {
+                $('#ProdCategoryId').empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/ProdCategory/GetProductTypeNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ProdCategoryId').empty();
+                    $('#ProdCategoryId').append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        $('#ProdCategoryId').append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        });
+
+
+        $('#ProdCategoryId').change(function () {
+            var selectedValue = $("#ProdCategoryId option:selected").val();
+
+            $("#FabricTypeId option:selected").prop("selected", false);
+            if (selectedValue.length == 0) {
+                $('#FabricTypeId').empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/FabricItem/GetFabricTypeFromProdType",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#FabricTypeId').empty();
+                    $('#FabricTypeId').append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        $('#FabricTypeId').append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        });
+
+
+        $('#btnAddRow').click(function () {
+            AddNewRow();
+        });
+
+
+        function AddNewRow() {
+            cnOrderTempId++;
+            var newRow = $('<tr><td>'
+                + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                + '<input type="text" name="FabricDesName" class="FabricDesName form-control input-xs" /></td>'
+                + '<td><input type="text" name="Description" class="Description form-control input-xs" /></td>'
+                + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+            //jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+            $('table.OrderItemTable tbody').append(newRow);
+
+            $(".select2").select2();
+        }
+
+
+        function RemoveOrderRow(e) {
+            if ($('#OrderTable tr').length == 3) {
+                alert('You cannot delete this row.\nOrder requires atleast one record.');
+                return;
+            }
+            if (confirm('Do you really want to delete?') == false) {
+                return;
+            }
+            $(e).parent().parent().remove();
+        }
+
+
+
+        $('#saveState').click(function () {
+
+            //var orderDate = moment($('#OrderDate').val(), "DD/MM/YYYY", true);
+            if ($.trim($('#BuyerInfoId').val()) === "") {
+                alert('Buyer Info required');
+                $('#BuyerInfoId').focus();
+            }
+            else if ($('#ProdCategoryId option:selected').text() == "") {
+                alert('Please select Product Category');
+                $('#ProdCategoryId').select2('open');
+            }
+            else if ($('#FabricTypeId option:selected').text() == "") {
+                alert('Please select Fabric Type');
+                $('#FabricTypeId').select2('open');
+            }
+            else {
+                SaveOrderData();
+            }
+        });
+
+        function SaveOrderData() {
+            $("#saveState").attr("disabled", "disabled");
+            var FabricTypeId = $('#FabricTypeId').val();
+            var TempOrderId = document.getElementsByName("TempOrderId");
+            var FabricDesName = document.getElementsByName("FabricDesName");
+            var Description = document.getElementsByName("Description");
+            var OItems = [];
+            //alert(TempOrderId.length);
+            for (var i = 0; i < TempOrderId.length; i++) {
+                if (TempOrderId[i].value == "") { continue; }
+                OItems.push({ Id: 0, FabricItemId:0, Name: FabricDesName[i].value, Description: Description[i].value });
+            }
+
+            var LCDetails = JSON.stringify({
+                fabricItemDet: OItems,
+                Id: 0,
+                FabricTypeId: FabricTypeId
+            });
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/FabricItem/SaveFabricInfo',
+                data: LCDetails,
+                success: function (result) {
+                    console.log(result);
+                    $("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        alert("Record save successfully!");
+                        window.location = "/FabricItem/Index";
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+
+    </script>
+
+}

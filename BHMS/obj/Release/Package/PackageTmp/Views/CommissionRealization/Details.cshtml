@@ -1,0 +1,58 @@
+﻿@model BHMS.Models.CommissionRealization
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CommissionRealization</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProceedRealizationMas.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProceedRealizationMas.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExchangeRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExchangeRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AITAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AITAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankCharge)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankCharge)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RealizationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RealizationDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

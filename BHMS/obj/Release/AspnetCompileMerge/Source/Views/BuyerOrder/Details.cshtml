@@ -1,0 +1,114 @@
+﻿@model BHMS.Models.BuyerOrderMas
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BuyerOrderMa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyerInfo.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyerInfo.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProdDepartment.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProdDepartment.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeasonInfo.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeasonInfo.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Supplier.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Supplier.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderRefNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderRefNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAuth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAuth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsLocked)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsLocked)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

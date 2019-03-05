@@ -1,0 +1,971 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EC224C76-DE7F-4849-9E51-382EB24C1395}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BHMS</RootNamespace>
+    <AssemblyName>BHMS</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Data.AdoDotNetInterop, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SautinSoft.PdfFocus, Version=6.9.7.6, Culture=neutral, PublicKeyToken=0b79b934109b3e9e, processorArchitecture=MSIL">
+      <HintPath>..\packages\sautinsoft.pdffocus.6.9.7.6\lib\net461\SautinSoft.PdfFocus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ActionActivityController.cs" />
+    <Compile Include="Controllers\AlertController.cs" />
+    <Compile Include="Controllers\BankBranchController.cs" />
+    <Compile Include="Controllers\BrandController.cs" />
+    <Compile Include="Controllers\BuyerCashAdjustmentsController.cs" />
+    <Compile Include="Controllers\BuyerDiscountAjustmentController.cs" />
+    <Compile Include="Controllers\BuyerInfoController.cs" />
+    <Compile Include="Controllers\BuyerOrderController.cs" />
+    <Compile Include="Controllers\CommissionDistController.cs" />
+    <Compile Include="Controllers\CommissionRealizationController.cs" />
+    <Compile Include="Controllers\CommissionTemplateController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CompanyResourceController.cs" />
+    <Compile Include="Controllers\CourierInfoesController.cs" />
+    <Compile Include="Controllers\DestinationPortController.cs" />
+    <Compile Include="Controllers\DiscountAdjustmentFactoryMasController.cs" />
+    <Compile Include="Controllers\DiscountController.cs" />
+    <Compile Include="Controllers\DocSubmissionController.cs" />
+    <Compile Include="Controllers\ErrorHandlerController.cs" />
+    <Compile Include="Controllers\ExFactoryInformationController.cs" />
+    <Compile Include="Controllers\FabricItemController.cs" />
+    <Compile Include="Controllers\FabricSuppliersController.cs" />
+    <Compile Include="Controllers\FabricTypesController.cs" />
+    <Compile Include="Controllers\FactoryCashAdjustmentsController.cs" />
+    <Compile Include="Controllers\FactoryOrderController.cs" />
+    <Compile Include="Controllers\FDDPaymentController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceCommercialRDLController.cs" />
+    <Compile Include="Controllers\InvoiceCommFactController.cs" />
+    <Compile Include="Controllers\LCAmendController.cs" />
+    <Compile Include="Controllers\LCTransferController.cs" />
+    <Compile Include="Controllers\MasterLCController.cs" />
+    <Compile Include="Controllers\MiddlePartyController.cs" />
+    <Compile Include="Controllers\ProceedRealizationController.cs" />
+    <Compile Include="Controllers\ProdCategoryController.cs" />
+    <Compile Include="Controllers\ProdCatTypeController.cs" />
+    <Compile Include="Controllers\ProdColorsController.cs" />
+    <Compile Include="Controllers\ProdDepartmentController.cs" />
+    <Compile Include="Controllers\ProdSizeController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\SeasonInfoController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TimeActionMasController.cs" />
+    <Compile Include="Controllers\TTPaymentController.cs" />
+    <Compile Include="Excel\Application.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\Alert.cs" />
+    <Compile Include="Helpers\AlertStyles.cs" />
+    <Compile Include="Helpers\EncryptionDecryptionUtil.cs" />
+    <Compile Include="Helpers\ExfactoryHelper.cs" />
+    <Compile Include="Helpers\MonthHelper.cs" />
+    <Compile Include="Helpers\MyHelpers.cs" />
+    <Compile Include="Helpers\NullHelpers.cs" />
+    <Compile Include="Models\ActionActivityDet.cs" />
+    <Compile Include="Models\ActionActivityMas.cs" />
+    <Compile Include="Models\AIT.cs" />
+    <Compile Include="Models\BankBranch.cs" />
+    <Compile Include="Models\BankCharge.cs" />
+    <Compile Include="Models\Brand.cs" />
+    <Compile Include="Models\BuyerCashAdjustment.cs" />
+    <Compile Include="Models\BuyerInfo.cs" />
+    <Compile Include="Models\BuyerOrderDet.cs" />
+    <Compile Include="Models\BuyerOrderMas.cs" />
+    <Compile Include="Models\CommissionDistTempDet.cs" />
+    <Compile Include="Models\CommissionDistTempMas.cs" />
+    <Compile Include="Models\CommissionDistDet.cs" />
+    <Compile Include="Models\CommissionDistMas.cs" />
+    <Compile Include="Models\CommissionRealization.cs" />
+    <Compile Include="Models\CompanyInformation.cs" />
+    <Compile Include="Models\CompanyResource.cs" />
+    <Compile Include="Models\CountryInfo.cs" />
+    <Compile Include="Models\CourierInfo.cs" />
+    <Compile Include="Models\DestinationPort.cs" />
+    <Compile Include="Models\DiscountAdjustmentBuyerAdj.cs" />
+    <Compile Include="Models\DiscountAdjustmentBuyerDet.cs" />
+    <Compile Include="Models\DiscountAdjustmentBuyerMas.cs" />
+    <Compile Include="Models\DiscountAdjustmentBuyerPrev.cs" />
+    <Compile Include="Models\DiscountAdjustmentFactoryAdj.cs" />
+    <Compile Include="Models\DiscountAdjustmentFactoryDet.cs" />
+    <Compile Include="Models\DiscountAdjustmentFactoryMas.cs" />
+    <Compile Include="Models\DiscountAdjustmentFactoryPrev.cs" />
+    <Compile Include="Models\DiscountDet.cs" />
+    <Compile Include="Models\DiscountMas.cs" />
+    <Compile Include="Models\DocSubmissionDet.cs" />
+    <Compile Include="Models\DocSubmissionFactDet.cs" />
+    <Compile Include="Models\DocSubmissionMas.cs" />
+    <Compile Include="Models\ExFactoryDet.cs" />
+    <Compile Include="Models\ExFactoryMas.cs" />
+    <Compile Include="Models\ExFactoryShipDet.cs" />
+    <Compile Include="Models\FabricItem.cs" />
+    <Compile Include="Models\FabricItemDet.cs" />
+    <Compile Include="Models\FabricSupplier.cs" />
+    <Compile Include="Models\FabricType.cs" />
+    <Compile Include="Models\FactoryCashAdjustment.cs" />
+    <Compile Include="Models\FactoryOrderDelivDet.cs" />
+    <Compile Include="Models\FactoryOrderDet.cs" />
+    <Compile Include="Models\FactoryOrderMas.cs" />
+    <Compile Include="Models\FDDPayment.cs" />
+    <Compile Include="Models\FDDPaymentDet.cs" />
+    <Compile Include="Models\InvoiceCommDet.cs" />
+    <Compile Include="Models\InvoiceCommDetDet.cs" />
+    <Compile Include="Models\InvoiceCommFactDet.cs" />
+    <Compile Include="Models\InvoiceCommFactMas.cs" />
+    <Compile Include="Models\InvoiceCommMas.cs" />
+    <Compile Include="Models\LCAmendInfo.cs" />
+    <Compile Include="Models\LCTransferDet.cs" />
+    <Compile Include="Models\LCTransferMas.cs" />
+    <Compile Include="Models\MasterLCInfoDet.cs" />
+    <Compile Include="Models\MasterLCInfoMas.cs" />
+    <Compile Include="Models\MasterLCInfoOrderDet.cs" />
+    <Compile Include="Models\MiddleParty.cs" />
+    <Compile Include="Models\ModelBHMS.cs" />
+    <Compile Include="Models\ProceedRealizationDet.cs" />
+    <Compile Include="Models\ProceedRealizationMas.cs" />
+    <Compile Include="Models\ProdCategory.cs" />
+    <Compile Include="Models\ProdCatType.cs" />
+    <Compile Include="Models\ProdColor.cs" />
+    <Compile Include="Models\ProdDepartment.cs" />
+    <Compile Include="Models\ProdSize.cs" />
+    <Compile Include="Models\SeasonInfo.cs" />
+    <Compile Include="Models\Secu_User.cs" />
+    <Compile Include="Models\Secu_UsersBuyer.cs" />
+    <Compile Include="Models\ShipmentSummDet.cs" />
+    <Compile Include="Models\Supplier.cs" />
+    <Compile Include="Models\TimeActionDet.cs" />
+    <Compile Include="Models\TimeActionMas.cs" />
+    <Compile Include="Models\TTPayment.cs" />
+    <Compile Include="Models\UserDept.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportDataset\BuyerAccountDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BuyerAccountDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\BuyerWiserOrderAllocation.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BuyerWiserOrderAllocation.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\CustomerWiseExpCommDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerWiseExpCommDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\CustomerWiseSaleDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerWiseSaleDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\DSBuyerReportDetail.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSBuyerReportDetail.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\FactoryAccountDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FactoryAccountDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\FactoryWiseExportValDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FactoryWiseExportValDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\FactoryWiserOrderAllocation.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FactoryWiserOrderAllocation.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\LCInfoBuyerWiseDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LCInfoBuyerWiseDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\LCTransferinfoFactoryWiseDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LCTransferinfoFactoryWiseDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\OrderInfoBuyerWise.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderInfoBuyerWise.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\OrderInfoBuyerWiseDetailDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderInfoBuyerWiseDetailDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataset\OrderInfoFactoryWiseDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderInfoFactoryWiseDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\VMActionActivityList.cs" />
+    <Compile Include="ViewModels\VMBuyerOrderDet.cs" />
+    <Compile Include="ViewModels\VMBuyerOrderDetCottonOn.cs" />
+    <Compile Include="ViewModels\VMBuyerOrderMasCottonOn.cs" />
+    <Compile Include="ViewModels\VMBuyerOrderMas.cs" />
+    <Compile Include="ViewModels\VMCommissionDistMas.cs" />
+    <Compile Include="ViewModels\VMCommissionDistTempMas.cs" />
+    <Compile Include="ViewModels\VMDiscountAdjBuyer.cs" />
+    <Compile Include="ViewModels\VMDiscountAdjFact.cs" />
+    <Compile Include="ViewModels\VMDiscountAdjustFactoryDet.cs" />
+    <Compile Include="ViewModels\VMDiscountAdjustFactoryMas.cs" />
+    <Compile Include="ViewModels\VMDiscountAdjustmentBuyerAdj.cs" />
+    <Compile Include="ViewModels\VMDiscountAdjustmentBuyerDet.cs" />
+    <Compile Include="ViewModels\VMDiscountAdjustmentBuyerMas.cs" />
+    <Compile Include="ViewModels\VMDiscountAdjustmentBuyerPrev.cs" />
+    <Compile Include="ViewModels\VMDocSubmissionDet.cs" />
+    <Compile Include="ViewModels\VMDocSubmissionFactDet.cs" />
+    <Compile Include="ViewModels\VMDocSubmissionMas.cs" />
+    <Compile Include="ViewModels\VMExFactoryDetailEdit.cs" />
+    <Compile Include="ViewModels\VMExFactoryMasEdit.cs" />
+    <Compile Include="ViewModels\VMExFactoryShipDet.cs" />
+    <Compile Include="ViewModels\VMFactoryOrderDelivDet.cs" />
+    <Compile Include="ViewModels\VMFactoryOrderDelivList.cs" />
+    <Compile Include="ViewModels\VMFactoryOrderDet.cs" />
+    <Compile Include="ViewModels\VMFactoryOrderMas.cs" />
+    <Compile Include="ViewModels\VMFDBCList.cs" />
+    <Compile Include="ViewModels\VMInvoiceCommDet.cs" />
+    <Compile Include="ViewModels\VMInvoiceCommDetDet.cs" />
+    <Compile Include="ViewModels\VMInvoiceCommFactMas.cs" />
+    <Compile Include="ViewModels\VMInvoiceDetailList.cs" />
+    <Compile Include="ViewModels\VMMasterLCInfo.cs" />
+    <Compile Include="ViewModels\VMRDLInvoiceDetailList.cs" />
+    <Compile Include="ViewModels\VMShipmentSummDet.cs" />
+    <Compile Include="ViewModels\VMShipmentSummDetCottonOn.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\colors.css" />
+    <Content Include="Content\components.css" />
+    <Content Include="Content\core.css" />
+    <Content Include="Content\icons\fontawesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\icons\fontawesome\styles.min.css" />
+    <Content Include="Content\icons\glyphicons\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\icons\icomoon\fonts\icomoon.svg" />
+    <Content Include="Content\icons\icomoon\styles.css" />
+    <Content Include="Content\PhotoSwipe\default-skin\default-skin.css" />
+    <Content Include="Content\PhotoSwipe\default-skin\default-skin.png" />
+    <Content Include="Content\PhotoSwipe\default-skin\default-skin.svg" />
+    <Content Include="Content\PhotoSwipe\default-skin\preloader.gif" />
+    <Content Include="Content\PhotoSwipe\photoswipe-ui-default.js" />
+    <Content Include="Content\PhotoSwipe\photoswipe-ui-default.min.js" />
+    <Content Include="Content\PhotoSwipe\photoswipe.css" />
+    <Content Include="Content\PhotoSwipe\photoswipe.js" />
+    <Content Include="Content\PhotoSwipe\photoswipe.min.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\icons\fontawesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\icons\fontawesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\icons\fontawesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\icons\fontawesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\icons\fontawesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\icons\glyphicons\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\icons\glyphicons\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\icons\glyphicons\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\icons\glyphicons\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\icons\icomoon\fonts\icomoon.eot" />
+    <Content Include="Content\icons\icomoon\fonts\icomoon.ttf" />
+    <Content Include="Content\icons\icomoon\fonts\icomoon.woff" />
+    <Content Include="Content\icons\summernote\summernote.eot" />
+    <Content Include="Content\icons\summernote\summernote.ttf" />
+    <Content Include="Content\icons\summernote\summernote.woff" />
+    <None Include="Properties\PublishProfiles\shanto BHMS.pubxml" />
+    <Content Include="ReportDataset\OrderInfoFactoryWiseDS.xsc">
+      <DependentUpon>OrderInfoFactoryWiseDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\LCTransferinfoFactoryWiseDS.xsc">
+      <DependentUpon>LCTransferinfoFactoryWiseDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\LCInfoBuyerWiseDS.xsc">
+      <DependentUpon>LCInfoBuyerWiseDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\DSBuyerReportDetail.xsc">
+      <DependentUpon>DSBuyerReportDetail.xsd</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\shopan.pubxml" />
+    <Content Include="ReportDataset\CustomerWiseSaleDS.xsc">
+      <DependentUpon>CustomerWiseSaleDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\BuyerWiserOrderAllocation.xsc">
+      <DependentUpon>BuyerWiserOrderAllocation.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\BuyerAccountDS.xsc">
+      <DependentUpon>BuyerAccountDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\BuyerAccountDS.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BuyerAccountDS.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="ReportDataset\BuyerAccountDS.xss">
+      <DependentUpon>BuyerAccountDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\BuyerWiserOrderAllocation.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BuyerWiserOrderAllocation.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataset\BuyerWiserOrderAllocation.xss">
+      <DependentUpon>BuyerWiserOrderAllocation.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\CustomerWiseExpCommDS.xsc">
+      <DependentUpon>CustomerWiseExpCommDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\CustomerWiseExpCommDS.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CustomerWiseExpCommDS.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="ReportDataset\CustomerWiseExpCommDS.xss">
+      <DependentUpon>CustomerWiseExpCommDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\CustomerWiseSaleDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CustomerWiseSaleDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataset\CustomerWiseSaleDS.xss">
+      <DependentUpon>CustomerWiseSaleDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\DSBuyerReportDetail.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSBuyerReportDetail.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataset\DSBuyerReportDetail.xss">
+      <DependentUpon>DSBuyerReportDetail.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\FactoryWiseExportValDS.xsc">
+      <DependentUpon>FactoryWiseExportValDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\FactoryAccountDS.xsc">
+      <DependentUpon>FactoryAccountDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\FactoryAccountDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FactoryAccountDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataset\FactoryAccountDS.xss">
+      <DependentUpon>FactoryAccountDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\FactoryWiseExportValDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FactoryWiseExportValDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataset\FactoryWiseExportValDS.xss">
+      <DependentUpon>FactoryWiseExportValDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\FactoryWiserOrderAllocation.xsc">
+      <DependentUpon>FactoryWiserOrderAllocation.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\FactoryWiserOrderAllocation.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FactoryWiserOrderAllocation.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="ReportDataset\FactoryWiserOrderAllocation.xss">
+      <DependentUpon>FactoryWiserOrderAllocation.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\LCInfoBuyerWiseDS.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>LCInfoBuyerWiseDS.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="ReportDataset\LCInfoBuyerWiseDS.xss">
+      <DependentUpon>LCInfoBuyerWiseDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\LCTransferinfoFactoryWiseDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>LCTransferinfoFactoryWiseDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataset\LCTransferinfoFactoryWiseDS.xss">
+      <DependentUpon>LCTransferinfoFactoryWiseDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\OrderInfoBuyerWise.xsc">
+      <DependentUpon>OrderInfoBuyerWise.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\OrderInfoBuyerWise.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>OrderInfoBuyerWise.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="ReportDataset\OrderInfoBuyerWise.xss">
+      <DependentUpon>OrderInfoBuyerWise.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataset\OrderInfoBuyerWiseDetailDS.xsc">
+      <DependentUpon>OrderInfoBuyerWiseDetailDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\OrderInfoBuyerWiseDetailDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>OrderInfoBuyerWiseDetailDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataset\OrderInfoBuyerWiseDetailDS.xss">
+      <DependentUpon>OrderInfoBuyerWiseDetailDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataset\OrderInfoFactoryWiseDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>OrderInfoFactoryWiseDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataset\OrderInfoFactoryWiseDS.xss">
+      <DependentUpon>OrderInfoFactoryWiseDS.xsd</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="images\logo_light.png" />
+    <Content Include="images\placeholder.jpg" />
+    <Content Include="images\rdlp.png" />
+    <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\datatables_advanced.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\numeral.min.js" />
+    <Content Include="Scripts\plugins\forms\jquery.dataTables.min.js" />
+    <Content Include="Scripts\plugins\forms\select2.min.js" />
+    <Content Include="Scripts\plugins\forms\uniform.min.js" />
+    <Content Include="Scripts\plugins\loaders\blockui.min.js" />
+    <Content Include="Scripts\plugins\notifications\bootbox.min.js" />
+    <Content Include="Scripts\plugins\notifications\sweet_alert.min.js" />
+    <Content Include="Scripts\plugins\PhotoSwipe\default-skin\default-skin.css" />
+    <Content Include="Scripts\plugins\PhotoSwipe\default-skin\default-skin.png" />
+    <Content Include="Scripts\plugins\PhotoSwipe\default-skin\default-skin.svg" />
+    <Content Include="Scripts\plugins\PhotoSwipe\default-skin\preloader.gif" />
+    <Content Include="Scripts\plugins\PhotoSwipe\photoswipe-ui-default.js" />
+    <Content Include="Scripts\plugins\PhotoSwipe\photoswipe-ui-default.min.js" />
+    <Content Include="Scripts\plugins\PhotoSwipe\photoswipe.css" />
+    <Content Include="Scripts\plugins\PhotoSwipe\photoswipe.js" />
+    <Content Include="Scripts\plugins\PhotoSwipe\photoswipe.min.js" />
+    <Content Include="Scripts\plugins\uploaders\dropzone.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Uploads\index.html" />
+    <Content Include="Uploads\OrderImages\index.html" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_Alerts.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_MainMenuPartial.cshtml" />
+    <Content Include="Views\Company\Create.cshtml" />
+    <Content Include="Views\Company\Delete.cshtml" />
+    <Content Include="Views\Company\Details.cshtml" />
+    <Content Include="Views\Company\Edit.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\MiddleParty\Create.cshtml" />
+    <Content Include="Views\MiddleParty\Delete.cshtml" />
+    <Content Include="Views\MiddleParty\Details.cshtml" />
+    <Content Include="Views\MiddleParty\Edit.cshtml" />
+    <Content Include="Views\MiddleParty\Index.cshtml" />
+    <Content Include="Views\BankBranch\Create.cshtml" />
+    <Content Include="Views\BankBranch\Delete.cshtml" />
+    <Content Include="Views\BankBranch\Details.cshtml" />
+    <Content Include="Views\BankBranch\Edit.cshtml" />
+    <Content Include="Views\BankBranch\Index.cshtml" />
+    <Content Include="Views\ProdCategory\Create.cshtml" />
+    <Content Include="Views\ProdCategory\Delete.cshtml" />
+    <Content Include="Views\ProdCategory\Details.cshtml" />
+    <Content Include="Views\ProdCategory\Edit.cshtml" />
+    <Content Include="Views\ProdCategory\Index.cshtml" />
+    <Content Include="Views\ProdCatType\Create.cshtml" />
+    <Content Include="Views\ProdCatType\Delete.cshtml" />
+    <Content Include="Views\ProdCatType\Details.cshtml" />
+    <Content Include="Views\ProdCatType\Edit.cshtml" />
+    <Content Include="Views\ProdCatType\Index.cshtml" />
+    <Content Include="Views\ProdSize\Create.cshtml" />
+    <Content Include="Views\ProdSize\Delete.cshtml" />
+    <Content Include="Views\ProdSize\Details.cshtml" />
+    <Content Include="Views\ProdSize\Edit.cshtml" />
+    <Content Include="Views\ProdSize\Index.cshtml" />
+    <Content Include="Views\SeasonInfo\Create.cshtml" />
+    <Content Include="Views\SeasonInfo\Delete.cshtml" />
+    <Content Include="Views\SeasonInfo\Details.cshtml" />
+    <Content Include="Views\SeasonInfo\Edit.cshtml" />
+    <Content Include="Views\SeasonInfo\Index.cshtml" />
+    <Content Include="Views\ProdColors\Create.cshtml" />
+    <Content Include="Views\ProdColors\Delete.cshtml" />
+    <Content Include="Views\ProdColors\Details.cshtml" />
+    <Content Include="Views\ProdColors\Edit.cshtml" />
+    <Content Include="Views\ProdColors\Index.cshtml" />
+    <Content Include="Views\CompanyResource\Create.cshtml" />
+    <Content Include="Views\CompanyResource\Delete.cshtml" />
+    <Content Include="Views\CompanyResource\Details.cshtml" />
+    <Content Include="Views\CompanyResource\Edit.cshtml" />
+    <Content Include="Views\CompanyResource\Index.cshtml" />
+    <Content Include="Views\BuyerInfo\Create.cshtml" />
+    <Content Include="Views\BuyerInfo\Delete.cshtml" />
+    <Content Include="Views\BuyerInfo\Details.cshtml" />
+    <Content Include="Views\BuyerInfo\Edit.cshtml" />
+    <Content Include="Views\BuyerInfo\Index.cshtml" />
+    <Content Include="Views\ProdDepartment\Create.cshtml" />
+    <Content Include="Views\ProdDepartment\Delete.cshtml" />
+    <Content Include="Views\ProdDepartment\Details.cshtml" />
+    <Content Include="Views\ProdDepartment\Edit.cshtml" />
+    <Content Include="Views\ProdDepartment\Index.cshtml" />
+    <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\Supplier\Delete.cshtml" />
+    <Content Include="Views\Supplier\Details.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\DestinationPort\Create.cshtml" />
+    <Content Include="Views\DestinationPort\Delete.cshtml" />
+    <Content Include="Views\DestinationPort\Details.cshtml" />
+    <Content Include="Views\DestinationPort\Edit.cshtml" />
+    <Content Include="Views\DestinationPort\Index.cshtml" />
+    <Content Include="Views\CommissionTemplate\Create.cshtml" />
+    <Content Include="Views\CommissionTemplate\Delete.cshtml" />
+    <Content Include="Views\CommissionTemplate\Details.cshtml" />
+    <Content Include="Views\CommissionTemplate\Index.cshtml" />
+    <Content Include="Views\CommissionTemplate\Edit.cshtml" />
+    <Content Include="Views\CommissionDist\Create.cshtml" />
+    <Content Include="Views\CommissionDist\Delete.cshtml" />
+    <Content Include="Views\CommissionDist\Details.cshtml" />
+    <Content Include="Views\CommissionDist\Index.cshtml" />
+    <Content Include="Views\CommissionDist\Edit.cshtml" />
+    <Content Include="Views\ErrorHandler\Index.cshtml" />
+    <Content Include="Views\ErrorHandler\NotFound.cshtml" />
+    <Content Include="Views\MasterLC\Create.cshtml" />
+    <Content Include="Views\MasterLC\Delete.cshtml" />
+    <Content Include="Views\MasterLC\Details.cshtml" />
+    <Content Include="Views\MasterLC\Index.cshtml" />
+    <Content Include="Views\MasterLC\Edit - Copy.cshtml" />
+    <Content Include="Views\MasterLC\Edit.cshtml" />
+    <Content Include="Views\LCTransfer\Create.cshtml" />
+    <Content Include="Views\LCTransfer\Delete.cshtml" />
+    <Content Include="Views\LCTransfer\Details.cshtml" />
+    <Content Include="Views\LCTransfer\Edit1.cshtml" />
+    <Content Include="Views\LCTransfer\Index.cshtml" />
+    <Content Include="Views\LCAmend\Create.cshtml" />
+    <Content Include="Views\LCAmend\Delete.cshtml" />
+    <Content Include="Views\LCAmend\Details.cshtml" />
+    <Content Include="Views\LCAmend\Edit1.cshtml" />
+    <Content Include="Views\LCAmend\Index.cshtml" />
+    <Content Include="Views\LCAmend\Edit.cshtml" />
+    <Content Include="Views\LCTransfer\Edit.cshtml" />
+    <Content Include="Views\InvoiceCommFact\CreateList.cshtml" />
+    <Content Include="Views\InvoiceCommFact\Delete.cshtml" />
+    <Content Include="Views\InvoiceCommFact\Details.cshtml" />
+    <Content Include="Views\InvoiceCommFact\Edit.cshtml" />
+    <Content Include="Views\InvoiceCommFact\Index.cshtml" />
+    <Content Include="Views\DocSubmission\Create.cshtml" />
+    <Content Include="Views\DocSubmission\Delete.cshtml" />
+    <Content Include="Views\DocSubmission\Details.cshtml" />
+    <Content Include="Views\DocSubmission\Edit.cshtml" />
+    <Content Include="Views\DocSubmission\Index.cshtml" />
+    <Content Include="Views\Report\OrderInfoFactoryWise.cshtml" />
+    <Content Include="Views\Report\LCTransferinfoFactoryWise.cshtml" />
+    <Content Include="Views\Report\LCInfoBuyerWise.cshtml" />
+    <Content Include="Views\Report\OrderInfoBuyerWise.cshtml" />
+    <Content Include="Views\Report\OrderInfoBuyerWiseDetailReport.cshtml" />
+    <Content Include="Views\ExFactoryInformation\Create.cshtml" />
+    <Content Include="Views\ExFactoryInformation\Delete.cshtml" />
+    <Content Include="Views\ExFactoryInformation\DelivDetails.cshtml" />
+    <Content Include="Views\ExFactoryInformation\Details.cshtml" />
+    <Content Include="Views\ExFactoryInformation\Edit.cshtml" />
+    <Content Include="Views\ExFactoryInformation\Index.cshtml" />
+    <Content Include="Views\ExFactoryInformation\Create - Copy.cshtml" />
+    <Content Include="Views\InvoiceCommercialRDL\Create.cshtml" />
+    <Content Include="Views\InvoiceCommercialRDL\Edit.cshtml" />
+    <Content Include="Views\InvoiceCommercialRDL\Index.cshtml" />
+    <Content Include="Views\CourierInfoes\Create.cshtml" />
+    <Content Include="Views\CourierInfoes\Delete.cshtml" />
+    <Content Include="Views\CourierInfoes\Details.cshtml" />
+    <Content Include="Views\CourierInfoes\Edit.cshtml" />
+    <Content Include="Views\CourierInfoes\Index.cshtml" />
+    <Content Include="Views\TTPayment\Create.cshtml" />
+    <Content Include="Views\TTPayment\Delete.cshtml" />
+    <Content Include="Views\TTPayment\Details.cshtml" />
+    <Content Include="Views\TTPayment\Edit.cshtml" />
+    <Content Include="Views\TTPayment\Index.cshtml" />
+    <Content Include="Views\FDDPayment\PendingFDD.cshtml" />
+    <Content Include="Views\ProceedRealization\Create.cshtml" />
+    <Content Include="Views\ProceedRealization\Index.cshtml" />
+    <Content Include="Views\ProceedRealization\Edit.cshtml" />
+    <Content Include="Views\FDDPayment\Create.cshtml" />
+    <Content Include="Views\FDDPayment\Delete.cshtml" />
+    <Content Include="Views\FDDPayment\Details.cshtml" />
+    <Content Include="Views\FDDPayment\Edit.cshtml" />
+    <Content Include="Views\FDDPayment\Index.cshtml" />
+    <Content Include="Views\CommissionRealization\Create.cshtml" />
+    <Content Include="Views\CommissionRealization\PendingRealization.cshtml" />
+    <Content Include="Views\CommissionRealization\Index.cshtml" />
+    <Content Include="Views\CommissionRealization\Details.cshtml" />
+    <Content Include="Views\CommissionRealization\Delete.cshtml" />
+    <Content Include="Views\Brand\Create.cshtml" />
+    <Content Include="Views\Brand\Delete.cshtml" />
+    <Content Include="Views\Brand\Details.cshtml" />
+    <Content Include="Views\Brand\Edit.cshtml" />
+    <Content Include="Views\Brand\Index.cshtml" />
+    <Content Include="Views\Report\CustomerWiseSalesRecap.cshtml" />
+    <Content Include="Views\Report\CustomerWiseFactoryComm.cshtml" />
+    <Content Include="Views\Report\TotalExRSLComm.cshtml" />
+    <Content Include="Views\Report\BuyerWiseOrderAllocation.cshtml" />
+    <Content Include="Views\Report\CustomerWiseExpComm.cshtml" />
+    <Content Include="Views\Report\FactoryWiseOrderAllocation.cshtml" />
+    <Content Include="Views\FabricItem\Create.cshtml" />
+    <Content Include="Views\FabricItem\Delete.cshtml" />
+    <Content Include="Views\FabricItem\Details.cshtml" />
+    <Content Include="Views\FabricItem\Edit.cshtml" />
+    <Content Include="Views\FabricItem\Index.cshtml" />
+    <Content Include="Views\FabricSuppliers\Create.cshtml" />
+    <Content Include="Views\FabricSuppliers\Delete.cshtml" />
+    <Content Include="Views\FabricSuppliers\Details.cshtml" />
+    <Content Include="Views\FabricSuppliers\Edit.cshtml" />
+    <Content Include="Views\FabricSuppliers\Index.cshtml" />
+    <Content Include="Views\FabricTypes\Create.cshtml" />
+    <Content Include="Views\FabricTypes\Delete.cshtml" />
+    <Content Include="Views\FabricTypes\Details.cshtml" />
+    <Content Include="Views\FabricTypes\Edit.cshtml" />
+    <Content Include="Views\FabricTypes\Index.cshtml" />
+    <Content Include="Views\InvoiceCommFact\Create.cshtml" />
+    <Content Include="Views\BuyerOrder\Delete.cshtml" />
+    <Content Include="Views\BuyerOrder\DelivDetails.cshtml" />
+    <Content Include="Views\BuyerOrder\Details.cshtml" />
+    <Content Include="Views\BuyerOrder\ImageGallery.cshtml" />
+    <Content Include="Views\BuyerOrder\ImageUpload.cshtml" />
+    <Content Include="Views\BuyerOrder\Index.cshtml" />
+    <Content Include="Views\FactoryOrder\Create.cshtml" />
+    <Content Include="Views\FactoryOrder\Delete.cshtml" />
+    <Content Include="Views\FactoryOrder\Details.cshtml" />
+    <Content Include="Views\FactoryOrder\Edit.cshtml" />
+    <Content Include="Views\FactoryOrder\EditM.cshtml" />
+    <Content Include="Views\FactoryOrder\Index.cshtml" />
+    <Content Include="Views\BuyerOrder\Create.cshtml" />
+    <Content Include="Views\BuyerOrder\Edit.cshtml" />
+    <Content Include="Views\Discount\Create.cshtml" />
+    <Content Include="Views\Discount\Delete.cshtml" />
+    <Content Include="Views\Discount\Details.cshtml" />
+    <Content Include="Views\Discount\Edit.cshtml" />
+    <Content Include="Views\Discount\Index.cshtml" />
+    <Content Include="Views\BuyerCashAdjustments\Create - Copy.cshtml" />
+    <Content Include="Views\BuyerCashAdjustments\Create.cshtml" />
+    <Content Include="Views\BuyerCashAdjustments\Delete.cshtml" />
+    <Content Include="Views\BuyerCashAdjustments\Details.cshtml" />
+    <Content Include="Views\BuyerCashAdjustments\Edit.cshtml" />
+    <Content Include="Views\BuyerCashAdjustments\Index.cshtml" />
+    <Content Include="Views\FactoryCashAdjustments\Create.cshtml" />
+    <Content Include="Views\FactoryCashAdjustments\Delete.cshtml" />
+    <Content Include="Views\FactoryCashAdjustments\Details.cshtml" />
+    <Content Include="Views\FactoryCashAdjustments\Edit.cshtml" />
+    <Content Include="Views\FactoryCashAdjustments\Index.cshtml" />
+    <Content Include="Views\DiscountAdjustmentFactoryMas\Create.cshtml" />
+    <Content Include="Views\DiscountAdjustmentFactoryMas\Delete.cshtml" />
+    <Content Include="Views\DiscountAdjustmentFactoryMas\Details.cshtml" />
+    <Content Include="Views\DiscountAdjustmentFactoryMas\Edit.cshtml" />
+    <Content Include="Views\DiscountAdjustmentFactoryMas\Index.cshtml" />
+    <Content Include="Views\BuyerDiscountAjustment\Create - Copy.cshtml" />
+    <Content Include="Views\BuyerDiscountAjustment\Create.cshtml" />
+    <Content Include="Views\BuyerDiscountAjustment\Edit - Copy.cshtml" />
+    <Content Include="Views\BuyerDiscountAjustment\Edit.cshtml" />
+    <Content Include="Views\BuyerDiscountAjustment\Index.cshtml" />
+    <Content Include="Views\Report\FactAccDiscount.cshtml" />
+    <Content Include="Views\Report\BuyerAccDiscount.cshtml" />
+    <Content Include="Views\TimeActionMas\Create.cshtml" />
+    <Content Include="Views\TimeActionMas\Delete.cshtml" />
+    <Content Include="Views\TimeActionMas\Details.cshtml" />
+    <Content Include="Views\TimeActionMas\Edit.cshtml" />
+    <Content Include="Views\TimeActionMas\Index.cshtml" />
+    <Content Include="Views\ActionActivity\Create.cshtml" />
+    <Content Include="Views\ActionActivity\Delete.cshtml" />
+    <Content Include="Views\ActionActivity\Details.cshtml" />
+    <Content Include="Views\ActionActivity\Edit.cshtml" />
+    <Content Include="Views\ActionActivity\Index.cshtml" />
+    <Content Include="Views\BuyerOrder\CreateCottonOn.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\CottonOn\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\OrderInfoFactoryWise.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\LCTransferinfoFactoryWise.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\LCInfoBuyerWise.rpt" />
+    <Content Include="Reports\OrderInfoBuyerWise.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\BuyerWiseDetail.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\BuyerReportDetail.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\CustomerWiseFactoryComm.rpt" />
+    <Content Include="Reports\CustomerWiseSales.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\TotalExValRSLComm.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\BuyerWiseOrderAllocation.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\CustomerWiseExpComm.rpt" />
+    <Content Include="Reports\FactoryWiseOrderAllocation.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\BuyerAccDiscount.rpt" />
+    <Content Include="Reports\FactAccDiscount.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51434</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:51434/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

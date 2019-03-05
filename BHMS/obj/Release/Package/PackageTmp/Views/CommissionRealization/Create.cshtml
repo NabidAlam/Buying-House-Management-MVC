@@ -1,0 +1,355 @@
+﻿@model BHMS.Models.CommissionRealization
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Commission Realization</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Proceed Type</label>
+                            <div class="col-md-8">
+                                @*@Html.TextBox("ProceedTypeId", null, new { @class = "form-control", disabled = "true" })*@
+                                <input type="text" id="ProceedTypeId" value="@ViewBag.ProceedTypeId" class="form-control" disabled="disabled" />
+                                <input type="hidden" value="@ViewBag.ProceedRealizationMasId" id="ProceedRealizationMasId" />
+                                <input type="hidden" value="@ViewBag.AitHidden" id="AitHidden" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Proceed Date</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("ProceedDate", null, new { @class = "form-control", disabled = "true" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">FDBC No.</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("FDBCNO", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">RDL Invoice Value</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("RDLInvoiceValue", null, new { @class = "form-control", disabled = "true" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-2">Proceed Value</label>
+                            <div class="col-md-10">
+                                @Html.TextBox("ProceedValue", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-2">Total FDD Amount</label>
+                            <div class="col-md-10">
+                                @Html.TextBox("TotalFDDAmount", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Commission In USD Type</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("CommissionInUSD", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Exchange Rate</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("ExchangeRate", null, new { @class = "form-control" })
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-2">Commission In TK</label>
+                            <div class="col-md-10">
+                                @Html.TextBox("CommissionInTK", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">AIT</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("AIT", null, new { @class = "form-control", disabled = "true" })
+                                <input type="hidden" value="@ViewBag.AitHidden" id="AitHidden" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Bank Charge Tk</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("BankChargeTk", null, new { @class = "form-control", disabled = "true" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Net Commission</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("NetCommission", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        @*<div class="form-group form-group-xs">
+                                <label class="control-label col-md-4">Realization Date</label>
+                                <div class="col-md-8">
+                                    @Html.TextBox("RealizationDate", null, new { @class = "form-control"})
+
+                                </div>
+                            </div>*@
+
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.RealizationDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.RealizationDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.RealizationDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-success" id="saveState" />
+                            @Html.ActionLink("Back to List", "PendingFDD", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>*@
+
+
+            </div>
+        }
+    </div>
+
+</div>
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "PendingFDD", "FDDPayment", null, new { @class = "btn btn-default" })
+</div>
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+            //-- global var---
+            var currSelDelivRow = 0; //
+            var cnOrderTempId = 0; //
+            var currSelOrderTempId = 0; //
+            //var currSelOrderId = 0;
+            //--------------
+
+
+            function RebindDatePicker() {
+                $('.datepicker').datepicker("destroy");
+                $('.datepicker').datepicker({
+                    format: 'dd/mm/yyyy',
+                    todayHighlight: true,
+                    todayBtn: true,
+                    autoclose: true
+                });
+
+            }
+
+            $(document).ready(function () {
+                //$('body').addClass("sidebar-xs");
+                $(".select2").select2();
+                $('.datepicker').datepicker({
+                    format: 'dd/mm/yyyy',
+                    todayHighlight: true,
+                    todayBtn: true,
+                    autoclose: true
+                });
+                // jquery validator bug fix using moment
+                $.validator.methods.date = function (value, element) {
+                    return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+                }
+
+            });
+
+
+
+
+
+
+            $('#ExchangeRate').change(function () {
+
+                var commInUsd = $('#CommissionInUSD').val();
+                //alert('commInUsd ' + commInUsd);
+                var exRate = $(this).val();
+                //alert('ExchangeRate ' + exRate);
+                var result = parseFloat(commInUsd) * parseFloat(exRate);
+                //alert('result ' + result);
+                //CommissionInTK
+                $('#CommissionInTK').val(result);
+                var AitHidden = $('#AitHidden').val();
+                //alert('AitHidden ' + AitHidden);
+                var BankChargeTk = $('#BankChargeTk').val();
+                var AitAmnt = result * parseFloat(AitHidden/100);
+                $('#AIT').val(AitAmnt.toFixed(4));
+
+                var netComm = result - (AitAmnt + parseFloat(BankChargeTk));
+
+                $('#NetCommission').val(parseFloat(netComm).toFixed(4));
+
+
+                //var RealizationDate = $('#RealizationDate').val();
+                //var ProceedRealizationMasId = $('#ProceedRealizationMasId').val();
+                //alert('ProceedRealizationMasId ProceedRealizationMasId ' + ProceedRealizationMasId);
+
+            })
+
+
+
+
+            $('#saveState').click(function () {
+
+                //var IssueDate = moment($('#IssueDate').val(), "DD/MM/YYYY", true);
+
+                if ($.trim($('#RealizationDate').val()) === "") {
+                    alert('Realization Date required');
+
+                }
+
+                //else if (IssueDate.isValid() == false) {
+                //    alert('Valid Issue Date required<br />Usage:[dd/mm/yyyy]');
+
+                //}
+                //else if ($('#BuyerInfoId option:selected').text() == "") {
+                //    alert('Please select Buyer');
+                //    $('#BuyerInfoId').select2('open');
+                //}
+                //else if ($('#PaymentTypeId option:selected').text() == "") {
+                //    alert('Please select Payment Type');
+                //    $('#PaymentTypeId').select2('open');
+                //}
+
+                else {
+                    SaveCommeData();
+                }
+
+            });
+
+
+            function SaveCommeData() {
+
+                debugger;
+                var ExchangeRate = $('#ExchangeRate').val();
+                var ProceedRealizationMasId = $('#ProceedRealizationMasId').val();
+                var AITAmount = $('#AIT').val();
+                var BankChargeTk = $('#BankChargeTk').val();
+                var RealizationDate = $('#RealizationDate').val();
+                //alert('ProceedRealizationMasId ProceedRealizationMasId ' + ProceedRealizationMasId);
+
+
+               // InvoiceDetails = JSON.stringify({ Id: 0, ProceedRealizationMasId: ProceedRealizationMasId, ExchangeRate: ExchangeRate, AITAmount: AITAmount, BankCharge: BankChargeTk, RealizationDate: RealizationDate });
+
+
+                $.ajax({
+                    type: "post",
+                    url: "/CommissionRealization/SaveData",
+                    data: { Id: 0, ProceedRealizationMasId: ProceedRealizationMasId, ExchangeRate: ExchangeRate, AITAmount: AITAmount, BankCharge: BankChargeTk, RealizationDate: RealizationDate },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        if (data.flag == true)
+                        {
+                            alert('Saved successfully');
+                            window.location = "/CommissionRealization/PendingRealization";
+                        }
+                        else {
+                            alert(data.message);
+                        }
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+
+
+            }
+
+
+    </script>
+}

@@ -1,0 +1,346 @@
+﻿@model BHMS.Models.FDDPayment
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">FDD Payment</h5>
+    </div>
+  <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">            
+            
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Proceed Type</label>
+                            <div class="col-md-8">
+                                @Html.Hidden("ProceedRealizationMasId")
+                                
+                                @*@Html.TextBox("ProceedTypeId", (string)ViewBag.ProceedTypeId, new { @class = "form-control", disabled = "true" })*@  
+                                <input type="text" value="@ViewBag.ProceedTypeId" id="ProceedTypeId" class="form-control" disabled="disabled" />                                                     
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Proceed Date</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("ProceedDate", null, new { @class = "form-control", disabled = "true" })
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">FDBC No.</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("FDBCNO", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">RDL Invoice Value</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("RDLInvoiceValue", null, new { @class = "form-control", disabled = "true" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-2">Proceed Value</label>
+                            <div class="col-md-4">
+                                @Html.TextBox("ProceedValue", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <div class="form-group form-group-xs">
+                             @Html.LabelFor(model => model.SupplierId, "Factory Name", htmlAttributes: new { @class = "control-label col-md-4" })
+                             <div class="col-md-8">
+                                 @*@Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control" })
+                                 @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })*@                                    
+                                 @Html.DropDownList("SupplierId", null, "--Select--", htmlAttributes: new { @id = "SupplierId", @class = "form-control select2" })
+                                 @Html.ValidationMessage("SupplierId", "", new { @class = "text-danger" })                             
+                             </div>
+                         </div>
+                     </div> 
+                     
+                     <div class="col-md-6">
+                         <div class="form-group form-group-xs">                           
+                             <label class="control-label col-md-4">Factory Invoice No</label>
+                             <div class="col-md-8">                   
+                                 @Html.DropDownList("FactoryInvoice", null, "--Select--", htmlAttributes: new { @id = "FactoryInvoice", @class = "form-control select2" })
+                                 @Html.ValidationMessage("FactoryInvoice", "", new { @class = "text-danger" })
+                             </div>
+                         </div>
+                     </div>   
+                 </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.DocSubmissionFactNO, "Factory FDBC NO.", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">                        
+                                @Html.DropDownList("DocSubmissionFactNO", null, "--Select--", htmlAttributes: new { @id = "DocSubmissionFactNO", @class = "form-control select2" })
+                                @Html.ValidationMessage("DocSubmissionFactNO", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">                        
+                            <div class="form-group form-group-xs">
+                                <label class="control-label col-md-4">Factory Invoice Value</label>
+                                <div class="col-md-8">
+                                    @Html.TextBox("FactoryInvoiceValue", null, new { @class = "form-control", disabled = "true" })                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.DocSubmissionFactDetId, "DocSubmissionFactDetId", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("DocSubmissionFactDetId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DocSubmissionFactDetId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-xs">
+                            @*@Html.LabelFor(model => model.FDDNo, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            @Html.LabelFor(model => model.FDDNo, "FDD NO.", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.FDDNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FDDNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-xs">
+                           @* @Html.LabelFor(model => model.FDDDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            @Html.LabelFor(model => model.FDDNo, "FDD Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.FDDDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.FDDDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="col-md-12">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.FDDAmount, "FDD Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.FDDAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FDDAmount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+
+                    @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-success" />
+                        @Html.ActionLink("Back to List", "PendingFDD", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+
+
+        </div>
+        }
+    </div>
+
+ </div>
+
+    @*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+
+    @section Scripts {
+
+        @Scripts.Render("~/bundles/jqueryval")
+        <script>
+            //-- global var---
+            var currSelDelivRow = 0; //
+            var cnOrderTempId = 0; //
+            var currSelOrderTempId = 0; //
+            //var currSelOrderId = 0;
+            //--------------
+
+
+            function RebindDatePicker() {
+                $('.datepicker').datepicker("destroy");
+                $('.datepicker').datepicker({
+                    format: 'dd/mm/yyyy',
+                    todayHighlight: true,
+                    todayBtn: true,
+                    autoclose: true
+                });
+
+            }
+
+            $(document).ready(function () {
+                //$('body').addClass("sidebar-xs");
+                $(".select2").select2();
+                $('.datepicker').datepicker({
+                    format: 'dd/mm/yyyy',
+                    todayHighlight: true,
+                    todayBtn: true,
+                    autoclose: true
+                });
+                // jquery validator bug fix using moment
+                $.validator.methods.date = function (value, element) {
+                    return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+                }
+
+                $('#FactoryInvoice').attr("disabled", "true");
+                $("#DocSubmissionFactNO").attr("disabled", "true");
+              
+
+            });
+
+
+
+            $('#SupplierId').change(function () {
+                var id = $('#SupplierId option:selected').val();
+                if ($('#SupplierId option:selected').text() == "--Select--") {
+                    $('#FactoryInvoice').empty();
+                    $('#DocSubmissionFactNO').empty();
+
+                    var sites = "<select id='sites'>";
+                    sites = sites + '<option value="">--Select--</option>';
+                    sites = sites + '</select>';
+                  
+                    $('#FactoryInvoice').html(sites);       
+
+             
+                }
+                else {
+                    var FDBC =  $('#FDBCNO').val();
+                    $.ajax({
+                        url: "/FDDPayment/GetInvoice",
+                        type: "post",
+                        data: {
+                            SupplierId: id,
+                            FDBC: FDBC
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            $('#FactoryInvoice').removeAttr("disabled");
+                
+                            var listOfSites = data.Sites.length;
+
+                            var sites = "<select id='sites'>";
+                            sites = sites + '<option value="">--Select--</option>';
+                            for (var i = 0; i < listOfSites; i++) {
+                                sites = sites + '<option value=' + data.Sites[i].Value + '>' + data.Sites[i].Text + '</option>';
+                            }
+                            sites = sites + '</select>';
+                            $('#FactoryInvoice').html(sites);
+
+                            RebindDatePicker();
+
+                        },
+                        error: function (xhr) {
+                            alert('error');
+                        }
+                    });
+                }
+
+            });
+
+
+            $("#FactoryInvoice").change(function () {
+                var InvoiceCommFactMasId = $('#FactoryInvoice option:selected').val();
+                //alert('Hi');
+
+                if ($('#FactoryInvoice option:selected').text() == "--Select--") {
+                    //alert('Test');
+                    $('#FactoryInvoiceValue').val("");
+             
+                }
+                else {
+                    $.ajax({
+                        type: "post",
+                        url: "/FDDPayment/GetSelectedInvoiceValue",
+                        //data: { ItemId, SiteId },
+                        data: { InvoiceCommFactMasId: InvoiceCommFactMasId },
+                        datatype: "json",
+                        traditional: true,
+                        success: function (data) {
+
+                            $('#DocSubmissionFactNO').removeAttr("disabled");
+
+                            
+                            //alert(data.FactoryInvoice);
+                            //$('#FactoryInvoiceValue').val(data.FactoryInvoice);
+
+                            var listOfSites = data.factFDBCList.length;
+
+                            var sites = "<select id='sites'>";
+                            sites = sites + '<option value="">--Select--</option>';
+                            for (var i = 0; i < listOfSites; i++) {
+                                sites = sites + '<option value=' + data.factFDBCList[i].Value + '>' + data.factFDBCList[i].Text + '</option>';
+                            }
+                            sites = sites + '</select>';
+                            $('#DocSubmissionFactNO').html(sites);
+                            
+
+                        }
+                    });
+                }
+            });
+
+
+
+            $("#DocSubmissionFactNO").change(function () {
+                var docId = $('#DocSubmissionFactNO option:selected').val();
+                //var docName = $('#DocSubmissionFactDetId  option:selected').text();            
+
+                $.ajax({
+                    type: "post",
+                    url: "/FDDPayment/GetFactInvoiceValue",
+                    data: { DocSubmissionFactDetId: docId },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {                  
+                        $('#FactoryInvoiceValue').val(data.FactoryInvoice);
+                    }
+
+                });
+            });
+
+
+        </script>
+    }

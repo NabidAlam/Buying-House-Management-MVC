@@ -1,0 +1,171 @@
+﻿@model BHMS.Models.BuyerInfo
+
+@{
+    ViewBag.Title = "Buyer";
+    ViewBag.SubTitle = "Details";
+}
+
+<div class="panel panel-primary panel-bordered" id="panelBodyMain">
+    <div class="panel-heading">
+        <h5 class="panel-title">Buyer Information</h5>
+    </div>
+    <div class="panel-body">
+
+
+        <div>
+            <h4>BuyerInfo</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.BankBranch.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BankBranch.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CompanyResource.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CompanyResource.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CountryInfo.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CountryInfo.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MiddleParty.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MiddleParty.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NameShort)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NameShort)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ContactPerson)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ContactPerson)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ContactPhone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ContactPhone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PaymentTypeId)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PaymentTypeId)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tenor)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Tenor)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PaymentTerm)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PaymentTerm)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.BuyerGroup)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BuyerGroup)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsAuth)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.IsAuth)
+                </dd>
+
+                @*<dt>
+                    @Html.DisplayNameFor(model => model.OpBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.OpBy)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.OpOn)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.OpOn)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.AuthBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AuthBy)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.AuthOn)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AuthOn)
+                </dd>*@
+                <dd class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>

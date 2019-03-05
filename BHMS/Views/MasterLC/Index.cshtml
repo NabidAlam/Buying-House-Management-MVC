@@ -1,0 +1,179 @@
+﻿@model IEnumerable<BHMS.Models.MasterLCInfoMas>
+
+@{
+    ViewBag.Title = "Master LC";
+    ViewBag.SubTitle = "List";
+}
+
+<p style="padding-left:5px; padding-top:5px;">
+    @Html.ActionLink("Create New", "Create",
+          null, new { @style = "color:#ffffff;", id = "lnkCreate", @class = "btn btn-success" })
+</p>
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">List of LC</h5>
+    </div>
+    <table class="table datatable-show-all table-hover table-xs">
+        <thead>
+            <tr>
+                
+                <th>
+                    @Html.DisplayNameFor(model => model.LCNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BuyerInfo.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LCDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LCExpiryDate)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.PaymentTerm)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tenor)
+                </th>*@
+                @*<th>
+                        @Html.DisplayNameFor(model => model.LCReceiveDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LatestShipmentDate)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalValue)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.BuyerBankId)
+                    </th>*@
+                @*<th>
+                        @Html.DisplayNameFor(model => model.IsAuth)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OpBy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OpOn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AuthBy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AuthOn)
+                    </th>*@
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LCNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BuyerInfo.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LCDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LCExpiryDate)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.PaymentTerm)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tenor)
+                    </td>*@
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.LCReceiveDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LatestShipmentDate)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalValue)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.BuyerBankId)
+                        </td>*@
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.IsAuth)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AuthBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AuthOn)
+                        </td>*@
+                    <td>
+                        <ul class="icons-list">
+                            <li class="text-info"><a href="@Url.Action("Edit", new { id = item.Id } )" data-popup="tooltip" title="Edit"><i class="icon-pencil7"></i></a></li>
+                            <li>|</li>
+                            <li class="text-danger"><a href="javascript:deleteFunction(@item.Id)" data-popup="tooltip" title="Delete"><i class="icon-cross2"></i></a></li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/plugins/forms/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/datatables_advanced.js"></script>
+
+
+<script>
+    function deleteFunction(Id) {
+        var Con = confirm("Are you sure want to delete this?");
+        if (Con === true) {
+            $.ajax({
+                url: "/MasterLC/DeleteLCInfo",
+                type: "post",
+                data: {
+                    Id: Id
+                },
+                dataType: "json",
+
+                success: function (flag) {
+                    //console.log(flag);
+
+                    if (flag.flag === true) {
+                        alert("Successfully deleted !");
+                        window.location = "/MasterLC/";
+                    } else {
+                        alert(flag.message);
+                    }
+
+                },
+                error: function (xhr) {
+                    alert('error');
+
+                }
+
+            });
+        }
+
+    }
+</script>
+
+}

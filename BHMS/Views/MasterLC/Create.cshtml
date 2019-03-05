@@ -1,0 +1,943 @@
+﻿@model BHMS.Models.MasterLCInfoMas
+
+@{
+    ViewBag.Title = "Master LC Information";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Master LC Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">                
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.LCNo, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.LCNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.LCNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerInfoId, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2" })
+                                @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerBankId, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">                                
+                                @Html.DropDownList("BuyerBankId", null, "", htmlAttributes: new { @class = "form-control select2" })
+                                @Html.ValidationMessageFor(model => model.BuyerBankId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.LCDate, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.LCDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.LCDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.LCReceiveDate, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.LCReceiveDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.LCReceiveDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.LatestShipmentDate, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.LatestShipmentDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.LatestShipmentDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.LCExpiryDate, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.LCExpiryDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.LCExpiryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.TotalValue, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.TotalValue, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TotalValue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.Tenor, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.Tenor, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Tenor, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.PaymentTerm, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-7">
+                                @*@Html.EditorFor(model => model.PaymentTerm, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.DropDownList("PaymentTerm", null, "", htmlAttributes: new { @class = "form-control select2" })
+                                @Html.ValidationMessageFor(model => model.PaymentTerm, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                
+ 
+
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.IsAuth, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.IsAuth)
+                            @Html.ValidationMessageFor(model => model.IsAuth, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OpBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OpBy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.OpBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OpOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OpOn, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.OpOn, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AuthBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AuthBy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AuthBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AuthOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AuthOn, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AuthOn, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+                
+            </div>
+        }
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:180px;">RDL Ref No</th>
+                        <th style="min-width:180px;">RDL PI No</th>
+                        <th style="min-width:180px;">PI Date</th>                        
+                        <th style="min-width:200px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>
+                        <td colspan="3"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+    </div> <!-- panel body -->
+    @*<div class="panel-footer">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+        </div>*@
+
+</div>
+
+
+
+<div class="panel panel-primary panel-bordered" id="DV_Order_Detail" style="display:none;">
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-group-xs">
+                        <label class="control-label col-md-6">RDL Ref No</label>
+                        <div class="col-md-6">
+                            <input name="orderRefNo" id="orderRefNo" value="" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-md-4">
+                    <div class="form-group form-group-xs">
+                        <label class="control-label col-md-6">Quantity</label>
+                        <div class="col-md-6">
+                            <input name="delivQnty" id="delivQnty" value="" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>*@
+                <div class="col-md-4">
+                    <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseOrderDetail" @*style="margin:10px 0 10px 10px"*@><i class="icon-close2 position-left"></i> Close Detail</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderDetailTable" id="OrderDetailTable">
+                <thead>
+                    <tr class="bg-brown-400">
+                        <th style="min-width:150px;">Style No</th>
+                        <th style="min-width:100px;">Factory</th>
+                        <th style="min-width:100px;text-align:center;">LC Quantity (Pcs)</th>
+                        <th style="min-width:100px;text-align:right;">RDL Total Value ($)</th>
+                        <th style="min-width:100px;text-align:right;">Total Calculated Transfer Value ($)</th>                        
+                        <th style="min-width:100px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>                   
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" class="text-right"><label class="text-bold">Total:</label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalQnty text-right"></label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalValue text-right"></label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalTransValue text-right"></label></td>                       
+                        <td colspan="1"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="panel panel-primary panel-bordered" id="DV_Style_Detail" style="display:none;">
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseStyleDetail"><i class="icon-close2 position-left"></i>Close Style Detail</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs StyleDetailTable" id="StyleDetailTable">
+                <thead>
+                    <tr class="bg-brown-400">
+                        <th style="min-width:100px;text-align:center;">Delivery No</th>
+                        <th style="min-width:100px;text-align:center;">Ex-Factory Date</th>
+                        <th style="min-width:100px;">Buyer</th>
+                        <th style="min-width:100px;text-align:center;">Factory FOB</th>
+                        <th style="min-width:180px;text-align:center;">Delivery Quantity (Pcs)</th>
+                        <th style="min-width:100px;text-align:right;">RDL Total Value ($)</th>
+                        <th style="min-width:100px;text-align:right;">Factory Transfer Value ($)</th>
+              
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+@section Scripts {
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+    //-- global var---   
+    var currSelDelivRow = 0; //
+    var currSelStyleRow = 0; //
+    var cnOrderTempId = 0; //
+    var currSelOrderTempId = 0; //
+    var currSelOrderDetailTempId = 0;
+    var prevOrderId = 0;
+    //var currSelOrderId = 0;
+
+    var OrderStore = [];
+
+    //--------------
+
+    function RebindDatePicker() {
+        $('.datepicker').datepicker("destroy");
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+
+    }
+
+    $(document).ready(function () {
+        
+        $(".select2").select2();
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+        // jquery validator bug fix using moment
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+        }
+        
+        BindBuyerOrder();
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/BuyerOrder/GetOrderNos",
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {                
+        //        for (var i = 0; i < data.length; i++) {
+        //            OrderStore.push({Id: data[i].Id, Name: data[i].Name});                    
+        //        }
+        //    }
+        //});
+
+        $("#saveState").attr("disabled", "disabled");
+        $("#btnAddRow").attr("disabled", "disabled");
+
+
+    });
+
+    $('#BuyerInfoId').change(function (){
+
+        $("#saveState").attr("disabled", "disabled");
+        $("#btnAddRow").attr("disabled", "disabled");
+        $("#DV_Order_Detail").hide();
+
+        var tabLen = $('#OrderTable tr').length;
+        if (tabLen > 2) {
+            $('#OrderTable tbody').empty();
+            $('#OrderDetailTable tbody').empty();
+        }
+
+
+        //alert(tabLen);
+
+        var selectedValue = $(this).val();
+        
+        if (selectedValue.length > 0) {
+        }
+        else {
+            //stateSelect.empty();
+            OrderStore = [];
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: "/BuyerOrder/GetOrderNos",
+            data: { Id: selectedValue },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                OrderStore = [];
+                for (var i = 0; i < data.length; i++) {
+                    OrderStore.push({ Id: data[i].Id, Name: data[i].Name });
+                }
+
+                if (OrderStore.length > 0) {
+                    $("#saveState").removeAttr("disabled");
+                    $("#btnAddRow").removeAttr("disabled");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+        
+    })
+
+
+    $('#btnAddRow').click(function () {
+        AddNewRow();
+    });
+
+
+    function AddNewRow() {
+        cnOrderTempId++;
+        var newRow = $('<tr><td>'
+            + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+            + '<select name="BuyerOrderId" class="BuyerOrderId form-control select2 input-xs"><option value=""></option></select></td>'            
+            + '<td><input type="text" name="PINo" class="PINo form-control input-xs text-right" /></td>'            
+            + '<td><input type="text" name="PIDate" class="PIDate form-control datepicker input-xs" /></td>'
+            + '<td><button onclick="ShowOrderDetail(this)" type="button" class="btn btn-link detail_btn">Detail</button>|<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+        //jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+        $('table.OrderItemTable tbody').append(newRow);
+
+        $(".select2").select2();
+        
+        RebindDatePicker();
+
+        if (OrderStore.length>0)
+        {
+            var selOptions = "<select>";
+            selOptions = selOptions + '<option value=""></option>';
+            for (var i = 0; i < OrderStore.length; i++) {
+                selOptions = selOptions + '<option value=' + OrderStore[i].Id + '>' + OrderStore[i].Name + '</option>';
+            }
+            selOptions = selOptions + '</select>';
+            //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.BuyerOrderId").html(selOptions);
+            $('table.OrderItemTable tbody').find('tr:last').find("td:eq(0) select.BuyerOrderId").html(selOptions);
+        }        
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/BuyerOrder/GetOrderNos",
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+        //        var selOptions = "<select>";
+        //        selOptions = selOptions + '<option value=""></option>';
+        //        for (var i = 0; i < data.length; i++) {
+        //            selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+        //        }
+        //        selOptions = selOptions + '</select>';
+        //        jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.BuyerOrderId").html(selOptions);
+        //        //BindBuyerOrder();
+        //    }
+        //});        
+
+    }
+
+
+    function BindBuyerOrder() {
+
+        $('#OrderTable').on('change', '.BuyerOrderId', function () {
+            
+            var selectedValue = $(this).val();
+            var row = $(this).closest('tr');            
+
+            if (selectedValue.length > 0) {
+                //if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length) {
+                //    AddNewRow();
+                //}
+            }
+            else {                
+                return;
+            }
+
+            var tabLen = $('#OrderDetailTable tr').length
+
+            for (var i = 1; i < tabLen - 1; i++) {
+                if ($('#OrderDetailTable tr').eq(i).find("input.OrderMasId").val() == selectedValue) {
+                    alert('Reference already taken!');
+                    $(this).val('');
+                    //$(".select2").select2();
+                    $(this).trigger('change');
+                    return;
+                }
+            }
+
+            $("#saveState").attr("disabled", "disabled");
+
+            $.ajax({
+                type: "post",
+                url: "/BuyerOrder/GetOrderDataLC",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+                    if (data.length > 0) {
+                        $("#saveState").removeAttr("disabled");
+                    }
+                    
+                    for (var i = 0; i < data.length; i++) {
+                        var newRow = jQuery('<tr>'
+                            + '<td><input type="hidden" name="OrderMasId" value="' + selectedValue + '" class="OrderMasId" /><input type="hidden" name="LCInfoOrderDetId" value="0" class="LCInfoOrderDetId" />'
+                            + '<input type="hidden" name="OrderDetId" value="' + data[i].Id + '" class="OrderDetId" />' + data[i].StyleNo +  '</td>'
+                            + '<td>' + data[i].FactoryName + '</td>'
+                            + '<td class="text-right"><input type="hidden" name="OrderQuantity" value="' + data[i].Quantity + '" class="OrderQuantity" />' + numeral(data[i].Quantity).format('0,0') + '</td>'
+                            + '<td class="text-right"><input type="hidden" name="OrderTotalValue" value="' + data[i].TotalValue + '" class="OrderTotalValue" />' + numeral(data[i].TotalValue).format('$ 0,0.00') + '</td>'
+                           //+ '<td>' + data[i].TotalTransValue + '</td>'
+                            + '<td class="text-right"><input type="hidden" name="TotalTransValue" value="' + data[i].TotalTransValue + '" class="TotalTransValue" />' + numeral(data[i].TotalTransValue).format('$ 0,0.00') + '</td>'
+                            + '<td><input type="checkbox" name="IsStyleIncluded" value="true" class="styled IsStyleIncluded" /><button onclick="ShowStyleDetail(this)" type="button" class="btn btn-link Delivery_btn">Detail</button></td>'
+                            + '</tr>');
+
+                        //jQuery('table.OrderDetailTable tbody').find('tr:last').before(newRow);
+                        $('table.OrderDetailTable tbody').append(newRow);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        })
+                        
+        $('#OrderTable').on('select2:selecting','select', function (e) {
+            // Store the current value on focus, before it changes
+            
+            prevOrderId = $(this).val();
+            
+            if (prevOrderId == '')
+            {
+                return;
+            }
+
+            var tabLen = $('#OrderDetailTable tr').length
+
+            for (var i = 1; i < tabLen - 1; i++) {
+                
+                if ($('#OrderDetailTable tr').eq(i).find("input.OrderMasId").val() == prevOrderId) {
+                    $('#OrderDetailTable tr').eq(i).remove();
+                    tabLen--;
+                    i--;
+                }                
+            }
+
+        })
+
+        $('#OrderDetailTable').on('change', '.IsStyleIncluded', function () {
+            PopulateTotalValue()
+        });
+    }
+
+
+    $('#btnCloseOrderDetail').click(function () {
+
+        $("#btnAddRow").removeAttr("disabled");
+
+        $("#DV_Order_Detail").hide();
+
+        $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+        for (var i = 1; i < $('#OrderTable tr').length - 1; i++) {
+            $('#OrderTable tr').eq(i).find("select.BuyerOrderId").removeAttr("disabled");            
+        }
+
+        $('#OrderTable tr').eq(currSelDelivRow).find("button.detail_btn").css('color', 'black');
+
+    });
+
+
+
+    $('#btnCloseStyleDetail').click(function () {
+
+        $("#DV_Style_Detail").hide();
+        $('#OrderDetailTable tr').eq(currSelStyleRow).removeClass("bg-brown");
+        $('#OrderDetailTable tr').eq(currSelStyleRow).find("button.Delivery_btn").css('color', 'black');
+    });
+
+
+    function ShowOrderDetail(e) {
+
+        if (currSelDelivRow > 0) {
+            $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            $('#OrderTable tr').eq(currSelDelivRow).find("button.detail_btn").css('color', 'black');
+        }
+
+        var currRowIndex = $(e).closest('tr').index() + 1;
+
+        $('#OrderTable tr').eq(currRowIndex).addClass("bg-brown");
+        $('#OrderTable tr').eq(currRowIndex).find("button.detail_btn").css('color', 'white');
+
+        currSelDelivRow = currRowIndex;
+
+        //currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+        currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("select.BuyerOrderId").val();
+        //currSelOrderId = $('#OrderTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+
+        $("#orderRefNo").val($('#OrderTable tr').eq(currRowIndex).find("select.BuyerOrderId option:selected").text());
+        
+        //$("#delivQnty").val($('#OrderTable tr').eq(currRowIndex).find("input.itemQnty").val());
+
+        //var cn = 1;
+        for (var i = 1; i < $('#OrderDetailTable tr').length - 1; i++) {
+            //if (currSelOrderId == 0) {
+            if ($('#OrderDetailTable tr').eq(i).find("input.OrderMasId").val() == currSelOrderTempId) {
+                $('#OrderDetailTable tr').eq(i).css("visibility", "visible");
+                //$('#OrderDetailTable tr').eq(i).find("td.index").text(cn);
+                //cn++;
+            }
+            else {
+                $('#OrderDetailTable tr').eq(i).css("visibility", "collapse");
+            }
+            //}
+            //else {
+            //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetId").val() == currSelOrderId) {
+            //        $('#DelivTable tr').eq(i).css("visibility", "visible");
+            //        $('#DelivTable tr').eq(i).find("td.index").text(cn);
+            //        cn++;
+            //    }
+            //    else {
+            //        $('#DelivTable tr').eq(i).css("visibility", "collapse");
+            //    }
+
+            //}
+        }
+
+        PopulateTotalValue();
+
+        $("#btnAddRow").attr("disabled", "disabled");
+
+        $("#DV_Order_Detail").show();
+
+        for (var i = 1; i < $('#OrderTable tr').length - 1; i++) {            
+            if ($('#OrderTable tr').eq(i).find("select.BuyerOrderId").val() == "") {
+                $('#OrderTable tr').eq(i).find("select.BuyerOrderId").attr("disabled", "disabled");
+            }      
+            else if ($('#OrderTable tr').eq(i).find("select.BuyerOrderId").val() == currSelOrderTempId) {
+                $('#OrderTable tr').eq(i).find("select.BuyerOrderId").removeAttr("disabled");                
+            }
+            else {
+                $('#OrderTable tr').eq(i).find("select.BuyerOrderId").attr("disabled", "disabled");
+            }            
+        }
+
+    }
+
+
+
+
+
+    function ShowStyleDetail(e) {
+
+        if (currSelStyleRow > 0) {
+            $('#OrderDetailTable tr').eq(currSelStyleRow).removeClass("bg-brown");
+            $('#OrderDetailTable tr').eq(currSelStyleRow).find("button.Delivery_btn").css('color', 'black');
+        }
+
+        var currRowIndex = $(e).closest('tr').index() + 1;
+
+        $('#OrderDetailTable tr').eq(currRowIndex).addClass("bg-brown");
+        $('#OrderDetailTable tr').eq(currRowIndex).find("button.Delivery_btn").css('color', 'white');
+
+        currSelStyleRow = currRowIndex;
+
+
+        currSelOrderDetailTempId = $('#OrderDetailTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+        //alert('currSelOrderDetailTempId->' + currSelOrderDetailTempId);
+
+        $('table.StyleDetailTable tbody').empty();
+
+        $.ajax({
+            type: "post",
+            url: "/BuyerOrder/GetOrderStyleDataLC",
+            data: { Id: currSelOrderDetailTempId },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                for (var i = 0; i < data.length; i++) {
+                    var newRow = jQuery('<tr>'
+                        + '<td align="center"><input type="hidden" name="OrderDetId" value="' + data[i].Id + '" class="OrderDetId" />' + data[i].DelivNo + '</td>'
+                        + '<td align="center">' + data[i].ExFactoryDate + '</td>'
+                        + '<td>' + data[i].BuyerName + '</td>'
+                        + '<td align="center">' + data[i].FactFOB + '</td>'
+                        //+ '<td><input type="hidden" name="OrderQuantity" value="' + data[i].Quantity + '" class="OrderQuantity" />' + numeral(data[i].Quantity).format('0,0') + '</td>'
+                        + '<td align="center">' + data[i].DelivQty + '</td>'
+                        + '<td class="text-right"><input type="hidden" name="OrderTotalValue" value="' + data[i].TotalValue + '" class="OrderTotalValue" />' + numeral(data[i].TotalValue).format('$ 0,0.00') + '</td>'
+                        + '<td class="text-right"><input type="hidden" name="TotalTransValue" value="' + data[i].TotalTransValue + '" class="TotalTransValue" />' + numeral(data[i].TotalTransValue).format('$ 0,0.00') + '</td>'                                    
+                        + '</tr>');
+
+                    //jQuery('table.OrderDetailTable tbody').find('tr:last').before(newRow);
+                    $('table.StyleDetailTable tbody').append(newRow);
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+
+        $("#DV_Style_Detail").show();
+
+    }
+
+    function RemoveOrderRow(e) {
+        //if ($('#OrderTable tr').length == 3) {
+        //    alert('You cannot delete this row.\nOrder requires atleast one record.');
+        //    return;
+        //}
+
+        if (confirm('Do you really want to delete?') == false) {
+            return;
+        }
+
+        $("#DV_Order_Detail").hide();
+        $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+
+        var currRowIndex = $(e).closest('tr').index() + 1;
+                
+        var id = $('#OrderTable tr').eq(currRowIndex).find("select.BuyerOrderId").val();
+
+        var totRow = $('#OrderDetailTable tr').length - 1;
+        for (var i = 1; i < totRow; i++) {
+
+            if ($('#OrderDetailTable tr').eq(i).find("input.OrderMasId").val() == id) {
+                $('#OrderDetailTable tr').eq(i).remove();
+                i--;
+                totRow--;
+            }
+
+        }
+
+        $(e).parent().parent().remove();
+        //PopulateTotalValue();
+
+        
+    }
+
+
+    function PopulateTotalValue() {
+        var grandTotQnty = 0;
+        var grandTotValue = 0;
+        var grandTotTransValue = 0;
+
+        var totRow = $('#OrderDetailTable tr').length - 1;
+        for (var i = 1; i < totRow; i++) {
+
+            var strQntyVal = 0;
+            var strVal = 0;
+            var strTotalTransVal = 0;
+            
+
+            if ($('#OrderDetailTable tr').eq(i).find("input.OrderMasId").val() == currSelOrderTempId
+                && $('#OrderDetailTable tr').eq(i).find("input[type='checkbox'].IsStyleIncluded").is(":checked")) {
+                //alert($('#OrderDetailTable tr').eq(i).find("input[type='checkbox'].IsStyleIncluded").is(":checked"));
+                strQntyVal = $('#OrderDetailTable tr').eq(i).find(".OrderQuantity").val();
+                strVal = $('#OrderDetailTable tr').eq(i).find(".OrderTotalValue").val();
+                strTotalTransVal = $('#OrderDetailTable tr').eq(i).find(".TotalTransValue").val();
+                
+            }
+
+            if ($.isNumeric(strQntyVal)) {
+                grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+            }
+
+            if ($.isNumeric(strVal)) {
+                grandTotValue = grandTotValue + parseFloat(strVal);
+            }
+
+            if ($.isNumeric(strTotalTransVal)) {
+                grandTotTransValue = grandTotTransValue + parseFloat(strTotalTransVal);
+            }
+
+        }
+
+        $('#OrderDetailTable tr').eq(totRow).find(".grandTotalQnty").text(numeral(grandTotQnty).format('0,0'));
+        $('#OrderDetailTable tr').eq(totRow).find(".grandTotalValue").text(numeral(grandTotValue).format('$ 0,0.00'));
+        $('#OrderDetailTable tr').eq(totRow).find(".grandTotalTransValue").text(numeral(grandTotTransValue).format('$ 0,0.00'));
+    }
+
+    $('#saveState').click(function () {
+
+        //var orderDate = moment($('#OrderDate').val(), "DD/MM/YYYY", true);
+
+        if ($.trim($('#LCNo').val()) === "") {
+            alert('LC No required');
+            $('#LCNo').focus();
+        }
+        //else if ($.trim($('#OrderDate').val()) === "") {
+        //    alert('Order date required');
+        //    $('#OrderDate').focus();
+        //}
+        //else if (orderDate.isValid() == false) {
+        //    alert('Valid open date required<br />Usage:[dd/mm/yyyy]');
+        //    $('#OrderDate').focus();
+        //}
+        //else if ($('#BuyerInfoId option:selected').text() == "") {
+        //    alert('Please select buyer');
+        //    //$('#BuyerInfoId').focus();
+        //    $('#BuyerInfoId').select2('open');
+        //}
+        //else if ($('#SeasonInfoId option:selected').text() == "") {
+        //    alert('Please select buyer');
+        //    $('#SeasonInfoId').select2('open');
+        //}
+        //else if ($('#ProdDepartmentId option:selected').text() == "") {
+        //    alert('Please select department');
+        //    $('#ProdDepartmentId').select2('open');
+        //}
+        //else if (CheckOrderGridData() == false) {
+
+        //}
+        else {
+            SaveOrderData();
+        }
+
+    });
+
+    function SaveOrderData() {
+
+        $("#saveState").attr("disabled", "disabled");
+
+        // LCNo LCDate LCExpiryDate PaymentTerm Tenor LCReceiveDate  LatestShipmentDate Quantity TotalValue BuyerInfoId BuyerBankId
+                
+        var LCNo = $.trim($('#LCNo').val());
+        var LCDate = $('#LCDate').val();
+        var LCExpiryDate = $('#LCExpiryDate').val();
+        var PaymentTerm = $('#PaymentTerm').val();
+        var Tenor = $('#Tenor').val();
+        var LCReceiveDate = $('#LCReceiveDate').val();
+        var LatestShipmentDate = $('#LatestShipmentDate').val();
+        var Quantity = $('#Quantity').val();
+        var TotalValue = $('#TotalValue').val();
+        var BuyerInfoId = $('#BuyerInfoId').val();
+        var BuyerBankId = $('#BuyerBankId').val();
+        
+        // BuyerOrderMasId PINo PIDate
+        var BuyerOrderMasId = document.getElementsByName("BuyerOrderId");
+        var PINo = document.getElementsByName("PINo");
+        var PIDate = document.getElementsByName("PIDate");
+        
+        //return;
+        var OItems = [];
+
+        for (var i = 0; i < BuyerOrderMasId.length; i++) {
+            if (BuyerOrderMasId[i].value == "") { continue; }
+            OItems.push({ Id: 0, BuyerOrderMasId: BuyerOrderMasId[i].value, PINo: PINo[i].value, PIDate: PIDate[i].value });
+        }
+        //console.log(OItems);
+        
+        //--------------- order detail items
+        // MasterLCInfoDetId  BuyerOrderDetId
+        var TempMasterLCInfoDetId = document.getElementsByName("OrderMasId");
+        //var MasterLCInfoDetId = document.getElementsByName("OrderMasId");
+        var BuyerOrderDetId = document.getElementsByName("OrderDetId");
+        var IsStyleIncluded = document.getElementsByName("IsStyleIncluded");
+        //return;
+        var DItems = [];
+
+        for (var i = 0; i < TempMasterLCInfoDetId.length; i++) {
+            if (!($(IsStyleIncluded[i]).is(":checked"))) { continue; }
+            DItems.push({ TempMasterLCInfoDetId: TempMasterLCInfoDetId[i].value, Id: 0, MasterLCInfoDetId: 0, BuyerOrderDetId: BuyerOrderDetId[i].value });
+
+        }
+        
+        //-----------------
+        //           
+        //var LCDetails = JSON.stringify({ OrderDetails: OItems, DelivDetails: DItems, Id: 0, OrderRefNo: OrderRefNo, OrderDate: OrderDate, BuyerInfoId: BuyerInfoId, SeasonInfoId: SeasonInfoId, ProdDepartmentId: ProdDepartmentId, FabSupplierId: FabSupplierId });
+        var LCDetails = JSON.stringify({
+            LCMasterDetInfo: OItems, LCDetailOrderInfo: DItems, Id: 0, LCNo: LCNo, LCDate: LCDate,
+            LCExpiryDate: LCExpiryDate, PaymentTerm: PaymentTerm, Tenor: Tenor, LCReceiveDate: LCReceiveDate,
+            LatestShipmentDate: LatestShipmentDate, Quantity: Quantity, TotalValue: TotalValue,
+            BuyerInfoId: BuyerInfoId, BuyerBankId: BuyerBankId
+        });
+
+        //OrderDetails = JSON.stringify({ OrderDetails: OItems});
+        //alert(LCDetails);
+        //return;
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: '/MasterLC/SaveLCInfo',
+            data: LCDetails,
+            success: function (result) {
+                console.log(result);
+                $("#saveState").removeAttr("disabled");
+                if (result.flag == true) {
+                    //alert("Record save successfully!");
+                    window.location = "/MasterLC/Edit/" + result.Id;
+                }
+                else {
+                    alert(result.message);
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+                $("#saveState").removeAttr("disabled");
+            }
+        });
+
+    }
+
+</script>
+    
+}

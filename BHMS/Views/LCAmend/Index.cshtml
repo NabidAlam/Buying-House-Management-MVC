@@ -1,0 +1,148 @@
+﻿@model IEnumerable<BHMS.Models.LCAmendInfo>
+
+@{
+    ViewBag.Title = "LC";
+    ViewBag.SubTitle = "Amend LC";
+}
+
+<p style="padding-left:5px; padding-top:5px;">
+    @Html.ActionLink("Create New", "Create",
+          null, new { @style = "color:#ffffff;", id = "lnkCreate", @class = "btn btn-success" })
+</p>
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">List of Amend LC</h5>
+    </div>
+    <table class="table datatable-show-all table-hover table-xs">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MasterLCInfoMas.LCNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmendDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmendLCNo)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.AmendLCRecvDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmendLatestShipDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmendQuantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmendTotalValue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmendLCExpiryDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmendPaymentTerm)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmendTenor)
+                </th>*@
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MasterLCInfoMas.LCNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmendDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmendLCNo)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.AmendLCRecvDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmendLatestShipDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmendQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmendTotalValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmendLCExpiryDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmendPaymentTerm)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmendTenor)
+                    </td>*@
+                    <td>
+                        <ul class="icons-list">
+                            <li class="text-info"><a href="@Url.Action("Edit", new { id = item.Id } )" data-popup="tooltip" title="Edit"><i class="icon-pencil7"></i></a></li>
+                            <li>|</li>
+                            <li class="text-danger"><a href="javascript:deleteFunction(@item.Id)" data-popup="tooltip" title="Delete"><i class="icon-cross2"></i></a></li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/plugins/forms/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/datatables_advanced.js"></script>
+
+
+    <script type="text/javascript">
+
+        function deleteFunction(Id) {
+            var Con = confirm("Are you sure want to delete this?");
+            if (Con === true) {
+                $.ajax({
+                    url: "/LCAmend/DeleteAmend",
+                    type: "post",
+                    data: {
+                        id: Id
+                    },
+                    dataType: "json",
+
+                    success: function (flag) {
+                        //console.log(flag);
+
+                        if (flag.flag === true) {
+                            alert("Successfully deleted !");
+                            window.location = "/LCAmend/";
+                        } else {
+                            alert(flag.message);
+                        }
+
+                    },
+
+                    error: function (xhr) {
+                        alert('error');
+
+                    }
+
+
+                });
+            }
+
+        }
+    
+    </script>
+
+
+}

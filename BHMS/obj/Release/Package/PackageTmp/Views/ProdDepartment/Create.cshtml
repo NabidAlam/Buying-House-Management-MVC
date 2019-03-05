@@ -1,0 +1,101 @@
+﻿@model BHMS.Models.ProdDepartment
+
+@{
+    ViewBag.Title = "Department";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Department Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group form-group-xs">
+                    @*@Html.LabelFor(model => model.BuyerInfoId, "BuyerInfoId", htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    @Html.LabelFor(model => model.Brand.BuyerInfoId, "Buyer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("BuyerInfo", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                        @Html.ValidationMessageFor(model => model.Brand.BuyerInfoId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-group-xs">
+                    @*@Html.LabelFor(model => model.BuyerInfoId, "BuyerInfoId", htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    @Html.LabelFor(model => model.BrandId, "Brand", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("BrandId", null,"", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                        @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-success" />
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".select2").select2();
+    });
+
+    $('#BuyerInfo').change(function () {
+        var selectedValue = $(this).val();
+        var stateSelect = $('#BrandId');
+
+        if (selectedValue.length > 0) {
+            $.ajax({
+                type: "post",
+                url: "/Brand/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        }
+        else {
+            stateSelect.empty();
+            return;
+        }
+
+    });
+
+    </script>
+
+}

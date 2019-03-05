@@ -1,0 +1,467 @@
+﻿@model BHMS.Models.DiscountMas
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Discount</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group form-group-xs">
+                            @Html.HiddenFor(model=>model.Id)
+                            @Html.LabelFor(model => model.BuyerOrderDet.BuyerOrderMas.BuyerInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", @disabled= "disabled" })
+                                @Html.ValidationMessageFor(model => model.BuyerOrderDet.BuyerOrderMas.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Factory</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("SupplierId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", @disabled = "disabled" })
+                                @*<select name="SupplierId" id="SupplierId" class="SupplierId form-control select2 input-xs"><option value=""></option></select>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">RDL Ref. No.</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerOrderMasId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", @disabled = "disabled" })
+                                @*<select name="BuyerOrderMasId" id="BuyerOrderMasId" class="BuyerOrderMasId form-control select2 input-xs"><option value=""></option></select>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Style No.</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerOrderDetId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", @disabled = "disabled" })
+                                @*<select name="BuyerOrderDetId" id="BuyerOrderDetId" class="BuyerOrderDetId form-control select2 input-xs"><option value=""></option></select>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Date</label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DiscountDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.DiscountDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        }
+
+        <br />
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+
+                    <tr class="bg-primary-400">
+                        <th style="min-width:80px;text-align:center;">Del No.</th>
+                        <th style="min-width:140px;text-align:left;">PO No.</th>
+                        <th style="min-width:120px;text-align:center;">Order Qty</th>
+                        <th style="min-width:120px;text-align:center;">Shipment Qty</th>
+                        <th style="min-width:80px;text-align:center;">RDL FOB</th>
+                        <th style="min-width:100px;text-align:right;">RDL Value</th>
+                        <th style="min-width:100px;text-align:center;">Buyer Discount %</th>
+                        <th style="min-width:120px;text-align:right;">Buyer Discount Amount</th>
+                        <th style="min-width:160px;" class="text-center">Adjustment with Buyer Now</th>
+                        <th style="min-width:80px;text-align:center;">Factory FOB</th>
+                        <th style="min-width:100px;text-align:right;">Factory Value</th>
+                        <th style="min-width:100px;text-align:center;">Factory Discount %</th>
+                        <th style="min-width:120px;text-align:right;">Factory Discount Amount</th>
+                        <th style="min-width:160px;text-align:center;" class="text-center">Adjustment with Factory Now</th>
+                        <th style="min-width:100px;text-align:right;">GAIN / LOSS</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" class="text-right"><label class="text-bold">Total:</label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalRDlValue text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalbuyerDiscount text-right"></label></td>
+                        <td colspan="2"></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalFactValue text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalFactDiscount text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalGain text-right"></label></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                @{
+                    if (Model.DiscountFlag == true)
+                    {
+                        <button type="button" class="btn btn-success" id="saveState" disabled>Save <i class="icon-arrow-right14 position-right"></i></button>
+                        <span class="badge badge-primary"><i>Invoice Exists!</i></span>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+                    }
+                }
+               
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+        $(document).ready(function () {
+            $('body').addClass("sidebar-xs");
+            $(".select2").select2();
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+            LoadSavedData();
+        });
+
+        function LoadSavedData()
+        {
+            var DiscountMasId = $('#Id').val();
+                $.ajax({
+                    type: "GET",
+                    url: "/Discount/GetDiscountSavedData",
+                    data: { Id: DiscountMasId },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            var row = $('<tr>'
+                            + '<td><input type="hidden" name="DiscountDetId" class="DiscountDetId" value="' + data[i].DiscountDetId + '" />'
+                            + '<input type="hidden" name="FactoryOrderDelivDetId" class="FactoryOrderDelivDetId" value="' + data[i].FactoryOrderDelivDetId + '" />' + data[i].DelivNo + '</td>'
+                            + '<td><label>' + data[i].PONo + '</label></td>'
+                            + '<td align="center"><label class="OrderQty">' + data[i].OrderQty + '</label></td>'
+                            + '<td align="center"><label class="shipQty">' + data[i].ShipQty + '</label></td>'
+                            + '<td align="center"><label class="RDlFOB">' + data[i].RDLFOB + '</label></td>'
+                            + '<td class="bg-green-300 text-right"><label class="RDLTotalValue">' + (data[i].ShipQty * data[i].RDLFOB).toFixed(2) + '</label></td>'
+                            + '<td><input type="text" name="buyerDiscount" class="buyerDiscount form-control input-xs" value="' + data[i].BuyerDiscount + '" /></td>'
+                            + '<td class="bg-green-300 text-right"><label  class="buyerDiscountValue"></label></td>'
+                            + '<td align="center">' + (data[i].BuyerAdjustNow == true  ? '<input type="checkbox" name="adjustBuyer" class="adjustBuyer checkbox checkbox-primary" checked/></td>'
+                                                        : '<input type="checkbox" name="adjustBuyer" class="adjustBuyer checkbox checkbox-primary"/></td>')
+                            + '<td align="center"><label>' + data[i].FactFOB + '</label></td>'
+                            + '<td class="bg-green-300 text-right"><label class="FactTotalValue">' + (data[i].ShipQty * data[i].FactFOB).toFixed(2) + '</label></td>'
+                            + '<td><input type="text" name="FactDiscount" class="FactDiscount form-control input-xs" value="' + data[i].FactoryDiscount + '" /></td>'
+                            + '<td class="bg-green-300 text-right"><label name="FactDiscountvalue" class="FactDiscountvalue"></label></td>'
+                            + '<td align="center">' + (data[i].FactoryAdjustNow == true  ? '<input type="checkbox" name="adjustFact" class="adjustFact checkbox checkbox-primary" checked/></td>'
+                                                       :'<input type="checkbox" name="adjustFact" class="adjustFact checkbox checkbox-primary"/></td>')
+                            + '<td class="bg-green-300 text-right"><label name="gainvalue" class="gainvalue"></label></td>'
+                            + '</tr>');
+                            $('table.OrderItemTable tbody').append(row);
+
+                        }
+
+                        //buyer discount onchange
+                        $('.buyerDiscount').change(function () {
+                            if ($.isNumeric($(this).val()) == false) {
+                                $(this).val(0);
+                                alert('Only numeric allowed');
+                            }
+                            CalculateBuyerDiscount();
+                            PopulateTotalValue();
+                        });
+
+                        //factory discount onchange
+                        $('.FactDiscount').change(function () {
+                            if ($.isNumeric($(this).val()) == false) {
+                                $(this).val(0);
+                                alert('Only numeric allowed');
+                            }
+                            CalculateFactDiscount();
+                            PopulateTotalValue();
+                        });
+
+                        //calculate all the values
+                        CalculateBuyerDiscount();
+                        CalculateFactDiscount();
+                        PopulateTotalValue();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+        }
+
+
+
+
+        //---------------------------------------Buyer Discount Calculation---------------------------------------
+        function CalculateBuyerDiscount()
+        {
+            var tot = $('table.OrderItemTable tbody tr').length;
+            for (var i = 0; i < tot; i++) {
+                var RdlValue = $('table.OrderItemTable tbody tr').eq(i).find('.RDLTotalValue').text();
+                var buyerDiscount = $('table.OrderItemTable tbody tr').eq(i).find('.buyerDiscount').val();
+                var discountTotal = parseFloat(RdlValue) * (parseFloat(buyerDiscount) / 100);
+                //if (discountTotal != 0) {
+                //    $('table.OrderItemTable tbody tr').eq(i).find('.buyerDiscountValue').text(discountTotal.toFixed(2));
+                //}
+                $('table.OrderItemTable tbody tr').eq(i).find('.buyerDiscountValue').text(discountTotal.toFixed(2));
+            }
+        }
+
+
+        //---------------------------------------Factory Discount Calculation-------------------------------------
+        function CalculateFactDiscount() {
+            var tot = $('table.OrderItemTable tbody tr').length;
+            for (var i = 0; i < tot; i++) {
+                var FactValue = $('table.OrderItemTable tbody tr').eq(i).find('.FactTotalValue').text();
+                var FactDiscount = $('table.OrderItemTable tbody tr').eq(i).find('.FactDiscount').val();
+                var discountTotal = parseFloat(FactValue) * (parseFloat(FactDiscount) / 100);
+                //if (discountTotal != 0) {
+                //    $('table.OrderItemTable tbody tr').eq(i).find('.FactDiscountvalue').text(discountTotal.toFixed(2));
+                //}
+                $('table.OrderItemTable tbody tr').eq(i).find('.FactDiscountvalue').text(discountTotal.toFixed(2));
+            }
+        }
+
+
+        //-----------------------------------------Total Value Calculation-----------------------------------------
+        function PopulateTotalValue() {
+            var grandRDLtotal = 0;
+            var grandBuyerDiscount = 0;
+            var grandFactTotal = 0;
+            var grandFactDiscount = 0;
+            var grandGainTotal = 0;
+
+            var tot = $('table.OrderItemTable tbody tr').length;
+            for (var i = 0; i < tot; i++) {
+                var RdlValue = $('table.OrderItemTable tbody tr').eq(i).find('.RDLTotalValue').text(); //RDl total value
+                var buyerDiscountValue = $('table.OrderItemTable tbody tr').eq(i).find('.buyerDiscountValue').text(); //buyer discount
+
+                var FactValue = $('table.OrderItemTable tbody tr').eq(i).find('.FactTotalValue').text(); //factory total value
+                var FactDiscountValue = $('table.OrderItemTable tbody tr').eq(i).find('.FactDiscountvalue').text(); //factory discount
+
+                var previousGain = parseFloat(RdlValue) - parseFloat(FactValue);
+                var currentGain = (parseFloat(RdlValue) - parseFloat(buyerDiscountValue)) - (parseFloat(FactValue) - parseFloat(FactDiscountValue));
+
+
+                //var gain = parseFloat(buyerDiscountValue) - parseFloat(FactDiscountValue);
+                var gain = previousGain - currentGain;
+
+                //RDl total
+                if ($.isNumeric(RdlValue)) {
+                    grandRDLtotal = grandRDLtotal + parseFloat(RdlValue)
+                }
+                //Buyer Discount total
+                if ($.isNumeric(buyerDiscountValue)) {
+                    grandBuyerDiscount = grandBuyerDiscount + parseFloat(buyerDiscountValue)
+                }
+                //Factory total
+                if ($.isNumeric(FactValue)) {
+                    grandFactTotal = grandFactTotal + parseFloat(FactValue)
+                }
+                //Factory Discount total
+                if ($.isNumeric(FactDiscountValue)) {
+                    grandFactDiscount = grandFactDiscount + parseFloat(FactDiscountValue)
+                }
+
+
+                $('table.OrderItemTable tbody tr').eq(i).find('.gainvalue').text(gain.toFixed(2)); //sets the gain value of the row
+
+                //gain total
+                if ($.isNumeric(gain)) {
+                    grandGainTotal = grandGainTotal + parseFloat(gain)
+                }
+
+            }
+
+            //----------------------set all the grand totals to the table footer part---------------------------
+            $('table.OrderItemTable tr').eq(tot + 1).find('.grandTotalRDlValue').text(numeral(grandRDLtotal).format('$ 0,0.00')); //sets RDL grand total
+            $('table.OrderItemTable tr').eq(tot + 1).find('.grandTotalbuyerDiscount').text(numeral(grandBuyerDiscount).format('$ 0,0.00')); //sets Buyer discount grand total
+            //if (grandBuyerDiscount != 0) {
+            //    $('table.OrderItemTable tr').eq(tot + 1).find('.grandTotalbuyerDiscount').text(grandBuyerDiscount);
+            //}
+
+            $('table.OrderItemTable tr').eq(tot + 1).find('.grandTotalFactValue').text(numeral(grandFactTotal).format('$ 0,0.00')); //sets factory grand total
+            $('table.OrderItemTable tr').eq(tot + 1).find('.grandTotalFactDiscount').text(numeral(grandFactDiscount).format('$ 0,0.00')); //sets factory discount grand total
+            //if (grandFactDiscount != 0) {
+            //    $('table.OrderItemTable tr').eq(tot + 1).find('.grandTotalFactDiscount').text(grandFactDiscount);
+            //}
+
+            //$('table.OrderItemTable tr').eq(tot + 1).find('.grandTotalGain').text(grandGainTotal.toFixed(2)); //sets gain grand total
+            $('table.OrderItemTable tr').eq(tot + 1).find('.grandTotalGain').text(numeral(grandGainTotal).format('$ 0,0.00')); //sets gain grand total
+
+        }
+
+        //Save button click
+        $('#saveState').click(function () {
+
+            if ($("#DiscountDate").val() == "")
+            {
+                alert("Date required.");
+            }
+            else {
+                saveDiscount();
+            }
+ 
+        });
+
+        //==========================================================================================================
+        //--------------------------------------------Save Discount START-------------------------------------------
+        //==========================================================================================================
+
+        function saveDiscount()
+        {
+            $("#saveState").attr("disabled", "disabled");
+
+            //master data
+            var Id = $('#Id').val();
+            var BuyerOrderDetId = $('#BuyerOrderDetId option:selected').val();
+            var DiscountDate = $('#DiscountDate').val();
+
+            //detail data
+            var DiscountDetId = document.getElementsByName("DiscountDetId");
+            var FactoryOrderDelivDetId = document.getElementsByName("FactoryOrderDelivDetId");
+            var BuyerDiscount = document.getElementsByName("buyerDiscount");
+            var AdjustBuyerNow = document.getElementsByName("adjustBuyer");
+            var FactoryDiscount = document.getElementsByName("FactDiscount");
+            var AdjustFactoryNow = document.getElementsByName("adjustFact");
+
+
+            var detailItems = []; //detail items array
+
+            //pust all the details to the array
+            for (var i = 0; i < FactoryOrderDelivDetId.length; i++) {
+                var adjustBuyerNowChecked = 0;
+                var adjustFactoryNowChecked = 0;
+                //------adjust buyer now-----------
+                if (AdjustBuyerNow[i].checked) {
+                    //if buyer adjust now is checked then set 1
+                    adjustBuyerNowChecked = 1;
+                }
+                else {
+                    adjustBuyerNowChecked = 0;
+                }
+
+                //-----adjust factory now---------
+                if (AdjustFactoryNow[i].checked) {
+                    //if factory adjust now is checked then set 1
+                    adjustFactoryNowChecked = 1;
+                }
+                else {
+                    adjustFactoryNowChecked = 0;
+                }
+
+                detailItems.push({
+                    Id: DiscountDetId[i].value,
+                    DiscountMasId : 0,
+                    FactoryOrderDelivDetId: FactoryOrderDelivDetId[i].value,
+                    BuyerDiscount: BuyerDiscount[i].value,
+                    AdjustBuyerNow: adjustBuyerNowChecked,
+                    FactoryDiscount: FactoryDiscount[i].value,
+                    AdjustFactoryNow: adjustFactoryNowChecked,
+                });
+
+            }
+
+            //prepare data to send through ajax request
+            Discount = JSON.stringify({
+                DiscountDetail: detailItems,
+                Id: Id,
+                BuyerOrderDetId: BuyerOrderDetId,
+                DiscountDate: DiscountDate
+            });
+
+            //send data to the controller
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/Discount/SaveDiscount',
+                data: Discount,
+                success: function (result) {
+                    console.log(result);
+                    $("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        alert("Record save successfully!");
+                        //window.location = "/ExFactoryInformation/Edit/" + result.Id;
+                        window.location = "/Discount/Index";
+                    }
+                    else {
+                        alert(result.message);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+        }
+
+        //==========================================================================================================
+        //--------------------------------------------Save Discount END---------------------------------------------
+        //==========================================================================================================
+
+    </script>
+}

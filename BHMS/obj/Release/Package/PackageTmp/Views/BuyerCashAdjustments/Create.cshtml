@@ -1,0 +1,324 @@
+﻿@model BHMS.Models.BuyerCashAdjustment
+@using BHMS.Helpers
+
+@{
+    ViewBag.Title = "BuyerCashAdjustment";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Cash Adjustment To Buyer</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="col-md-6">
+                    <div class="form-group form-group-xs">
+                        @Html.LabelFor(model => model.EntryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBox("EntryDate", NullHelpers.DateToString(DateTime.Now), new { @class = "form-control datepicker", @disabled = "disabled" })
+                            @Html.ValidationMessageFor(model => model.EntryDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <br />
+            </div>
+        }
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs BuyerCashAdjustmentTable" id="BuyerCashAdjustment">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:150px;">Buyer Name</th>
+                        <th style="min-width:100px;">Adjustment Date</th>
+                        <th style="min-width:50px;">RDL Trn. No.</th>
+                        <th style="min-width:50px;">Amount</th>
+                        <th style="min-width:50px;">Remarks</th>
+                        <th style="min-width:50px;"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        @*<td class="text-right">
+                                <button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button>
+                            </td>*@
+                        <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>
+                        <td></td>
+                    </tr>
+
+
+                </tfoot>
+            </table>
+        </div>       
+    </div>
+
+</div>
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        var cnOrderTempId = 0;
+        var currSelDelivRow = 0;
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+
+
+        $(document).ready(function () {
+            $(".select2").select2();
+
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+
+            //$('#FactoryCahsAdjustment').on('change', '.FacAdjustAmount', function () {
+            //    if ($.isNumeric($(this).val()) == false) {
+            //        $(this).val('');
+            //        alert('Only numeric allowed');
+            //    }
+            //   // PopulateTotalValue();
+            //});
+
+             AddNewRow();
+
+
+
+
+        });
+
+
+        $('#btnAddRow').click(function () {
+
+            AddNewRow();
+        });
+
+
+        function AddNewRow() {
+            cnOrderTempId++;
+            debugger;
+            var newRow = jQuery('<tr><td>'
+                + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                + '<select name="BuyerInfoId" class="BuyerInfoId form-control select2 input-xs"><option value=""></option></select></td>'
+                + '<td><input type="text" name="BuyerAdjustDate" class="BuyerAdjustDate form-control datepicker input-xs" /></td>'
+                + '<td><input type="text" name="BuyerReciptNo" class="BuyerReciptNo form-control input-xs" /></td>'
+                + '<td><input type="text" name="BuyerAdjustAmount" class="BuyerAdjustAmount form-control input-xs" /></td>'
+                + '<td><input type="text" name="BuyerAdjustRemarks" class="BuyerAdjustRemarks form-control input-xs" /></td>'
+                + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+            //jQuery('table.FactoryCashAdjustmentTable tbody').find('tr:last').before(newRow);
+            jQuery('table.BuyerCashAdjustmentTable tbody').append(newRow);
+
+            $(".select2").select2();
+
+            RebindDatePicker();
+
+            //$.ajax({
+            //    type: "post",
+            //    url: "/Supplier/GetNames",
+            //    datatype: "json",
+            //    traditional: true,
+            //    success: function (data) {
+            //        var selOptions = "<select>";
+            //        selOptions = selOptions + '<option value=""></option>';
+            //        for (var i = 0; i < data.length; i++) {
+            //            selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+            //        }
+            //        selOptions = selOptions + '</select>';
+            //        console.log(selOptions);
+            //        jQuery('table.FactoryCashAdjustmentTable tbody').find('tr:last').prev().find("select.SupplierId").html(selOptions);
+            //    }
+            //});
+
+            $.ajax({
+                type: "post",
+                url: "/BuyerInfo/GetNames",
+                //data: { Id: selectedDeptValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+                    //$('.SupplierId').empty();
+                    $('.BuyerInfoId').append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        $('.BuyerInfoId').append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    //BindProductCategory();
+                }
+            });
+
+        }
+
+
+
+        function RemoveOrderRow(e) {
+
+
+            //alert($('#BuyerCashAdjustment tr').length);
+            //debugger;
+            if ($('#BuyerCashAdjustment tr').length == 3) {
+                alert('You cannot delete this row.\nOrder requires atleast one record.');
+                return;
+            }
+
+            if (confirm('Do you really want to delete?') == false) {
+                return;
+            }
+
+            $('#BuyerCashAdjustment tr').eq(currSelDelivRow).removeClass("bg-brown");
+
+            //var currRowIndex = $(e).closest('tr').index() + 1;
+
+            //var id = $('#FactoryCashAdjustment tr').eq(currRowIndex).find("input.TempOrderId").val();
+
+            $(e).parent().parent().remove();
+        }
+
+
+        $('#saveState').click(function () {
+
+           if (CheckOrderGridData() == false) {
+
+            }
+            else {
+                SaveOrderData();
+            }
+            // SaveOrderData();
+
+
+        });
+
+
+        function CheckOrderGridData() {
+            // ProdCatId ProdTypeId styleNo unitPrice itemQnty factoryId
+
+            var totRow = $('#BuyerCashAdjustment tr').length;
+            //alert(totRow);
+            for (var i = 1; i <= totRow; i++) {
+                if ($('#BuyerCashAdjustment tr').eq(i).find(".BuyerInfoId").val() == "") {
+                    alert('Supplier required');
+                    return false;
+                };
+
+                if ($('#BuyerCashAdjustment tr').eq(i).find(".BuyerAdjustDate").val() == "") {
+                    alert('Adjustment Date required');
+                    return false;
+                };
+
+                if ($('#BuyerCashAdjustment tr').eq(i).find(".BuyerAdjustAmount").val() == "") {
+                    alert('Adjustment Amount required');
+                    return false;
+                };
+
+            }
+
+            return true;
+        }
+
+
+
+        function SaveOrderData() {
+
+            $("#saveState").attr("disabled", "disabled");
+
+            var EntryDate = $('#EntryDate').val();
+
+            var BuyerInfoId = document.getElementsByName("BuyerInfoId");
+            var BuyerAdjustDate = document.getElementsByName("BuyerAdjustDate");
+            var BuyerReciptNo = document.getElementsByName("BuyerReciptNo");
+            var BuyerAdjustAmount = document.getElementsByName("BuyerAdjustAmount");
+            var BuyerAdjustRemarks = document.getElementsByName("BuyerAdjustRemarks");
+
+
+            //return;
+            var OItems = [];
+
+            for (var i = 0; i < BuyerInfoId.length; i++) {
+                OItems.push({ Id: 0, BuyerInfoId: BuyerInfoId[i].value, BuyerAdjustDate: BuyerAdjustDate[i].value, BuyerReciptNo: BuyerReciptNo[i].value, BuyerAdjustAmount: BuyerAdjustAmount[i].value, BuyerAdjustRemarks: BuyerAdjustRemarks[i].value });
+                console.log(OItems[i]);
+            }
+
+
+            buyerCashAdjustment = JSON.stringify({ buyerCashAdjustment: OItems, EntryDate: EntryDate });
+            //OrderDetails = JSON.stringify({ OrderDetails: OItems});
+            //alert(OrderDetails);
+            //return;
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/BuyerCashAdjustments/SaveBuyerCashAdjustment',
+                data: buyerCashAdjustment,
+                success: function (result) {
+                    console.log(result);
+                    $("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        //alert("Record save successfully!");
+                        window.location = "/BuyerCashAdjustments/Index/";
+                    }
+                    else {
+                        alert(result.message);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+    </script>
+
+}

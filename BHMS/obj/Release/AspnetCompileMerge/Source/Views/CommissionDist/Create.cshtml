@@ -1,0 +1,442 @@
+﻿@model BHMS.Models.CommissionDistMas
+
+@{
+    ViewBag.Title = "Commission Distribution Information";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Commission Distibution Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.BuyerOrderMasId, "RDL Ref No", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("BuyerOrderMasId", null,"", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                        @Html.ValidationMessageFor(model => model.BuyerOrderMasId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                
+                <div class="form-group form-group-xs">
+                    <div class="control-label col-md-2">Buyers Name</div>                    
+                    <div class="col-md-10">                        
+                        <input class="form-control" id="BuyersName" readonly="readonly" />                       
+                    </div>
+                </div>
+                
+                <div class="form-group form-group-xs">
+                    <div class="control-label col-md-2">Department</div> 
+                    <div class="col-md-10">                           
+                        <input class="form-control" id="DeptName" readonly="readonly" />                     
+                    </div>
+                </div>                
+            </div>
+        }
+    </div> <!-- panel body -->
+    
+    <div class="table-responsive">
+        <table class="table table-bordered table-xxs MainTable" id="MainTable">
+            <thead>
+                <tr class="bg-primary-400">
+                    <th rowspan="2" style="min-width:120px;">Style</th>
+                    <th rowspan="2" style="min-width:120px;">Factory</th>
+                    <th rowspan="2" style="min-width:100px;">Order Qnty (pcs)</th>
+                    <th rowspan="2" style="min-width:95px;">RDL FOB Price</th>
+                    <th rowspan="2" style="min-width:100px;">Factory FOB Price</th>
+                    <th rowspan="2" style="min-width:100px;">Total RDL Value</th>
+                    <th rowspan="2" style="min-width:100px;">Total Factory Value</th>
+                    <th rowspan="2" style="min-width:100px;">Total Comm Value</th>
+                    <th rowspan="2" style="min-width:95px;">Margin / Pcs</th>
+                    <th rowspan="2" style="min-width:100px;">Total Commission</th>
+                    <th colspan="2">Overseas Commission</th>
+                    <th colspan="2">Others</th>
+                    <th colspan="2">Dhaka (Remaining)</th>
+                </tr>
+                <tr class="bg-primary-400">
+                    <th style="min-width:100px;">Value</th>
+                    <th style="min-width:100px;">%</th>
+                    <th style="min-width:100px;">Value</th>
+                    <th style="min-width:100px;">%</th>
+                    <th style="min-width:100px;">Value</th>
+                    <th style="min-width:100px;">%</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>                    
+                    <td colspan="5" class="text-right"><label class="text-bold">Total:</label></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotalRDLValue text-right"></label></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotaFactValue text-right"></label></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotaCommValue text-right"></label></td>
+                    <td colspan="2"></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotalOverseasValue text-right"></label></td>
+                    <td></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotalOthersValue text-right"></label></td>
+                    <td></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotalDhakaValue text-right"></label></td>
+                    <td></td>
+                    
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="panel-footer">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+    </div>
+
+
+@section Scripts {
+
+<script type="text/javascript">
+    
+
+    $(document).ready(function () {
+        $("#saveState").attr("disabled", "disabled");
+
+        $('body').addClass("sidebar-xs");
+        $(".select2").select2();
+        
+        BindBuyerOrder();
+        //BindOrderFactory();
+
+        $('#MainTable').on('change', '.OverseasCommPer , .OthersCommPer', function () {
+            //alert('helo');
+            if ($.isNumeric($(this).val()) == false) {
+                $(this).val('');
+                alert('Only numeric allowed');
+            }
+            PopulateTotalValue();
+        });
+
+    });
+
+
+
+    function BindBuyerOrder() {
+        $('#BuyerOrderMasId').change(function () {
+
+            $('#MainTable tbody').empty();
+            $("#saveState").attr("disabled", "disabled");
+            $('#BuyersName').val('');
+            $('#DeptName').val('');
+
+            var selectedValue = $(this).val();
+            //var row = $(this).closest('tr');
+            //var stateSelect = $('.SupplierId');
+
+
+            if (selectedValue.length > 0) {
+
+            }
+            else {
+                //stateSelect.empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/BuyerOrder/GetOrderMasterInfo",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {                    
+                    $('#BuyersName').val(data.BuyerName);
+                    $('#DeptName').val(data.DeptName);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+
+            CheckCommDataExists()
+                        
+        })
+    }
+
+
+    function CheckCommDataExists() {
+
+        var OrderId = $('#BuyerOrderMasId').val();
+        //alert('check');
+        $.ajax({
+            url: '/CommissionDist/CheckCommMaster/',
+            data: { buyerOrderId: OrderId },
+            dataType: 'json',
+            TYPE: 'POST',
+            success: function (data) {
+                //alert('data:' + data.flag);
+                if (data.flag == true) {
+                    if (data.exists == true) {
+                        if (confirm('Commission data exists. Do you want to load?') == true) {
+                            window.location = "/CommissionDist/Edit/" + data.id;
+                        }
+                    }
+                    else {
+                        
+                        LoadCommData();
+                    }
+                }
+                else {
+                    alert(data.message);
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+
+    function LoadCommData() {
+        //alert('Load CommData');
+        var OrderId = $('#BuyerOrderMasId').val();
+
+        $.ajax({
+            url: '/CommissionDist/GetCommData/',
+            data: { buyerOrderId: OrderId},
+            dataType: 'json',
+            TYPE: 'POST',
+            success: function (data) {
+                console.log(data);
+                if (data.length > 0) {
+                    $("#saveState").removeAttr("disabled");
+                }
+
+                for (var i = 0; i < data.length; i++) {
+                    // grandTotalRDLValue  TotalRdlValue
+                    // TotalFactValue
+                    // TotalCommValue
+                    //OverseasCommValue
+                    // OthersCommValue
+                    // CompCommValue
+                    var row = $('<tr><td><input type="hidden" name="OrderDetId" value="' + data[i].OrderDetId + '" />' + data[i].StyleNo + '</td>'
+                    + '<td>' + data[i].FactoryName + '</td>'
+                    + '<td>' + data[i].OrderQuantity + '</td>'
+                    + '<td>' + data[i].RdlOrderValue + '</td>'
+                    + '<td>' + data[i].FactOrderValue + '</td>'
+                    + '<td class="text-right"><input type="hidden" name="TotalRdlValue" class="TotalRdlValue" value="' + data[i].TotalRdlValue  + '" />' + data[i].TotalRdlValue + '</td>'
+                    + '<td class="text-right"><input type="hidden" name="TotalFactValue" value="' + data[i].TotalFactValue + '" class="TotalFactValue" />' + data[i].TotalFactValue + '</td>'
+                    + '<td class="text-right"><input type="hidden" name="TotalCommValue" value="' + data[i].TotalCommValue + '" class="TotalCommValue" />' + data[i].TotalCommValue + '</td>'
+                    + '<td>' + data[i].Margin + '</td>'
+                    + '<td>' + data[i].TotalComm + '</td>' 
+                    + '<td class="text-right"><input type="text" name="OverseasCommValue" class="OverseasCommValue form-control input-xs text-right" value="0" readonly="readonly" /></td>'
+                    + '<td class="text-right"><input type="text" name="OverseasCommPer" class="OverseasCommPer form-control input-xs text-right" value="' + data[i].OverseasCommPer + '" /></td>'
+
+                    + '<td class="text-right"><input type="text" name="OthersCommValue" class="OthersCommValue form-control input-xs text-right" value="0" readonly="readonly" /></td>'
+                    + '<td class="text-right"><input type="text" name="OthersCommPer" class="OthersCommPer form-control input-xs text-right" value="' + data[i].OthersCommPer + '" /></td>'
+
+                    + '<td class="text-right"><input type="text" name="CompCommValue" class="CompCommValue form-control input-xs text-right" value="0" readonly="readonly" /></td>'
+                    + '<td class="text-right"><input type="text" name="CompCommPer" class="CompCommPer form-control input-xs text-right" value="' + data[i].CompCommPer + '" readonly="readonly" /></td>'
+
+                    //+ '<td><div class="input-group input-group-xs"><span class="input-group-addon">$</span><input type="text" name="FactValue" value="" class="FactValue form-control input-xs text-right" /></div></td>'
+                    //+ '<td class="bg-green-300 text-right"><label class="totalValue text-bold text-right"></label></td>'
+                    //+ '<td class="bg-green-300 text-right"><label class="totalFactValue text-bold text-right"></label></td>'
+                    //+ '<td>' + data[i].ExFactoryDate + '</td>'
+                    //+ '<td class="bg-green-300 text-right"><label class="totalComm text-bold text-right"></label></td>'
+                    + '</tr>');
+
+                    $('#MainTable tbody').append(row);
+
+                }
+
+                PopulateTotalValue();
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    // grandTotalRDLValue  TotalRdlValue
+    // grandTotaFactValue TotalFactValue
+    // grandTotaCommValue TotalCommValue
+    // grandTotalOverseasValue OverseasCommValue
+    // grandTotalOthersValue OthersCommValue
+    // grandTotalDhakaValue CompCommValue
+
+
+    function PopulateTotalValue() {
+        //var grandTotQnty = 0;
+        //var grandTotVal = 0.0;
+        //var grandTotFactVal = 0.0;
+
+        var grandTotalRDLValue = 0.0;
+        var grandTotaFactValue = 0.0;
+        var grandTotaCommValue = 0.0;
+        var grandTotalOverseasValue = 0.0;
+        var grandTotalOthersValue = 0.0;
+        var grandTotalDhakaValue = 0.0;
+
+        var totRow = $('#MainTable tr').length - 1;
+
+         
+        
+        for (var i = 2; i < totRow; i++) {
+
+            // (OverCommPer*TotRDLVAlue)/100
+
+            var OverseasCommPer = $('#MainTable tr').eq(i).find(".OverseasCommPer").val();
+            var OthersCommPer = $('#MainTable tr').eq(i).find(".OthersCommPer").val();
+
+            var totCommPerVal = 100 - parseFloat(OverseasCommPer) - parseFloat(OthersCommPer);
+            //alert(totCommPerVal);
+            $('#MainTable tr').eq(i).find(".CompCommPer").val(numeral(totCommPerVal).format('0.00') + ' %');
+
+            var TotalRdlValue = $('#MainTable tr').eq(i).find(".TotalRdlValue").val();
+            var TotalFactValue = $('#MainTable tr').eq(i).find(".TotalFactValue").val();
+            var TotalCommValue = $('#MainTable tr').eq(i).find(".TotalCommValue").val();
+
+            //var OverseasCommValue = $('#MainTable tr').eq(i).find(".OverseasCommValue").val();
+
+            var OverseasCommValue = (parseFloat(OverseasCommPer) * parseFloat(TotalRdlValue)) / 100;
+            $('#MainTable tr').eq(i).find(".OverseasCommValue").val(OverseasCommValue);
+
+            //var OthersCommValue = $('#MainTable tr').eq(i).find(".OthersCommValue").val();
+            var OthersCommValue = (parseFloat(OthersCommPer) * parseFloat(TotalRdlValue)) / 100;
+            $('#MainTable tr').eq(i).find(".OthersCommValue").val(OthersCommValue);
+
+
+            //var CompCommValue = $('#MainTable tr').eq(i).find(".CompCommValue").val();
+            var CompCommValue = parseFloat(TotalCommValue) - OverseasCommValue - OthersCommValue;
+            $('#MainTable tr').eq(i).find(".CompCommValue").val(CompCommValue);
+
+            grandTotalRDLValue = grandTotalRDLValue + parseFloat(TotalRdlValue);
+            grandTotaFactValue = grandTotaFactValue + parseFloat(TotalFactValue);
+            grandTotaCommValue = grandTotaCommValue + parseFloat(TotalCommValue);
+            grandTotalOverseasValue = grandTotalOverseasValue + parseFloat(OverseasCommValue);
+            grandTotalOthersValue = grandTotalOthersValue + parseFloat(OthersCommValue);
+            grandTotalDhakaValue = grandTotalDhakaValue + parseFloat(CompCommValue);
+        }
+        
+        $('#MainTable tr').eq(totRow).find(".grandTotalRDLValue").text(numeral(grandTotalRDLValue).format('$ 0,0.00'));
+        $('#MainTable tr').eq(totRow).find(".grandTotaFactValue").text(numeral(grandTotaFactValue).format('$ 0,0.00'));
+        $('#MainTable tr').eq(totRow).find(".grandTotaCommValue").text(numeral(grandTotaCommValue).format('$ 0,0.00'));
+        $('#MainTable tr').eq(totRow).find(".grandTotalOverseasValue").text(numeral(grandTotalOverseasValue).format('$ 0,0.00'));
+        $('#MainTable tr').eq(totRow).find(".grandTotalOthersValue").text(numeral(grandTotalOthersValue).format('$ 0,0.00'));
+        $('#MainTable tr').eq(totRow).find(".grandTotalDhakaValue").text(numeral(grandTotalDhakaValue).format('$ 0,0.00'));
+
+    }
+
+    $('#saveState').click(function () {
+
+        if ($('#BuyerOrderMasId option:selected').text() == "") {
+            alert('Please select RDL Ref');
+            //$('#BuyerInfoId').focus();
+            $('#BuyerOrderMasId').select2('open');
+        }        
+        else if (CheckOrderGridData() == false) {
+
+        }
+        else {
+            SaveCommData();
+        }
+
+    });
+
+    function CheckOrderGridData() {
+        // ProdCatId ProdTypeId styleNo unitPrice itemQnty factoryId
+
+        //var totRow = $('#OrderTable tr').length - 1;
+        //for (var i = 1; i < totRow; i++) {
+        //    if ($('#OrderTable tr').eq(i).find(".ProdCatId").val() == "")
+        //    {
+        //        alert('Product category required');
+        //        return false;
+        //    };
+        //}
+        return true;
+    }
+
+
+    function SaveCommData() {
+
+        $("#saveState").attr("disabled", "disabled");
+
+        //Id, BuyerOrderMasId, SalesContractNo, SalesContractDate, SupplierId
+        //var SalesContractNo = $.trim($('#SalesContractNo').val());
+        //var SalesContractDate = $('#SalesContractDate').val();
+        //var SupplierId = $('#SupplierId').val();
+        var BuyerOrderMasId = $('#BuyerOrderMasId').val();
+
+        //FactoryOrderDetId, OverseasCommPer, OverseasCommValue, OthersCommPer, OthersCommValue, CompCommValue
+        var FactoryOrderDetId = document.getElementsByName("OrderDetId");
+        var OverseasCommPer = document.getElementsByName("OverseasCommPer");
+        var OverseasCommValue = document.getElementsByName("OverseasCommValue");
+        var OthersCommPer = document.getElementsByName("OthersCommPer");
+        var OthersCommValue = document.getElementsByName("OthersCommValue");
+        var CompCommValue = document.getElementsByName("CompCommValue");
+
+        //return;
+        var OItems = [];
+
+        for (var i = 0; i < FactoryOrderDetId.length; i++) {
+            OItems.push({
+                Id: 0, FactoryOrderDetId: FactoryOrderDetId[i].value, OverseasCommPer: OverseasCommPer[i].value,
+                OverseasCommValue: OverseasCommValue[i].value, OthersCommPer: OthersCommPer[i].value,
+                OthersCommValue: OthersCommValue[i].value, CompCommValue: CompCommValue[i].value,
+            });
+        }
+        //console.log(OItems);
+        CommDetails = JSON.stringify({ CommDetails: OItems, BuyerOrderMasId: BuyerOrderMasId});
+        //OrderDetails = JSON.stringify({ OrderDetails: OItems});
+        //alert(CommDetails);
+        //return;
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: '/CommissionDist/SaveComm',
+            data: CommDetails,
+            success: function (result) {
+                console.log(result);
+                //$("#saveState").removeAttr("disabled");
+                if (result.flag == true) {
+                    //alert("Record save successfully!");
+                    window.location = "/CommissionDist/Edit/" + result.Id;
+                }
+                else {
+                    alert(result.message);
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+                $("#saveState").removeAttr("disabled");
+            }
+        });
+
+    }
+
+
+
+
+
+</script>
+
+}

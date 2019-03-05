@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSBuyerReportDetail" targetNamespace="http://tempuri.org/DSBuyerReportDetail.xsd" xmlns:mstns="http://tempuri.org/DSBuyerReportDetail.xsd" xmlns="http://tempuri.org/DSBuyerReportDetail.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSBuyerReportDetail" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DSBuyerReportDetail" msprop:Generator_UserDSName="DSBuyerReportDetail">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DS" msprop:Generator_TableClassName="DSDataTable" msprop:Generator_TableVarName="tableDS" msprop:Generator_TablePropName="DS" msprop:Generator_RowDeletingName="DSRowDeleting" msprop:Generator_RowChangingName="DSRowChanging" msprop:Generator_RowEvHandlerName="DSRowChangeEventHandler" msprop:Generator_RowDeletedName="DSRowDeleted" msprop:Generator_UserTableName="DS" msprop:Generator_RowChangedName="DSRowChanged" msprop:Generator_RowEvArgName="DSRowChangeEvent" msprop:Generator_RowClassName="DSRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BuyerId_x0020_" msprop:Generator_ColumnVarNameInTable="columnBuyerId_" msprop:Generator_ColumnPropNameInRow="BuyerId_" msprop:Generator_ColumnPropNameInTable="BuyerId_Column" msprop:Generator_UserColumnName="BuyerId " type="xs:int" minOccurs="0" />
+              <xs:element name="BuyerName_x0020_" msprop:Generator_ColumnVarNameInTable="columnBuyerName_" msprop:Generator_ColumnPropNameInRow="BuyerName_" msprop:Generator_ColumnPropNameInTable="BuyerName_Column" msprop:Generator_UserColumnName="BuyerName " type="xs:string" minOccurs="0" />
+              <xs:element name="BuyerMasId" msprop:Generator_ColumnVarNameInTable="columnBuyerMasId" msprop:Generator_ColumnPropNameInRow="BuyerMasId" msprop:Generator_ColumnPropNameInTable="BuyerMasIdColumn" msprop:Generator_UserColumnName="BuyerMasId" type="xs:int" minOccurs="0" />
+              <xs:element name="RDLNo" msprop:Generator_ColumnVarNameInTable="columnRDLNo" msprop:Generator_ColumnPropNameInRow="RDLNo" msprop:Generator_ColumnPropNameInTable="RDLNoColumn" msprop:Generator_UserColumnName="RDLNo" type="xs:string" minOccurs="0" />
+              <xs:element name="DeptId" msprop:Generator_ColumnVarNameInTable="columnDeptId" msprop:Generator_ColumnPropNameInRow="DeptId" msprop:Generator_ColumnPropNameInTable="DeptIdColumn" msprop:Generator_UserColumnName="DeptId" type="xs:int" minOccurs="0" />
+              <xs:element name="SeasonId" msprop:Generator_ColumnVarNameInTable="columnSeasonId" msprop:Generator_ColumnPropNameInRow="SeasonId" msprop:Generator_ColumnPropNameInTable="SeasonIdColumn" msprop:Generator_UserColumnName="SeasonId" type="xs:int" minOccurs="0" />
+              <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

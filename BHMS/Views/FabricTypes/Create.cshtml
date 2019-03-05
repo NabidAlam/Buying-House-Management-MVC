@@ -1,0 +1,103 @@
+﻿@model BHMS.Models.FabricType
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Fabric Type</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.ProdCategory.BuyerInfoId, "Buyer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                        @Html.ValidationMessageFor(model => model.ProdCategory.BuyerInfoId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.ProdCategoryId, "Product Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ProdCategoryId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                        @Html.ValidationMessageFor(model => model.ProdCategoryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+        
+
+            
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".select2").select2();
+        });
+
+        $('#BuyerInfoId').change(function () {
+            var selectedValue = $("#BuyerInfoId option:selected").val();
+
+            $("#ProdCategoryId option:selected").prop("selected", false);
+            if (selectedValue.length == 0) {
+                $('#ProdCategoryId').empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/ProdCategory/GetProductTypeNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ProdCategoryId').empty();
+                    $('#ProdCategoryId').append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        $('#ProdCategoryId').append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        });
+
+    </script>
+
+
+}

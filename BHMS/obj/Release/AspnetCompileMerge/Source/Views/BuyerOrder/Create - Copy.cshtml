@@ -1,0 +1,506 @@
+﻿@model BHMS.Models.BuyerOrderMa
+
+@{
+    ViewBag.Title = "Buyer Order Information";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Buyer Order Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.OrderRefNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderRefNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.OrderRefNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerInfoId,  htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerInfoId", null,"", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.SeasonInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("SeasonInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.SeasonInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.ProdDepartmentId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("ProdDepartmentId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.ProdDepartmentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.FabSupplierId,  htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("FabSupplierId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.FabSupplierId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.IsAuth, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.IsAuth)
+                                @Html.ValidationMessageFor(model => model.IsAuth, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OpBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OpBy, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.OpBy, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OpOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OpOn, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.OpOn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AuthBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.AuthBy, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AuthBy, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AuthOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.AuthOn, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AuthOn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsLocked, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.IsLocked)
+                                @Html.ValidationMessageFor(model => model.IsLocked, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>*@
+
+                
+            </div>
+        }
+
+            
+        
+        </div> <!-- panel body -->
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+            <thead>
+                <tr class="bg-primary-400">
+                    <th style="min-width:180px;">Product Category</th>
+                    <th style="min-width:180px;">Product Type</th>
+                    <th style="min-width:180px;">Style</th>
+                    <th>Picture</th>
+                    <th style="min-width:120px;">Size Range</th>
+                    <th style="min-width:200px;">Fabric Description</th>
+                    <th style="min-width:180px;">Color</th>
+                    <th style="min-width:120px;">Unit Price Per Pc</th>
+                    <th style="min-width:100px;">Order Qnty (pcs)</th>
+                    <th style="min-width:120px;">Total Value</th>
+                    <th style="min-width:200px;">Factory name</th>
+                    <th style="min-width:200px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @*<tr>
+                    <td><select name="ProdTypeId" class="ProdTypeId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><select name="ProdCatId" class="ProdCatId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><input type="text" name="styleNo" class="styleNo form-control input-xs" /></td>
+                    <td></td>
+                    <td><select name="SizeRangeId" class="form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><select name="FabricId" class="FabricId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><select name="ColorId" class="ColorId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><input type="text" name="unitPrice" class="unitPrice form-control input-xs" /></td>
+                    <td><input type="text" name="itemQnty" class="itemQnty form-control input-xs" /></td>
+                    <td class="bg-green-300"><label class="totalValue text-bold"></label></td>
+                    <td><select name="factoryId" class="factoryId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><button onclick="RemoveTask(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button>  <button type="button" onclick="AddNewRowAfter(this);" class="btn text-success-600 btn-flat btn-icon btn-rounded "><i class="icon-plus-circle2"></i></button></td>
+                </tr>*@
+                <tr>
+                    <td><button type="button" class="btn btn-primary btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>
+                    <td colspan="7" class="text-right"><label class="text-bold">Total:</label></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotalQnty text-right"></label></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotaValue text-right"></label></td>
+                    <td colspan="2"></td>
+                </tr>                
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel-footer">
+    <div class="form-group">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+        </div>
+    </div>
+
+    </div>
+    
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Scripts {
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {        
+        $(".select2").select2();
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+        // jquery validator bug fix using moment
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+        }
+
+        ////unitPrice itemQnty totalValue
+        $('#OrderTable').on('change', '.unitPrice, .itemQnty', function () {
+
+            if ($.isNumeric($(this).val()) == false) {
+                $(this).val('');
+                bootbox.alert('Only numeric allowed');
+                //return;
+            }
+
+            PopulateTotalValue();
+
+            //var unitValue = $(this).val();
+
+            //if ($.isNumeric(unitValue) == false) {
+            //    $(this).val('');
+            //    alert('Only numeric allowed');
+            //    return;
+            //}
+
+            //var row = $(this).closest('tr');                       
+
+            //var qntyValue = row.find('.itemQnty').val();
+
+            //if ($.isNumeric(qntyValue) == false) {                
+            //    return;
+            //}
+
+            //var totalValue = parseFloat(unitValue) * parseInt(qntyValue);
+
+            //var strTotalValue = numeral(totalValue).format('$0,0.00');
+
+            //row.find('.totalValue').text(strTotalValue);
+            
+        })
+
+
+        //$('#OrderTable').on('change', '.itemQnty', function () {
+
+        //    if ($.isNumeric($(this).val()) == false) {
+        //        $(this).val('');
+        //        alert('Only numeric allowed');
+        //        //return;
+        //    }
+
+        //    PopulateTotalValue();           
+
+        //})
+
+        AddNewRow();
+    });
+
+    $('#btnAddRow').click(function () {
+        AddNewRow();
+    });
+
+    function AddNewRow() {        
+        var newRow = jQuery('<tr><td><select name="ProdCatId" class="ProdCatId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><select name="ProdTypeId" class="ProdTypeId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><input type="text" name="styleNo" class="styleNo form-control input-xs" /></td>'
+                    + '<td></td>'
+                    + '<td><select name="SizeRangeId" class="SizeRangeId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><select name="FabricId" class="FabricId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><select name="ColorId" class="ColorId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><div class="input-group"><span class="input-group-addon">$</span><input type="text" name="unitPrice" class="unitPrice form-control input-xs text-right" /></div></td>'
+                    + '<td><input type="text" name="itemQnty" class="itemQnty form-control input-xs text-right" /></td>'
+                    + '<td class="bg-green-300 text-right"><label class="totalValue text-bold text-right"></label></td>'
+                    + '<td><select name="factoryId" class="factoryId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+        
+        jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+        
+        $(".select2").select2();
+
+        $.ajax({
+            type: "post",
+            url: "/ProdCategory/GetNames",            
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';                
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                BindProductCategory();
+            }
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/FabricItem/GetNames",            
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';                
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.FabricId").html(selOptions);                                
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                bootbox.alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/ProdColors/GetNames",            
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';                
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.ColorId").html(selOptions);
+            }
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/Supplier/GetNames",            
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';                
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.factoryId").html(selOptions);                
+            }
+        });
+
+        
+    }
+
+    function BindProductCategory()
+    {
+        $('#OrderTable').on('change', '.ProdCatId', function() {
+            var selectedValue = $(this).val();
+            var row = $(this).closest('tr');
+            var stateSelect = row.find('.ProdTypeId');            
+            
+            if (selectedValue.length > 0) {
+                if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length){                    
+                    AddNewRow();                    
+                }
+            }
+            else
+            {
+                stateSelect.empty();
+                return;
+            }            
+            
+            $.ajax({
+                type: "post",
+                url: "/ProdCatType/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function(data) {
+                    stateSelect.empty();                    
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {                                                
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    BindProductType();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        })        
+    }
+
+    function BindProductType() {        
+        $('#OrderTable').on('change', '.ProdTypeId', function () {            
+            var selectedValue = $(this).val();
+            var row = $(this).closest('tr');
+            var stateSelect = row.find('.SizeRangeId');
+            if (selectedValue.length > 0) {               
+            }
+            else {
+                stateSelect.empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/ProdSize/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {                    
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {                        
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+
+            });
+        })
+
+    }
+    
+    function PopulateTotalValue()
+    {
+        //alert($('#OrderTable tr').length);
+        var grandTotQnty = 0;
+        var grandTotVal = 0.0;
+
+        var unitPrice = 0.0;
+        var qntyVal = 0;
+
+
+        var totRow = $('#OrderTable tr').length - 1;
+        for (var i = 1; i < totRow; i++)
+        {
+            unitPrice = 0.0;
+            qntyVal = 0;
+
+            var strUnitPrice = $('#OrderTable tr').eq(i).find(".unitPrice").val();
+            var strQntyVal = $('#OrderTable tr').eq(i).find(".itemQnty").val();
+           
+            if ($.isNumeric(strUnitPrice) && $.isNumeric(strQntyVal))
+            {
+                var totVal = parseFloat(strUnitPrice) * parseInt(strQntyVal);
+                $('#OrderTable tr').eq(i).find(".totalValue").text(numeral(totVal).format('$ 0,0.00'));
+                grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+                grandTotVal = grandTotVal + totVal
+            }
+            else
+            {
+                $('#OrderTable tr').eq(i).find(".totalValue").text(numeral(0).format('$ 0,0.00'));
+            }
+
+        }
+
+        $('#OrderTable tr').eq(totRow).find(".grandTotalQnty").text(numeral(grandTotQnty).format('0,0'));
+        $('#OrderTable tr').eq(totRow).find(".grandTotaValue").text(numeral(grandTotVal).format('$ 0,0.00'));
+    }
+        
+    function RemoveOrderRow(e) {
+        
+        //currRowIndex = $(e).closest('tr').index() + 1; //modified
+
+        //alert (currRowIndex);
+        //alert($('#OrderTable tr').length)
+        if ($('#OrderTable tr').length == 3) {
+            //alert('You cannot delete this row. \nOrder requires atleast one record.')
+            bootbox.alert('You cannot delete this row.<br />Order requires atleast one record.');
+            return;
+        }
+        
+        $(e).parent().parent().remove();
+               
+        PopulateTotalValue();
+        
+    }
+
+
+</script>
+
+
+
+
+}

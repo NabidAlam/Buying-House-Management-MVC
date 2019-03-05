@@ -1,0 +1,134 @@
+﻿
+
+<div class="sidebar-category sidebar-category-visible">
+    <div class="category-content no-padding">
+        <ul class="navigation navigation-main navigation-accordion">
+            <!-- Main -->
+            @*<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>*@
+            @*<li><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>*@
+
+            @*@{
+                AOP.MultiMenu.menu menuEntities = new AOP.MultiMenu.menu();
+                System.Data.DataTable category = menuEntities.get_category().Tables[0];
+            }
+
+
+            @foreach (System.Data.DataRow dr in category.Rows)
+            {
+                <li>
+                    <a href="#"><i class=@dr["Icon"]></i> <span>@dr["Name"]</span></a>
+                    @{
+                        //((AOP.Controllers.MenuController)this.ViewContext.Controller).get_Submenu(Convert.ToInt32(dr["Id"]));
+
+                        System.Data.DataTable ds = menuEntities.get_Subcategory(Convert.ToInt32(dr["Id"])).Tables[0];
+                        List<AOP.Models.tbl_MenuSCat> submenulist = new List<AOP.Models.tbl_MenuSCat>();
+                        foreach (System.Data.DataRow drow in ds.Rows)
+                        {
+                            submenulist.Add(new AOP.Models.tbl_MenuSCat
+                            {
+                                Id = Convert.ToInt32(drow["Id"]),
+                                Name = drow["Name"].ToString(),
+                                Url = drow["Url"].ToString()
+                            });
+                        }
+                        //Session["submenu"] = submenulist;
+
+                    }
+                    <ul>
+                        @foreach (AOP.Models.tbl_MenuSCat subitem in submenulist)
+                        {
+                            var x = subitem.Url.Split('/');
+                            if (x.Length > 1)
+                            {
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == x[0].ToString() ? "active" : "")"><a href="@Url.Content("~/" + subitem.Url)">@subitem.Name</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@Url.Content("~/" + subitem.Url)">@subitem.Name</a></li>
+                            }
+                        }
+
+                    </ul>
+                </li>
+                        }*@
+
+            @*<li>
+                <a href="#"><i class="icon-lock"></i> <span>Logout</span></a>
+            </li>*@
+
+
+            <li>
+                <a href="#"><i class="icon-stack2"></i> <span>Information</span></a>
+                <ul>                    
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="BuyerOrder" ? "active" : "")">
+                        <a href="#">Buyers Order</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "BuyerOrder")</li>
+                            <li>@Html.ActionLink("Order List", "Index", "BuyerOrder")</li>                            
+                        </ul>
+                    </li>                    
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="FactoryOrder" ? "active" : "")">
+                        <a href="#">Factory Order</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "FactoryOrder")</li>
+                            <li>@Html.ActionLink("Order List", "Index", "FactoryOrder")</li>
+                        </ul>
+                    </li>                    
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="CommissionDist" ? "active" : "")">
+                        <a href="#">Commission Distribution</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "CommissionDist")</li>
+                            <li>@Html.ActionLink("Distribution List", "Index", "CommissionDist")</li>
+                        </ul>
+                    </li>
+                    @*<li>@Html.ActionLink("Product Category", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Product Size", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Fabric Item", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Season", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Color", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Company Resources", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Buyer", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Buyers Department", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Commission Template", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Supplier", "Datatables", "Demo")</li>
+                    <li>@Html.ActionLink("Destination Port", "Datatables", "Demo")</li>*@
+                </ul>
+            </li>
+
+
+
+
+
+
+            <li>
+                <a href="#"><i class="icon-file-empty"></i> <span>Paremeters</span></a>
+                <ul>
+                    <li>@Html.ActionLink("Company", "Index", "Company")</li>
+                    <li>@Html.ActionLink("Middle Party", "Index", "MiddleParty")</li>
+                    <li>@Html.ActionLink("Bank Branch", "Index", "BankBranch")</li>
+                    <li class="navigation-divider"></li>
+                    <li>@Html.ActionLink("Buyer", "Index", "BuyerInfo")</li>
+                    <li>@Html.ActionLink("Buyers Department", "Index", "ProdDepartment")</li>
+                    <li class="navigation-divider"></li>
+                    <li>@Html.ActionLink("Commission Template", "Index", "CommissionTemplate")</li>
+                    <li class="navigation-divider"></li>
+                    <li>@Html.ActionLink("Product Category", "Index", "ProdCategory")</li>
+                    <li>@Html.ActionLink("Product Category Type", "Index", "ProdCatType")</li>
+                    <li>@Html.ActionLink("Product Size", "Index", "ProdSize")</li>
+                    <li class="navigation-divider"></li>
+                    <li>@Html.ActionLink("Fabric Item", "Index", "FabricItem")</li>
+                    <li>@Html.ActionLink("Season", "Index", "SeasonInfo")</li>
+                    <li>@Html.ActionLink("Color", "Index", "ProdColors")</li>
+                    <li>@Html.ActionLink("Company Resources", "Index", "CompanyResource")</li>
+                    <li class="navigation-divider"></li>                    
+                    <li>@Html.ActionLink("Supplier", "Index", "Supplier")</li>
+                    <li>@Html.ActionLink("Destination Port", "Index", "DestinationPort")</li>
+                    <li class="navigation-divider"></li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+

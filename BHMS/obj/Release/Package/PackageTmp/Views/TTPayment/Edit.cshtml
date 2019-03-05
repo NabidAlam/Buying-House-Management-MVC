@@ -1,0 +1,387 @@
+﻿@model BHMS.Models.TTPayment
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">TT Payment</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Proceed Type</label>
+                            <div class="col-md-8">
+                                @Html.Hidden("ProceedRealizationDetId")
+                                @Html.TextBox("ProceedTypeId", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Proceed Date</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("ProceedDate", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">TT No.</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("FDBCNO", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Proceed Amount</label>
+                            <div class="col-md-8">
+                                @Html.TextBox("ProceedValue", null, new { @class = "form-control", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="row">
+
+                    @*<div class="col-md-6">
+                            <div class="form-group form-group-xs">
+                                <label class="control-label col-md-4">Buyer Ref No.</label>
+                                <div class="col-md-8">
+                                    @Html.TextBox("BuyerRefNo", null, new { @class = "form-control", disabled = "true" })
+
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Buyer Ref No.</label>
+                            <div class="col-md-8">
+
+                                @Html.DropDownList("BuyerRefNo", null, "", htmlAttributes: new { @id = "BuyerRefNo", @class = "form-control select2" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="panel panel-primary panel-bordered" id="DV_Order_Deliv" style="display:none;">
+                    <div class="panel-body">
+
+                        @*<div class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseDelivery"><i class="icon-close2 position-left"></i> Close Delivery Detail</button>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-xxs DelivTableBuyer" id="DelivTableBuyer">
+                                <thead>
+                                    <tr class="bg-brown-400">
+                                        <th>RDL Invoice No.</th>
+                                        <th style="min-width:100px;"></th>
+                                        <th>RDL Invoice Value</th>
+                                        <th style="min-width:100px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    @*<div class="col-md-6">
+                            <div class="form-group form-group-xs">
+                                @Html.LabelFor(model => model.DocSubmissionDetId, "Factory FDBC NO.", htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownList("DocSubmissionFactDetId", null, "--Select--", htmlAttributes: new { @id = "DocSubmissionFactDetId", @class = "form-control select2" })
+                                    @Html.ValidationMessage("DocSubmissionFactDetId", "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.SupplierId, "Factory Name", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("SupplierId", null, "", htmlAttributes: new { @id = "SupplierId", @class = "form-control select2" })
+                                @Html.ValidationMessage("SupplierId", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-primary panel-bordered" id="DV_Factory_Deliv" style="display:none;">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-xxs DelivTableFactory" id="DelivTableFactory">
+                                <thead>
+                                    <tr class="bg-brown-400">
+                                        <th>Factory Invoice No.</th>
+                                        <th style="min-width:100px;"></th>
+                                        <th>Factory Invoice Value</th>
+                                        <th style="min-width:100px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.FDDNo, "FDD (TT) NO.", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.FDDNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FDDNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @* @Html.LabelFor(model => model.FDDDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            @Html.LabelFor(model => model.FDDNo, "FDD (TT) Date", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.FDDDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.FDDDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.FDDAmount, "FDD (TT) Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.FDDAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FDDAmount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-success" />
+                        @Html.ActionLink("Back to List", "PendingFDD", "FDDPayment", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+
+</div>
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        //-- global var---
+        var currSelDelivRow = 0; //
+        var cnOrderTempId = 0; //
+        var currSelOrderTempId = 0; //
+        //var currSelOrderId = 0;
+        //--------------
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+        $(document).ready(function () {
+            //$('body').addClass("sidebar-xs");
+            $(".select2").select2();
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+            //$('#DV_Order_Deliv').show();
+            //$('#DV_Factory_Deliv').show();
+
+        });
+
+
+        $('#BuyerRefNo').change(function () {
+            var id = $('#BuyerRefNo option:selected').val();
+            if ($('#BuyerRefNo option:selected').val() == "") {
+                $('#SupplierId').empty();
+
+                var sites = "<select id='sites'>";
+                sites = sites + '<option value=""></option>';
+                sites = sites + '</select>';
+
+                $('#SupplierId').html(sites);
+
+                $('#DV_Order_Deliv').hide();
+            }
+            else {
+                //alert('BuyerRefId->' + id);
+                //$('#DV_Order_Deliv').show();
+                $.ajax({
+                    url: "/TTPayment/GetSupplier",
+                    type: "post",
+                    data: { BuyerRefNo: id },
+                    dataType: "json",
+                    success: function (data) {
+                        var listOfSuppliers = data.Suppliers.length;
+                        var sites = "<select id='suppliers'>";
+                        sites = sites + '<option value=""></option>';
+                        for (var i = 0; i < listOfSuppliers; i++) {
+                            sites = sites + '<option value=' + data.Suppliers[i].Value + '>' + data.Suppliers[i].Text + '</option>';
+                        }
+                        sites = sites + '</select>';
+                        $('#SupplierId').html(sites);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+
+
+                //$.ajax({
+                //    url: "/TTPayment/GetRDLInvoice",
+                //    type: "post",
+                //    data: { BuyerRefNo: id },
+                //    dataType: "json",
+                //    success: function (data) {
+                //        var listOfSuppliers = data.Suppliers.length;
+                //        var sites = "<select id='suppliers'>";
+                //        sites = sites + '<option value=""></option>';
+                //        for (var i = 0; i < listOfSuppliers; i++) {
+                //            sites = sites + '<option value=' + data.Suppliers[i].Value + '>' + data.Suppliers[i].Text + '</option>';
+                //        }
+                //        sites = sites + '</select>';
+                //        $('#SupplierId').html(sites);
+                //    },
+                //    error: function (xhr) {
+                //        alert('error');
+                //    }
+                //});
+            }
+
+        });
+
+
+
+        $('#SupplierId').change(function () {
+            var id = $('#SupplierId option:selected').val();
+            var realisationDetId = $('#ProceedRealizationDetId').val();
+            if ($('#SupplierId option:selected').val() == "") {
+
+                $('table.DelivTableFactory tbody').empty();
+                $('#DV_Factory_Deliv').hide();
+
+            }
+            else {
+                alert('realisationDetId->' + realisationDetId);
+                $.ajax({
+                    url: "/TTPayment/GetFactoryInvoice",
+                    type: "post",
+                    data: {
+                        SupplierId: id, realizatiomDetId : realisationDetId
+                    },
+                    dataType: "json",
+                    success: function (data) {
+
+                        $('#DV_Factory_Deliv').show();
+                        $('table.DelivTableFactory tbody').empty();
+
+                        for (var i = 0; i < data.length; i++) {
+                            var row = $('<tr>'
+
+                                + '<td></td>'
+                                + '<td>' + data[i].FactoryInvoiceNo + '</td>'
+                                + '<td></td>'
+                                + '<td>' + data[i].FactoryInvoiceValue + '</td>'
+                                + '</tr>');
+                            $('table.DelivTableFactory tbody').append(row);
+                        }
+
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            }
+
+        });
+
+
+
+        //$('#saveState').click(function () {
+        //    if ($.trim($('#BuyerRefNo option:selected').val()) === "") {
+        //        alert('Buyer Ref No. required');
+        //        $('#BuyerRefNo').focus();
+        //    }
+        //    else if ($.trim($('#SupplierId option:selected').val()) === "") {
+        //        alert('Factory required');
+        //        $('#SupplierId').focus();
+        //    }
+        //    else if ($('#FDDAmount').text() == "") {
+        //        alert('FDD(TT) amount required');
+        //        $('#FDDAmount').select2('open');
+        //    }
+        //    else {
+        //        SaveTTData();
+        //    }
+
+        //});
+
+
+
+    </script>
+}

@@ -1,0 +1,247 @@
+﻿@model BHMS.Models.ProdColor
+
+@{
+    ViewBag.Title = "Color";
+    ViewBag.SubTitle = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Color Information</h5>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="form-group form-group-xs">
+                    @Html.Label("Buyer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                    </div>
+                </div>
+                <div class="form-group form-group-xs">
+                    @Html.Label("Brand", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("BrandId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                    </div>
+                </div>
+                <div class="form-group form-group-xs">
+                    @Html.Label("Department", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ProdDepartmentId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                    </div>
+                </div>
+
+                <div class="form-group form-group-xs">
+                    @Html.Label("Season", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("SeasonInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                    </div>
+                </div>
+                <div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.IsAuth, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.IsAuth)
+                            @Html.ValidationMessageFor(model => model.IsAuth, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OpBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OpBy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.OpBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OpOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OpOn, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                        @Html.ValidationMessageFor(model => model.OpOn, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AuthBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AuthBy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AuthBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AuthOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AuthOn, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                        @Html.ValidationMessageFor(model => model.AuthOn, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".select2").select2();
+    });
+
+    $('#BuyerInfoId').change(function () {
+        var selectedValue = $("#BuyerInfoId option:selected").val();
+
+        $("#ProdDepartmentId option:selected").prop("selected", false);
+        if (selectedValue.length == 0) {
+            $('#BrandId').empty();
+            $('#ProdDepartmentId').empty();
+            return;
+        }
+
+        $('#ProdDepartmentId').empty();
+        $('#SeasonInfoId').empty();
+
+        var brandSelect = $('#BrandId');
+
+        $.ajax({
+            type: "post",
+            url: "/Brand/GetNames",
+            data: { Id: selectedValue },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                brandSelect.empty();
+                brandSelect.append('<option value=""></option>');
+                $.each(data, function (index, item) {
+                    brandSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                })
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/ProdDepartment/GetNames",
+        //    data: { Id: selectedValue },
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+
+        //        $('#ProdDepartmentId').append('<option value=""></option>');
+        //        $.each(data, function (index, item) {
+        //            $('#ProdDepartmentId').append($('<option></option>').val(item.Id).text(item.Name));
+        //        })
+        //    },
+        //    error: function (jqXHR, textStatus, errorThrown) {
+        //        alert('Error: ' + textStatus + ' - ' + errorThrown);
+        //    }
+        //});
+
+        $.ajax({
+            type: "post",
+            url: "/SeasonInfo/GetNames",
+            data: { Id: selectedValue },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                //$('#SeasonInfoId').empty();
+                $('#SeasonInfoId').append('<option value=""></option>');
+                $.each(data, function (index, item) {
+                    $('#SeasonInfoId').append($('<option></option>').val(item.Id).text(item.Name));
+                })
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    });
+
+    
+    $('#BrandId').change(function () {
+        var selectedValue = $(this).val();
+        var stateSelect = $('#ProdDepartmentId');
+
+        if (selectedValue.length > 0) {
+            $.ajax({
+                type: "post",
+                url: "/ProdDepartment/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        }
+        else {
+            stateSelect.empty();
+            return;
+        }
+
+    });
+    //$('#ProdDepartmentId').change(function () {
+    //    var selectedValue = $("#ProdDepartmentId option:selected").val();
+
+    //    $("#SeasonInfoId option:selected").prop("selected", false);
+    //    if (selectedValue.length == 0) {
+    //        $('#SeasonInfoId').empty();
+    //        return;
+    //    }
+
+    //    $.ajax({
+    //        type: "post",
+    //        url: "/SeasonInfo/GetNames",
+    //        data: { Id: selectedValue },
+    //        datatype: "json",
+    //        traditional: true,
+    //        success: function (data) {
+    //            $('#SeasonInfoId').empty();
+    //            $('#SeasonInfoId').append('<option value=""></option>');
+    //            $.each(data, function (index, item) {
+    //                $('#SeasonInfoId').append($('<option></option>').val(item.Id).text(item.Name));
+    //            })
+    //        },
+    //        error: function (jqXHR, textStatus, errorThrown) {
+    //            alert('Error: ' + textStatus + ' - ' + errorThrown);
+    //        }
+    //    });
+    //});
+
+
+</script>
+}

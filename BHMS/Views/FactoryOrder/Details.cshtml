@@ -1,0 +1,98 @@
+﻿@model BHMS.Models.FactoryOrderMas
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>FactoryOrderMas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyerOrderMas.OrderRefNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyerOrderMas.OrderRefNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Supplier.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Supplier.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SalesContractNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalesContractNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SalesContractDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalesContractDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAuth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAuth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsLocked)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsLocked)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

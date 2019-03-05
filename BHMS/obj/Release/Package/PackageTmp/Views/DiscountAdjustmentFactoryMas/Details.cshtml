@@ -1,0 +1,98 @@
+﻿@model BHMS.Models.DiscountAdjustmentFactoryMas
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DiscountAdjustmentFactoryMas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyerInfo.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyerInfo.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyerOrderMasIdAdj.OrderRefNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyerOrderMasIdAdj.OrderRefNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyerOrderMasIdPrev.OrderRefNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyerOrderMasIdPrev.OrderRefNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Supplier.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Supplier.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateAdj)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateAdj)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAuth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAuth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthOn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

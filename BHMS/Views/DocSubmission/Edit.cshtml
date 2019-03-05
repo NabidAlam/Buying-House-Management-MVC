@@ -1,0 +1,1660 @@
+﻿@model BHMS.Models.DocSubmissionMas
+@using BHMS.Helpers
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Document Submission Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.PaymentTypeId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @*@Html.EditorFor(model => model.PaymentTypeId, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.DropDownList("PaymentTypeId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.PaymentTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.SubmissionDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextBox("SubmissionDate", NullHelpers.DateToString(Model.SubmissionDate),  new { @class = "form-control datepicker"  })
+                                @*@Html.EditorFor(model => NullHelpers.DateToString(model.SubmissionDate), new { htmlAttributes = new { @class = "form-control datepicker" } })*@
+                                @Html.ValidationMessageFor(model => model.SubmissionDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.FDBCNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.FDBCNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FDBCValue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.FDBCValue, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @*<div class="input-group input-group-xs col-md-8">
+                                    <span class="input-group-addon col-lg-1">$</span>
+                                    @Html.EditorFor(model => model.FDBCValue, new { htmlAttributes = new { @class = "form-control input-xs text-right" } })*@
+                                @Html.EditorFor(model => model.FDBCValue, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FDBCValue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.FDBCDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextBox("FDBCDate", NullHelpers.DateToString(Model.FDBCDate), new { @class = "form-control datepicker" })
+                                @*@Html.EditorFor(model => model.FDBCDate, new { htmlAttributes = new { @class = "form-control datepicker" } })*@
+                                @Html.ValidationMessageFor(model => model.FDBCDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.MasterLCInfoMasId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @if (Model.PaymentTypeId == 0)
+                                {
+                                    @Html.DropDownList("MasterLCInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("MasterLCInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" , @disabled= "disabled" })
+                                }
+                                @*@Html.EditorFor(model => model.InvoiceCommMasId, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.ValidationMessageFor(model => model.MasterLCInfoMasId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.Label("LC/TT Date", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextBox("LCDate", null, new { @class = "form-control", @disabled = "disabled" })
+                                @*@Html.EditorFor(model => model.AWBNo, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @*@Html.ValidationMessageFor(model => model.AWBNo, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.Label("Bank Name", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @*@Html.EditorFor(model => model.AWBDate, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.TextBox("BankName", null, new { @class = "form-control", @disabled = "disabled" })
+                                @*@Html.ValidationMessageFor(model => model.AWBDate, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AWBNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.AWBNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AWBNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AWBDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextBox("AWBDate", NullHelpers.DateToString(Model.AWBDate), new { @class = "form-control datepicker" })
+                                @*@Html.EditorFor(model => model.AWBDate, new { htmlAttributes = new { @class = "form-control datepicker" } })*@
+                                @Html.ValidationMessageFor(model => model.AWBDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.CourierInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("CourierInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.CourierInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:150px;"><label id="Detail_RDLInvoice">RDL Commercial Invoice No.</label></th>
+                        <th style="min-width:150px;">Dated</th>
+                        <th style="min-width:100px;">Quantity (Pcs)</th>
+                        <th style="min-width:150px;">RDL Value($)</th>
+                        <th style="min-width:50px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-left">
+                            <button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button>
+                        </td>
+
+                        <td class="text-right" colspan="2">
+                            <label class="text-bold">Total:</label>
+                        </td>
+                        <td class="bg-green-300 position-right text-right"><label class="text-bold grandTotalQnty text-right"></label></td>
+                        <td class="text-right"></td>
+                        @*<td class="bg-green-300 text-right"><label class="text-bold grandTotaValue text-right"></label></td>*@
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+    </div> <!-- panel body -->
+</div>
+
+<!--Delivery-->
+
+<div class="panel panel-primary panel-bordered" id="DV_Order_Deliv" style="display:none;">
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-group-xs">
+                        <label class="control-label col-md-6">RDL Ref. No.</label>
+                        <div class="col-md-6">
+                            <input name="delivRef" id="delivRef" value="" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-group-xs">
+                        <label class="control-label col-md-6">Quantity</label>
+                        <div class="col-md-6">
+                            <input name="delivQnty" id="delivQnty" value="" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseDelivery" @*style="margin:10px 0 10px 10px"*@><i class="icon-close2 position-left"></i> Close Invoice Detail</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs DelivTable" id="DelivTable">
+                <thead>
+                    <tr class="bg-brown-400">
+                        @*<th>Delivery No</th>*@
+                        <th style="min-width:100px;">Factory Name</th>
+                        <th style="min-width:100px;">Factory Invoice No.</th>
+                        <th style="min-width:100px;">Factory FDBC No.</th>
+                        <th style="min-width:200px;">Quantity(pcs)</th>
+                        <th style="min-width:200px;">Factory Invoice Value($)</th>
+                        <th style="min-width:200px;"><label id="DelivDetValue"></label></th>
+                        @*<th style="min-width:200px;">Action</th>*@
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                @*<tfoot>
+                        <tr>
+                            <td colspan="5" class="text-right"><label class="text-bold">Total:</label></td>
+                            <td class="bg-green-300 text-right"><label class="text-bold grandTotalDelivQnty text-right"></label></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>*@
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Delivery End-->
+
+
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                @if (ViewBag.CheckProceedRealizationExists == true)
+                {
+                    <button type="button" class="btn btn-success" id="saveState" disabled="disabled">Save <i class="icon-arrow-right14 position-right"></i></button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-success" id="saveState">Save<i class="icon-arrow-right14 position-right"></i></button>
+                }
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        //-- global var---
+        var deletedItems = [];
+        var currSelDelivRow = 0; //
+        var cnOrderTempId = 0; //
+        var currSelOrderTempId = 0; //
+        //var currSelOrderId = 0;
+        //--------------
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+        $(document).ready(function () {
+            //$('body').addClass("sidebar-xs");
+            $(".select2").select2();
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+            //changes the table header
+            if ($('#PaymentTypeId option:selected').text() == "LC") {
+                $("#Detail_RDLInvoice").text("RDL Commercial Invoice No.");
+                $("#DelivDetValue").text("RDL Invoice Value($)");
+            }
+            else{
+                $("#Detail_RDLInvoice").text("RDL Ref No.");
+                $("#DelivDetValue").text("RDL FOB Value($)");
+            }
+
+            LoadDetailData(); //Loads previous Data
+        });
+
+
+        $('#PaymentTypeId').change(function () {
+
+            var selectedValue = $(this).val();
+            var stateSelect = $('#BuyerInfoId');
+
+            if ($('#PaymentTypeId option:selected').text() == "TT") {
+
+                var tabLen = $('#OrderTable tr').length;
+                if (tabLen > 2) {
+                    $('#OrderTable tbody').empty();
+                    $('#DelivTable tbody').empty();
+                    $('#DV_Order_Deliv').hide();
+                }
+
+                $('#LCDate').val('');
+                $('#BankName').val('');
+                $("#MasterLCInfoId").empty();
+                $("#MasterLCInfoId").attr("disabled", "disabled");
+                $("#Detail_RDLInvoice").text("RDL Ref No.");
+
+                if (selectedValue.length > 0) {
+
+                }
+                else {
+
+                    OrderStore = [];
+                    return;
+                }
+
+            }
+            else { //if the selected type is LC
+                $("#MasterLCInfoId").removeAttr("disabled");
+                $("#btnAddRow").attr("disabled", "disabled");
+                $("#Detail_RDLInvoice").text("RDL Commercial Invoice No.");
+
+                if (selectedValue.length > 0) {
+                }
+                else {
+
+                    OrderStore = [];
+                    return;
+                }
+
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/BuyerInfo/GetNamesByType",
+                data: { typeId: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+
+        })
+
+
+        $('#BuyerInfoId').change(function () {
+
+            //$("#saveState").attr("disabled", "disabled");
+            //$("#btnAddRow").attr("disabled", "disabled");
+            //$("#DV_Order_Detail").hide();
+
+            //var tabLen = $('#OrderTable tr').length;
+            //if (tabLen > 2) {
+            //    $('#OrderTable tbody').empty();
+            //    $('#OrderDetailTable tbody').empty();
+            //}
+
+            var selectedValue = $(this).val();
+            //var stateSelect = $('#BankName');
+            var stateLCSelect = $('#MasterLCInfoId');
+
+
+
+
+            if (selectedValue.length > 0) {
+
+                if ($('#PaymentTypeId option:selected').text() == "LC") {
+                    $.ajax({
+                        type: "post",
+                        url: "/MasterLC/GetNamesByBuyer",
+                        data: { Id: selectedValue },
+                        datatype: "json",
+                        traditional: true,
+                        success: function (data) {
+                            stateLCSelect.empty();
+                            stateLCSelect.append('<option value=""></option>');
+                            $.each(data, function (index, item) {
+                                stateLCSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                            })
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert('Error: ' + textStatus + ' - ' + errorThrown);
+                        }
+                    });
+                }
+                else {
+
+                    //if TT is selected
+
+                    //AddNewRow();
+
+                    $.ajax({
+                        type: "post",
+                        url: "/DocSubmission/GetReferenceNo",
+                        data: { Id: selectedValue },
+                        datatype: "json",
+                        traditional: true,
+                        success: function (data) {
+                            //stateBankSelect.val(data.BankName);
+                           // alert('RDlRefList Len->' + data.RDlRefList.length);
+                            AddNewRow();
+                            //alert(data.RDlInvoiceList.length);
+                            //$('.RDLInvoiceNo').empty();
+                            $('.RDLInvoiceNo').append('<option value=""></option>');
+                            $.each(data.RDlRefList, function (i, item) {
+                                //$.each(data, function (index, item) {
+                                //alert(item.Id + '->' + item.Name);
+                                var addItem = '<option value="' + item.Id + '"> ' + item.Name + ' </option>'
+                                $('.RDLInvoiceNo').append($('<option></option>').val(item.Id).text(item.Name));
+                                $('.RDLInvoiceNo').append(addItem);
+                                //alert(addItem);
+                            })
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert('Error: ' + textStatus + ' - ' + errorThrown);
+                        }
+                    });
+
+                    $("#btnAddRow").removeAttr("disabled");
+
+                }
+            }
+            else {
+                //OrderStore = [];
+
+                return;
+            }
+
+        });
+
+
+        $('#MasterLCInfoId').change(function () {
+            var tabLen = $('#OrderTable tr').length;
+            //alert('tabLen->' + tabLen);
+            if (tabLen > 2) {
+                $('#OrderTable tbody').empty();
+                $('#DelivTable tbody').empty();
+                $('#DV_Order_Deliv').hide();
+            }
+
+
+            var selectedValue = $(this).val();
+            var stateLCDateSelect = $('#LCDate');
+            var stateBankSelect = $('#BankName');
+
+            if (selectedValue.length > 0) {
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/GetInvoiceNo",
+                    data: { Id: selectedValue },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+
+                        stateLCDateSelect.val(data.LCDate);
+                        stateBankSelect.val(data.BankName);
+
+                        AddNewRow();
+                        //alert(data.RDlInvoiceList.length);
+                        $('.RDLInvoiceNo').empty();
+                        $('.RDLInvoiceNo').append('<option value=""></option>');
+                        $.each(data.RDlInvoiceList, function (i,item) {
+                            //$.each(data, function (index, item) {
+                            //alert(item.Id + '->' + item.Name);
+                            var addItem = '<option value="' + item.Id + '"> ' + item.Name + ' </option>'
+                            $('.RDLInvoiceNo').append($('<option></option>').val(item.Id).text(item.Name));
+                            $('.RDLInvoiceNo').append(addItem);
+                        })
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+            } else {
+
+            }
+
+            $("#btnAddRow").removeAttr("disabled");
+        });
+
+
+
+
+        $('#btnAddRow').click(function () {
+            AddNewRow();
+        });
+
+        //======================Load Data==============================
+        //Previous Data Load
+        function LoadDetailData()
+        {
+            var id = @Model.Id;
+            $.ajax({
+                type: "post",
+                url: "/DocSubmission/LoadLCDetailData",
+                data: { Id: id },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+                    for(var i = 0;i <data.length;i++ )
+                    {
+                        AddLoadNewRow(data[i].Id,data[i].InvoiceCommMasId,data[i].BuyerOrderMasId);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+
+        }
+
+        //-----------------Add row for Doc Submission Detail------------------------
+        function AddLoadNewRow(Id,InvoiceCommMasId,BuyerOrderMasId) {
+            if ($('#PaymentTypeId option:selected').text() == "LC")
+            {
+                cnOrderTempId++;
+                var newRow = $('<tr><td>'
+                    + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                    + '<input type="hidden" name = "DocSubDetId" value="' + Id + '" class="DocSubDetId" />'
+                    + '<select name="RDLInvoiceNo" class="RDLInvoiceNo form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td class="bg-green-300"><label class="DetailDate text-bold"></label></td>'
+                    + '<td class="bg-green-300 text-right"><label class="DetailQty text-bold text-right"></label></td>'
+                    + '<td class="bg-green-300 text-right"><label class="DetailRDLValue text-bold text-right"></label></td>'
+                    + '<td><button onclick="ShowInvoiceLoadDetail(this)" type="button" class="btn btn-link">Detail</button>|'
+                    +'<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td>'
+                    +'</tr>');
+
+                //jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+                $('table.OrderItemTable tbody').append(newRow);
+
+                $(".select2").select2();
+                RebindDatePicker();
+
+                var selectedValue = $('#MasterLCInfoId').val();
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/GetInvoiceNo",
+                    data: { Id: selectedValue },
+                    datatype: "json",
+                    async: false,
+                    traditional: true,
+                    success: function (data) {
+                        var selOptions = "<select>";
+                        selOptions = selOptions + '<option value=""></option>';
+                        for (var i = 0; i < data.RDlInvoiceList.length; i++) {
+                            selOptions = selOptions + '<option value=' + data.RDlInvoiceList[i].Id + '>' + data.RDlInvoiceList[i].Name + '</option>';
+                        }
+                        selOptions = selOptions + '</select>';
+                        //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.RDLInvoiceNo").html(selOptions);
+                        jQuery('table.OrderItemTable tbody').find('tr:last').find("select.RDLInvoiceNo").html(selOptions);
+
+                        RebindRDLInvoice();
+                        var currRow = $('table.OrderItemTable tbody').find('tr:last').index();
+                        setInvoiceRef(currRow, Id, InvoiceCommMasId,BuyerOrderMasId);
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+            }
+            else {
+                //alert('TT');
+                cnOrderTempId++;
+                //alert('TempOrderId->' + cnOrderTempId);
+                var newRow = $('<tr><td>'
+                    + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                    + '<input type="hidden" name = "DocSubDetId" value="' + Id + '" class="DocSubDetId" />'
+                    + '<select name="RDLInvoiceNo" class="RDLInvoiceNo form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td class="bg-green-300"><label class="DetailDate text-bold"></label>'
+                    //+ '<input type="hidden" name ="DetailDateInput" value="' + cnOrderTempId + '" class="DetailDateInput" />'
+                    + '</td>'
+                    + '<td class="bg-green-300 text-right"><label class="DetailQty text-bold text-right"></label></td>'
+                    + '<td class="bg-green-300 text-right"><label class="DetailRDLValue text-bold text-right"></label></td>'
+                    + '<td><button onclick="ShowRefLoadDetail(this)" type="button" class="btn btn-link">Detail</button>|<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+                //jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+                $('table.OrderItemTable tbody').append(newRow);
+
+                $(".select2").select2();
+
+                RebindDatePicker();
+
+                var selectedValue = $('#BuyerInfoId').val();
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/GetReferenceNo",
+                    data: { Id: selectedValue },
+                    datatype: "json",
+                    async: false,
+                    traditional: true,
+                    success: function (data) {
+
+                        var selOptions = "<select>";
+                        selOptions = selOptions + '<option value=""></option>';
+                        for (var i = 0; i < data.RDlRefList.length; i++) {
+                            selOptions = selOptions + '<option value=' + data.RDlRefList[i].Id + '>' + data.RDlRefList[i].Name + '</option>';
+                        }
+                        selOptions = selOptions + '</select>';
+                        //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.RDLInvoiceNo").html(selOptions);
+                        jQuery('table.OrderItemTable tbody').find('tr:last').find("select.RDLInvoiceNo").html(selOptions);
+
+                        RebindRDLRef();
+
+                        var currRow = $('table.OrderItemTable tbody').find('tr:last').index();
+                        setRDLRef(currRow, Id, InvoiceCommMasId,BuyerOrderMasId);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+            }
+
+
+
+            //$("#saveState").removeAttr("disabled");
+        }
+
+        //============================For LC=================================
+        //---------------------Loads RDL Invoice Details---------------------
+        function setInvoiceRef(currRow, selId, selInvoiceCommMasId , selBuyerOrderMasId)
+        {
+
+             jQuery('table.OrderItemTable tbody tr').eq(currRow).find("select.RDLInvoiceNo").val(selInvoiceCommMasId);
+             setRDLInvoiceDetails(currRow,selInvoiceCommMasId);
+        }
+
+        function setRDLInvoiceDetails(currRow,selInvoiceCommMasId)
+        {
+
+            $.ajax({
+                type: "post",
+                url: "/DocSubmission/GetRDLInvoiceDetails",
+                data: { Id: selInvoiceCommMasId },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('table.OrderItemTable tbody tr').eq(currRow).find("label.DetailDate").text(data.InvoiceDate);
+                    $('table.OrderItemTable tbody tr').eq(currRow).find("label.DetailQty").text(data.ShipQty);
+                    $('table.OrderItemTable tbody tr').eq(currRow).find("label.DetailRDLValue").text((data.RDLQty).toFixed(2));
+
+                    PopulateTotalValue();
+                }
+            });
+        }
+
+        //-----------------------RDL Invoice Details Ends------------------------
+
+
+        //---------------------Show Invoice Load Detail--------------------------
+        function ShowInvoiceLoadDetail(e) {
+            if (currSelDelivRow > 0) {
+                $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            }
+            var currRowIndex = $(e).closest('tr').index() + 1;
+
+            $('#OrderTable tr').eq(currRowIndex).addClass("bg-brown");
+            currSelDelivRow = currRowIndex;
+
+            //DocSubDetId
+            currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+           // currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("select.RDLInvoiceNo").val();
+            AddNewRowLoadDetailDet();
+            //currSelOrderId = $('#OrderTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+
+            $("#delivRef").val($('#OrderTable tr').eq(currRowIndex).find("select.RDLInvoiceNo").text());
+            $("#delivQnty").val($('#OrderTable tr').eq(currRowIndex).find("label.DetailQty").text());
+
+            //var cn = 1;
+            ////alert('length->'+$('#DelivTable tr').length );
+            //for (var i = 1; i < $('#DelivTable tr').length - 1; i++) {
+            //    //if (currSelOrderId == 0) {
+            //    alert($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() +" ->"+currSelOrderTempId);
+            //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+            //        $('#DelivTable tr').eq(i).css("visibility", "visible");
+            //        cn++;
+            //    }
+            //    else {
+            //        $('#DelivTable tr').eq(i).css("visibility", "collapse");
+            //    }
+
+            //}
+
+            ////PopulateDelivTotalValue();
+            //$("#DV_Order_Deliv").show();
+
+        }
+        //-------------------Show Invoice Load Detail Ends--------------------
+
+        //-------------------Add Detail Det--------------------
+        function AddNewRowLoadDetailDet() {
+            var currDocSubDetId = $('#OrderTable tr').eq(currSelDelivRow).find("input.DocSubDetId").val();
+            var currRDLInvoiceId = $('#OrderTable tr').eq(currSelDelivRow).find("select.RDLInvoiceNo").val();
+            var currTempDetailID = $('#OrderTable tr').eq(currSelDelivRow).find("input.TempOrderId").val();
+
+            var RDLInvoiceCount = 0;
+            for (var m = 1; m <= $('table.DelivTable tbody tr').length; m++) {
+                var check = $('#DelivTable tr').eq(m).find("td input.DelivOrderDetTempId").val();
+
+                //alert('currRDLInvoiceId-->' + currRDLInvoiceId + '  check->' + check);
+                if (check == currTempDetailID) {
+                    RDLInvoiceCount++;
+                }
+            }
+
+            //alert('RDLInvoiceCount->' + RDLInvoiceCount);
+       
+            if (RDLInvoiceCount == 0)
+            {
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/LoadFactoryInvoiceDetails",
+                    datatype: "json",
+                    data: { Id: currDocSubDetId , MasterLcID : currRDLInvoiceId },
+                    traditional: true,
+                    success: function (data) {
+                        var dataLength = data.length;
+                        var InvoiceFactDetId = 0;
+                        for (var i = 0; i < dataLength; i++) {
+                            var newRow = jQuery('<tr>'
+                           //+ '<td class="index"></td>'
+
+                           + '<td><input type="hidden" name="DelivOrderDetTempId" value="' + currSelOrderTempId + '" class="DelivOrderDetTempId" />'
+                           +'<input type="hidden" name="DocSubDetailDetId" value="' + data[i].DocSubDetailDetId + '" class="DocSubDetailDetId" />'
+                           +'<input type="hidden" name="DocSubDetId" value="' + data[i].DocSubDetId + '" class="DocSubDetId" />'
+                           +'<input type="hidden" name="RDLInvoiceNoDeliv" value="' + currRDLInvoiceId + '" class="RDLInvoiceNoDeliv" />'
+                           + '<input type="hidden" name="InvoiceFactDetId" value="' + InvoiceFactDetId + '" class="InvoiceFactDetId" />'
+                           + '<input type="hidden" name="DelivDetId" value="0" class="DelivDetId" /><input type="hidden" name="InvoiceCommDetId" value="' + data[i].InvoiceCommDetId + '" class="InvoiceCommDetId" /><label class="Factoryname text-bold">' + data[i].FactoryName + '</label></td>'
+                           + '<td><label class="FactoryinvoiceNo text-bold">' + data[i].FactoryInvoiceNo + '</label></td>'
+                           + '<td><input type="text" name="FactoryFDBCNo" value="'+ data[i].FDBCNo+'" class="FactoryFDBCNo form-control input-xs" /></td>'
+                           + '<td><label class="InvoiceQuantity text-bold">'+data[i].ShipQty+'</label></td>'
+                           //+ '<td><label class="FactoryInvoiceValue text-bold">'+data[i].FactoryInvoiceValue+'</label></td>'
+                           + '<td><label class="FactoryInvoiceValue text-bold">'+(data[i].FactoryInvoiceValueWithDiscount).toFixed(2)+'</label></td>'
+                           //+ '<td><label class="RDLInvoiceValue text-bold">'+data[i].RDLPrice+'</label></td>'
+                            + '<td><label class="RDLInvoiceValue text-bold">' + (data[i].RDLInvoiceValueWithDiscount).toFixed(2) + '</label></td>'
+                           //+ '<td><button onclick="RemoveDelivRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td>'
+                           + '</tr>');
+
+                            jQuery('table.DelivTable tbody').append(newRow);
+                        }
+
+
+                        $(".select2").select2();
+
+
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+            }
+            var cn = 1;
+            //alert('length->'+$('#DelivTable tr').length );
+            for (var i = 1; i < $('#DelivTable tr').length; i++) {
+                //if (currSelOrderId == 0) {
+                //alert($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() +" ->"+currSelOrderTempId);
+                if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+                    $('#DelivTable tr').eq(i).css("visibility", "visible");
+                    cn++;
+                }
+                else {
+                    $('#DelivTable tr').eq(i).css("visibility", "collapse");
+                }
+
+            }
+
+
+
+            //PopulateDelivTotalValue();
+            $("#DV_Order_Deliv").show();
+
+            RebindDatePicker();
+       
+            //UpdateTableRowIndex();
+        }
+
+
+        //================================For TT================================
+        //---------------------Loads RDL Ref Details----------------------------
+        function setRDLRef(currRow, selId, selInvoiceCommMasId , selBuyerOrderMasId)
+        {
+            jQuery('table.OrderItemTable tbody tr').eq(currRow).find("select.RDLInvoiceNo").val(selBuyerOrderMasId);
+            setRDLRefDetails(currRow,selBuyerOrderMasId);
+        }
+
+        function setRDLRefDetails(currRow,selBuyerOrderMasId)
+        {
+            $.ajax({
+                type: "post",
+                url: "/DocSubmission/GetRDLRefDetails",
+                data: { Id: selBuyerOrderMasId },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('table.OrderItemTable tbody tr').eq(currRow).find("label.DetailDate").text(data.InvoiceDate);
+                    $('table.OrderItemTable tbody tr').eq(currRow).find("label.DetailQty").text(data.ShipQty);
+                    $('table.OrderItemTable tbody tr').eq(currRow).find("label.DetailRDLValue").text((data.RDLQty).toFixed(2));
+
+                    PopulateTotalValue();
+                }
+            });
+        }
+        //---------------------RDL Ref Details Ends----------------------------
+      
+
+        //---------------------Shows RDl Ref Details----------------------------
+        function ShowRefLoadDetail(e) {
+
+            if (currSelDelivRow > 0) {
+                $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            }
+            var currRowIndex = $(e).closest('tr').index() + 1;
+            $('#OrderTable tr').eq(currRowIndex).addClass("bg-brown");
+            currSelDelivRow = currRowIndex;
+            currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+            AddNewRowRefLoadDetailDet();
+            //currSelOrderId = $('#OrderTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+
+            $("#delivRef").val($('#OrderTable tr').eq(currRowIndex).find("select.RDLInvoiceNo").text());
+            $("#delivQnty").val($('#OrderTable tr').eq(currRowIndex).find("label.DetailQty").text());
+            var cn = 1;
+            for (var i = 1; i < $('#DelivTable tr').length - 1; i++) {
+                //if (currSelOrderId == 0) {
+                if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+                    $('#DelivTable tr').eq(i).css("visibility", "visible");
+                    //$('#DelivTable tr').eq(i).find("td.index").text(cn);
+                    cn++;
+                }
+                else {
+                    $('#DelivTable tr').eq(i).css("visibility", "collapse");
+                }
+            }
+
+            //PopulateDelivTotalValue();
+
+            $("#DV_Order_Deliv").show();
+        }
+
+        //---------------------Shows RDl Ref Details Ends-------------------
+
+        //======================Load Data Ends==============================
+
+        function AddNewRow() {
+            var DocSubDetId = 0;
+            if ($('#PaymentTypeId option:selected').text() == "LC")
+            {
+
+                cnOrderTempId++;
+                var newRow = $('<tr><td>'
+                    + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                    + '<input type="hidden" name = "DocSubDetId" value="' + DocSubDetId + '" class="DocSubDetId" />'
+                    + '<select name="RDLInvoiceNo" class="RDLInvoiceNo form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td class="bg-green-300"><label class="DetailDate text-bold"></label>'
+                    + '</td>'
+                    + '<td class="bg-green-300 text-right"><label class="DetailQty text-bold text-right"></label></td>'
+                    + '<td class="bg-green-300 text-right"><label class="DetailRDLValue text-bold text-right"></label></td>'
+                    + '<td><button onclick="ShowInvoiceDetail(this)" type="button" class="btn btn-link">Detail</button>|<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+                //jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+                $('table.OrderItemTable tbody').append(newRow);
+
+                $(".select2").select2();
+
+                RebindDatePicker();
+
+                var selectedValue = $('#MasterLCInfoId').val();
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/GetInvoiceNo",
+                    data: { Id: selectedValue },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        var selOptions = "<select>";
+                        selOptions = selOptions + '<option value=""></option>';
+                        for (var i = 0; i < data.RDlInvoiceList.length; i++) {
+                            selOptions = selOptions + '<option value=' + data.RDlInvoiceList[i].Id + '>' + data.RDlInvoiceList[i].Name + '</option>';
+                        }
+                        selOptions = selOptions + '</select>';
+                        //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.RDLInvoiceNo").html(selOptions);
+                        jQuery('table.OrderItemTable tbody').find('tr:last').find("select.RDLInvoiceNo").html(selOptions);
+
+                        RebindRDLInvoice();
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+            }
+            else {
+                cnOrderTempId++;
+                var newRow = $('<tr><td>'
+                    + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                    + '<input type="hidden" name = "DocSubDetId" value="' + DocSubDetId + '" class="DocSubDetId" />'
+                    + '<select name="RDLInvoiceNo" class="RDLInvoiceNo form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td class="bg-green-300"><label class="DetailDate text-bold"></label>'
+                    //+ '<input type="hidden" name ="DetailDateInput" value="' + cnOrderTempId + '" class="DetailDateInput" />'
+                    + '</td>'
+                    + '<td class="bg-green-300 text-right"><label class="DetailQty text-bold text-right"></label></td>'
+                    + '<td class="bg-green-300 text-right"><label class="DetailRDLValue text-bold text-right"></label></td>'
+                    + '<td><button onclick="ShowRefDetail(this)" type="button" class="btn btn-link">Detail</button>|<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+                //jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+                $('table.OrderItemTable tbody').append(newRow);
+
+                $(".select2").select2();
+
+                RebindDatePicker();
+
+                var selectedValue = $('#BuyerInfoId').val();
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/GetReferenceNo",
+                    data: { Id: selectedValue },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        //alert('RDlRefList Len->' + data.RDlRefList.length);
+                        //$('.RDLInvoiceNo').empty();
+                        //$('.RDLInvoiceNo').append('<option value=""></option>');
+                        //$.each(data.RDlRefList, function (i, item) {
+                        //    var addItem = '<option value="' + item.Id + '"> ' + item.Name + ' </option>'
+                        //    $('.RDLInvoiceNo').append($('<option></option>').val(item.Id).text(item.Name));
+                        //    $('.RDLInvoiceNo').append(addItem);
+                        //    alert(addItem);
+                        //})
+
+
+                        var selOptions = "<select>";
+                        selOptions = selOptions + '<option value=""></option>';
+                        for (var i = 0; i < data.RDlRefList.length; i++) {
+                            selOptions = selOptions + '<option value=' + data.RDlRefList[i].Id + '>' + data.RDlRefList[i].Name + '</option>';
+                        }
+                        selOptions = selOptions + '</select>';
+                        //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.RDLInvoiceNo").html(selOptions);
+                        jQuery('table.OrderItemTable tbody').find('tr:last').find("select.RDLInvoiceNo").html(selOptions);
+
+                        RebindRDLRef();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+            }
+
+
+
+            //$("#saveState").removeAttr("disabled");
+        }
+
+
+        function RebindRDLInvoice() {
+            $('#OrderTable').on('change', '.RDLInvoiceNo', function () {
+                var selectedValue = $(this).val();
+                var row = $(this).closest('tr').index() + 1;
+                //alert('row->' + row);
+
+                if (selectedValue.length > 0) {
+                    if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length) {
+
+                        var tabLen = $('#OrderTable tr').length;
+
+                        for (var i = 1; i < tabLen - 1; i++) {
+                            if (selectedValue == "") {
+
+                            }
+                            else {
+                                if ($('#OrderTable tr').eq(i).find("select.RDLInvoiceNo").val() == selectedValue && row != ($('#OrderTable tr').eq(i).index() +1)) {
+                                    alert('Invoice already taken!');
+                                    $(this).val('');
+                                    //$(".select2").select2();
+                                    $(this).trigger('change');
+                                    return;
+                                }
+                            }
+                        }
+
+
+                        AddNewRow();
+                    }
+                }
+                else {
+                    //stateSelect.empty();
+                    return;
+                }
+
+
+                if ($('#PaymentTypeId option:selected').text() == "LC") {
+                    $.ajax({
+                        type: "post",
+                        url: "/DocSubmission/GetRDLInvoiceDetails",
+                        data: { Id: selectedValue },
+                        datatype: "json",
+                        traditional: true,
+                        success: function (data) {
+
+                            $('#OrderTable tr').eq(row).find("label.DetailDate").text(data.InvoiceDate);
+                            $('#OrderTable tr').eq(row).find("label.DetailQty").text(data.ShipQty);
+                            $('#OrderTable tr').eq(row).find("label.DetailRDLValue").text(data.RDLQty);
+
+                            PopulateTotalValue();
+                        }
+                    });
+                }
+                else {
+
+                }
+
+            });
+
+        }
+
+
+
+
+        function RebindRDLRef() {
+            $('#OrderTable').on('change', '.RDLInvoiceNo', function () {
+                var selectedValue = $(this).val();
+                var row = $(this).closest('tr').index() + 1;
+                //alert('row->' + row);
+
+                if (selectedValue.length > 0) {
+                    if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length) {
+
+                        
+                        var tabLen = $('#OrderTable tr').length;
+
+                        for (var i = 1; i < tabLen - 1; i++) {
+                            if (selectedValue == "") {
+
+                            }
+                            else {
+                                if ($('#OrderTable tr').eq(i).find("select.RDLInvoiceNo").val() == selectedValue && row != ($('#OrderTable tr').eq(i).index() +1)) {
+                                    alert('Invoice already taken!');
+                                    $(this).val('');
+                                    //$(".select2").select2();
+                                    $(this).trigger('change');
+                                    return;
+                                }
+                            }
+                        }
+
+                        AddNewRow();
+                    }
+                }
+                else {
+                    //stateSelect.empty();
+                    return;
+                }
+
+
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/GetRDLRefDetails",
+                    data: { Id: selectedValue },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+
+                        $('#OrderTable tr').eq(row).find("label.DetailDate").text(data.InvoiceDate);
+                        $('#OrderTable tr').eq(row).find("label.DetailQty").text(data.ShipQty);
+                        $('#OrderTable tr').eq(row).find("label.DetailRDLValue").text(data.RDLQty);
+
+                        PopulateTotalValue();
+                    }
+                });
+
+
+            });
+
+        }
+
+
+        $('#btnCloseDelivery').click(function () {
+            $("#DV_Order_Deliv").hide();
+            $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+        });
+
+        function ShowInvoiceDetail(e) {
+
+            if (currSelDelivRow > 0) {
+                $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            }
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+
+            $('#OrderTable tr').eq(currRowIndex).addClass("bg-brown");
+
+            currSelDelivRow = currRowIndex;
+
+            currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+
+            AddNewRowDetailDet();
+            //currSelOrderId = $('#OrderTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+
+            $("#delivRef").val($('#OrderTable tr').eq(currRowIndex).find("select.RDLInvoiceNo").text());
+            $("#delivQnty").val($('#OrderTable tr').eq(currRowIndex).find("label.DetailQty").text());
+
+            var cn = 1;
+            for (var i = 1; i < $('#DelivTable tr').length - 1; i++) {
+                //if (currSelOrderId == 0) {
+                if ($('#DelivTable tr').eq(i).find("select.DelivOrderDetTempId").val() == currSelOrderTempId) {
+                    $('#DelivTable tr').eq(i).css("visibility", "visible");
+                    //$('#DelivTable tr').eq(i).find("td.index").text(cn);
+                    cn++;
+                }
+                else {
+                    $('#DelivTable tr').eq(i).css("visibility", "collapse");
+                }
+                //}
+                //else {
+                //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetId").val() == currSelOrderId) {
+                //        $('#DelivTable tr').eq(i).css("visibility", "visible");
+                //        $('#DelivTable tr').eq(i).find("td.index").text(cn);
+                //        cn++;
+                //    }
+                //    else {
+                //        $('#DelivTable tr').eq(i).css("visibility", "collapse");
+                //    }
+
+                //}
+            }
+
+            //PopulateDelivTotalValue();
+
+            $("#DV_Order_Deliv").show();
+
+        }
+
+ 
+
+        
+        function AddNewRowRefLoadDetailDet() {
+            var currDocSubDetId = $('#OrderTable tr').eq(currSelDelivRow).find("input.DocSubDetId").val();
+            var currRDLInvoiceId = $('#OrderTable tr').eq(currSelDelivRow).find("select.RDLInvoiceNo").val();
+            var RDLRefCount = 0;
+
+            for (var m = 1; m <= $('table.DelivTable tbody tr').length; m++) {
+                //var check = $('#DelivTable tr').eq(m).find("td input.DelivOrderDetTempId").val();
+                var check = $('#DelivTable tr').eq(m).find("td input.RDLInvoiceNoDeliv").val();
+
+                //alert('currRDLInvoiceId-->' + currRDLInvoiceId + '  check->' + check);
+                if (check == currRDLInvoiceId) {
+                    RDLRefCount++;
+                }
+            }
+
+            //alert('RDLRefCount->' + RDLRefCount);
+
+            if (RDLRefCount == 0) {
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/LoadRefFactoryDetails",
+                    datatype: "json",
+                    data: { Id: currDocSubDetId , BuyerOrderRefId : currRDLInvoiceId },
+                    traditional: true,
+                    success: function (data) {
+                        var dataLength = data.length;
+                        var InvoiceCommDetId = 0;
+                        //alert('dataLength->' + dataLength);
+                        for (var i = 0; i < dataLength; i++) {
+                            var newRow = jQuery('<tr>'
+                           //+ '<td class="index"></td>'
+
+                           + '<td><input type="hidden" name="DelivOrderDetTempId" value="' + currSelOrderTempId + '" class="DelivOrderDetTempId" />'
+                           + '<input type="hidden" name="RDLInvoiceNoDeliv" value="' + currRDLInvoiceId + '" class="RDLInvoiceNoDeliv" />'
+                           +'<input type="hidden" name="DocSubDetailDetId" value="' + data[i].DocSubDetailDetId + '" class="DocSubDetailDetId" />'
+                           +'<input type="hidden" name="DocSubDetId" value="' + data[i].DocSubDetId + '" class="DocSubDetId" />'
+                           + '<input type="hidden" name="InvoiceCommDetId" value="' + InvoiceCommDetId + '" class="InvoiceCommDetId" />'
+                           + '<input type="hidden" name="InvoiceFactDetId" value="' + data[i].InvoiceFactDetId + '" class="InvoiceFactDetId" />'
+                           + '<label class="Factoryname text-bold">' + data[i].FactoryName + '</label></td>'
+                           //+ '<input type="hidden" name="DelivDetId" value="0" class="DelivDetId" /><input type="hidden" name="InvoiceCommDetId" value="' + data[i].BuyerOrderDetDetId + '" class="InvoiceCommDetId" /><label class="Factoryname text-bold">' + data[i].FactoryName + '</label></td>'
+                           + '<td><label class="FactoryinvoiceNo text-bold">' + data[i].FactoryInvoiceNo + '</label></td>'
+                           + '<td><input type="text" name="FactoryFDBCNo" value="'+ data[i].FDBCNo+'" class="FactoryFDBCNo form-control input-xs" /></td>'
+                           + '<td><label class="InvoiceQuantity text-bold">' + data[i].ShipQty + '</label></td>'
+                           + '<td><label class="FactoryInvoiceValue text-bold">' + (data[i].FactoryPrice).toFixed(2) + '</label></td>'
+                           + '<td><label class="RDLInvoiceValue text-bold">'+ (data[i].RDLPrice).toFixed(2)+'</label></td>'
+                           //+ '<td><button onclick="RemoveDelivRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td>'
+                           + '</tr>');
+
+                            jQuery('table.DelivTable tbody').append(newRow);
+                        }
+
+
+                        $(".select2").select2();
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+            }
+
+            RebindDatePicker();
+            //UpdateTableRowIndex();
+        }
+
+
+
+
+
+        function ShowRefDetail(e) {
+
+            if (currSelDelivRow > 0) {
+                $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            }
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+
+            $('#OrderTable tr').eq(currRowIndex).addClass("bg-brown");
+
+            currSelDelivRow = currRowIndex;
+
+            currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+
+            AddNewRowRefDetailDet();
+            //currSelOrderId = $('#OrderTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+
+            $("#delivRef").val($('#OrderTable tr').eq(currRowIndex).find("select.RDLInvoiceNo").text());
+            $("#delivQnty").val($('#OrderTable tr').eq(currRowIndex).find("label.DetailQty").text());
+
+            var cn = 1;
+            for (var i = 1; i < $('#DelivTable tr').length - 1; i++) {
+                //if (currSelOrderId == 0) {
+                if ($('#DelivTable tr').eq(i).find("select.DelivOrderDetTempId").val() == currSelOrderTempId) {
+                    $('#DelivTable tr').eq(i).css("visibility", "visible");
+                    //$('#DelivTable tr').eq(i).find("td.index").text(cn);
+                    cn++;
+                }
+                else {
+                    $('#DelivTable tr').eq(i).css("visibility", "collapse");
+                }
+                //}
+                //else {
+                //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetId").val() == currSelOrderId) {
+                //        $('#DelivTable tr').eq(i).css("visibility", "visible");
+                //        $('#DelivTable tr').eq(i).find("td.index").text(cn);
+                //        cn++;
+                //    }
+                //    else {
+                //        $('#DelivTable tr').eq(i).css("visibility", "collapse");
+                //    }
+
+                //}
+            }
+
+            //PopulateDelivTotalValue();
+
+            $("#DV_Order_Deliv").show();
+        }
+
+
+
+
+
+
+        function AddNewRowDetailDet() {
+
+            //currSelDelivRow
+            var currRDLInvoiceId = $('#OrderTable tr').eq(currSelDelivRow).find("select.RDLInvoiceNo").val();
+            //var selectedValue = $('#BuyerInfoId option:selected').val();
+
+
+            var RDLInvoiceCount = 0;
+
+            for (var m = 1; m <= $('table.DelivTable tbody tr').length; m++) {
+                //var check = $('#DelivTable tr').eq(m).find("td input.DelivOrderDetTempId").val();
+                var check = $('#DelivTable tr').eq(m).find("td input.RDLInvoiceNoDeliv").val();
+
+                //alert('currRDLInvoiceId-->' + currRDLInvoiceId + '  check->' + check);
+                if (check == currRDLInvoiceId) {
+                    RDLInvoiceCount++;
+                }
+            }
+
+            //alert('RDLInvoiceCount->' + RDLInvoiceCount);
+
+            if (RDLInvoiceCount == 0)
+            {
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/GetFactoryInvoiceDetails",
+                    datatype: "json",
+                    data: { Id: currRDLInvoiceId },
+                    traditional: true,
+                    success: function (data) {
+                        var dataLength = data.length;
+
+                        var DocSubDetailDetId =0;
+                        var DocSubDetId =0;
+                        var InvoiceFactDetId =0;
+                        //alert('dataLength->' + dataLength);
+                        for (var i = 0; i < dataLength; i++) {
+                            var newRow = jQuery('<tr>'
+                           //+ '<td class="index"></td>'
+
+                           + '<td><input type="hidden" name="DelivOrderDetTempId" value="' + currSelOrderTempId + '" class="DelivOrderDetTempId" />'
+                           +'<input type="hidden" name="DocSubDetailDetId" value="' + DocSubDetailDetId + '" class="DocSubDetailDetId" />'
+                           +'<input type="hidden" name="DocSubDetId" value="' + DocSubDetId + '" class="DocSubDetId" />'
+                           + '<input type="hidden" name="InvoiceFactDetId" value="' + InvoiceFactDetId + '" class="InvoiceFactDetId" />'
+                           +'<input type="hidden" name="RDLInvoiceNoDeliv" value="' + currRDLInvoiceId + '" class="RDLInvoiceNoDeliv" />'
+                           + '<input type="hidden" name="DelivDetId" value="0" class="DelivDetId" />'
+                           +'<input type="hidden" name="InvoiceCommDetId" value="' + data[i].InvoiceCommDetId + '" class="InvoiceCommDetId" />'
+                           +'<label class="Factoryname text-bold">' + data[i].FactoryName + '</label></td>'
+                           + '<td><label class="FactoryinvoiceNo text-bold">' + data[i].FactoryInvoiceNo + '</label></td>'
+                           + '<td><input type="text" name="FactoryFDBCNo" class="FactoryFDBCNo form-control input-xs" /></td>'
+                           + '<td><label class="InvoiceQuantity text-bold">'+data[i].ShipQty+'</label></td>'
+                           + '<td><label class="FactoryInvoiceValue text-bold"></label></td>'
+                           + '<td><label class="RDLInvoiceValue text-bold"></label></td>'
+                           //+ '<td><button onclick="RemoveDelivRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td>'
+                           + '</tr>');
+
+                            jQuery('table.DelivTable tbody').append(newRow);
+                        }
+
+
+                        $(".select2").select2();
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+            }
+
+            RebindDatePicker();
+            //UpdateTableRowIndex();
+        }
+
+
+
+
+
+        function AddNewRowRefDetailDet() {
+            //currSelDelivRow
+            var currRDLInvoiceId = $('#OrderTable tr').eq(currSelDelivRow).find("select.RDLInvoiceNo").val();
+            //var selectedValue = $('#BuyerInfoId option:selected').val();
+
+            var RDLRefCount = 0;
+
+            for (var m = 1; m <= $('table.DelivTable tbody tr').length; m++) {
+                //var check = $('#DelivTable tr').eq(m).find("td input.DelivOrderDetTempId").val();
+                var check = $('#DelivTable tr').eq(m).find("td input.RDLInvoiceNoDeliv").val();
+
+                //alert('currRDLInvoiceId-->' + currRDLInvoiceId + '  check->' + check);
+                if (check == currRDLInvoiceId) {
+                    RDLRefCount++;
+                }
+            }
+
+            //alert('RDLRefCount->' + RDLRefCount);
+
+            if (RDLRefCount == 0) {
+                $.ajax({
+                    type: "post",
+                    url: "/DocSubmission/GetRefFactoryDetails",
+                    datatype: "json",
+                    data: { Id: currRDLInvoiceId },
+                    traditional: true,
+                    success: function (data) {
+                        var dataLength = data.length;
+                        //alert('dataLength->' + dataLength);
+                        for (var i = 0; i < dataLength; i++) {
+                            var newRow = jQuery('<tr>'
+                           //+ '<td class="index"></td>'
+
+                           + '<td><input type="hidden" name="DelivOrderDetTempId" value="' + currSelOrderTempId + '" class="DelivOrderDetTempId" /><input type="hidden" name="RDLInvoiceNoDeliv" value="' + currRDLInvoiceId + '" class="RDLInvoiceNoDeliv" />'
+                           + '<input type="hidden" name="DelivDetId" value="0" class="DelivDetId" /><input type="hidden" name="InvoiceCommDetId" value="' + data[i].BuyerOrderDetDetId + '" class="InvoiceCommDetId" /><label class="Factoryname text-bold">' + data[i].FactoryName + '</label></td>'
+                           + '<td><label class="FactoryinvoiceNo text-bold">' + data[i].FactoryInvoiceNo + '</label></td>'
+                           + '<td><input type="text" name="FactoryFDBCNo" class="FactoryFDBCNo form-control input-xs" /></td>'
+                           + '<td><label class="InvoiceQuantity text-bold">' + data[i].ShipQty + '</label></td>'
+                           + '<td><label class="FactoryInvoiceValue text-bold">' + data[i].FactoryPrice + '</label></td>'
+                           + '<td><label class="RDLInvoiceValue text-bold"></label></td>'
+                           //+ '<td><button onclick="RemoveDelivRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td>'
+                           + '</tr>');
+
+                            jQuery('table.DelivTable tbody').append(newRow);
+                        }
+
+
+                        $(".select2").select2();
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+            }
+
+            RebindDatePicker();
+            //UpdateTableRowIndex();
+        }
+
+
+        function RemoveOrderRow(e) {
+            if ($('#OrderTable tr').length == 3) {
+                alert('You cannot delete this row.\nSubmission requires atleast one record.');
+                return;
+            }
+
+            if (confirm('Do you really want to delete?') == false) {
+                return;
+            }
+
+            $("#DV_Order_Deliv").hide();
+            $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+
+            var id = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+
+            var detailId = $('#OrderTable tr').eq(currRowIndex).find("input.DocSubDetId").val();
+
+            var totRow = $('#DelivTable tr').length - 1;
+            for (var i = 1; i < totRow; i++) {
+
+                if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == id) {
+                    $('#DelivTable tr').eq(i).remove();
+                    i--;
+                    totRow--;
+                }
+
+            }
+
+            //$(e).parent().parent().remove();
+            //PopulateTotalValue();
+
+
+            if (detailId>0)
+            {
+                deletedItems.push(detailId);
+
+                $(e).parent().parent().remove();
+                PopulateTotalValue();
+            }
+            else
+            {
+                $(e).parent().parent().remove();
+                PopulateTotalValue();
+            }
+        }
+
+        
+        function PopulateTotalValue() {
+            var grandTotVal = 0.0;
+            var totVal = 0.0;
+            var totRow = $('#OrderTable tbody tr').length;
+            //alert('totRow->'+totRow);
+            for (var i = 0; i < totRow; i++) {
+                //alert('strPrice->'+strPrice);
+                var strPrice = parseFloat($('#OrderTable tbody tr').eq(i).find(".DetailRDLValue").text());
+                if ($.isNumeric(strPrice)) {
+                    totVal = totVal + parseFloat(strPrice);
+                }
+                else {
+                    
+                    //$('#OrderTable tr').eq(i).find(".grandTotalQnty").text(numeral(0).format('$ 0,0.00'));
+                }
+            }
+
+            $('#OrderTable tfoot tr').find(".grandTotalQnty").text(numeral(totVal).format('$ 0,0.00'));
+            //$('#OrderTable tr').eq(totRow).find(".grandTotaValue").text(numeral(grandTotVal).format('$ 0,0.00'));
+        }
+
+
+        $('#saveState').click(function () {
+
+            var orderDate = moment($('#OrderDate').val(), "DD/MM/YYYY", true);
+
+            if ($.trim($('#PaymentTypeId').val()) === "") {
+                alert('Payment Type required');
+                $('#PaymentTypeId').focus();
+            }
+            else if ($.trim($('#SubmissionDate').val()) === "") {
+                alert('Submission date required');
+                $('#SubmissionDate').focus();
+            }
+            else if ($('#BuyerInfoId option:selected').text() == "") {
+                alert('Please select buyer');
+                $('#BuyerInfoId').select2('open');
+            }
+
+            else {
+                SaveOrderData();
+            }
+
+        });
+
+
+        function SaveOrderData() {
+
+            $("#saveState").attr("disabled", "disabled");
+            //Master
+            var MasterId = @Model.Id;
+            var PaymentTypeId = $('#PaymentTypeId option:selected').val();
+            var SubmissionDate = $('#SubmissionDate').val();
+            var BuyerInfoId = $('#BuyerInfoId').val();
+            var FDBCNo = $.trim($('#FDBCNo').val());
+            var FDBCValue = $('#FDBCValue').val();
+            var FDBCDate = $('#FDBCDate').val();
+            var InvoiceCommMasId = $('#InvoiceCommMasId').val();
+            var AWBNo = $('#AWBNo').val();
+            var AWBDate = $('#AWBDate').val();
+            var CourierInfoId = $('#CourierInfoId').val();
+            var MasterLCInfoId = $('#MasterLCInfoId').val();
+
+
+            //Detail
+            var TempDocSubDetId = document.getElementsByName("TempOrderId");
+            var DocSubDetId = document.getElementsByName("DocSubDetId");
+            var RDLInvoiceNo = document.getElementsByName("RDLInvoiceNo");
+
+
+            //return;
+            var OItems = [];
+
+            for (var i = 0; i < RDLInvoiceNo.length; i++) {
+                if (RDLInvoiceNo[i].value == "") { continue; }
+                OItems.push({ TempDocSubDetId: TempDocSubDetId[i].value, Id: DocSubDetId[i].value , DocSubmissionMasId: 0, InvoiceCommMasId: RDLInvoiceNo[i].value });
+            }
+            //console.log(OItems);
+
+
+            //--------------- Detail Details items
+            var DocSubmissionSetailDetId = document.getElementsByName("DocSubDetailDetId");
+            var DocSubmissionDetId = document.getElementsByName("DocSubDetId");
+
+            var FactInvoicerDetTempId = document.getElementsByName("DelivOrderDetTempId");
+            var InvoiceCommDetId = document.getElementsByName("InvoiceCommDetId");
+            var InvoiceFactDetId = document.getElementsByName("InvoiceFactDetId");
+            var FactoryFDBCNo = document.getElementsByName("FactoryFDBCNo");
+
+
+            //return;
+            var DItems = [];
+
+            for (var i = 0; i < InvoiceCommDetId.length; i++) {
+                if (InvoiceCommDetId[i].value == "") { continue; }
+                DItems.push({
+                    FactInvoicerDetTempId: FactInvoicerDetTempId[i].value,
+                    Id:DocSubmissionSetailDetId[i].value ,
+                    DocSubmissionDetId: DocSubmissionDetId[i].value ,
+                    InvoiceCommDetId: InvoiceCommDetId[i].value,
+                    FactFDBCNo: FactoryFDBCNo[i].value,
+                    InvoiceFactDetId : InvoiceFactDetId[i].value
+                });
+
+            }
+
+
+            //-----------------
+
+            DocDetails = JSON.stringify({
+                DocSubDetails: OItems,
+                DocDetDetails: DItems,
+                Id: MasterId,
+                PaymentTypeId: PaymentTypeId,
+                SubmissionDate: SubmissionDate,
+                BuyerInfoId: BuyerInfoId,
+                FDBCNo: FDBCNo,
+                FDBCValue: FDBCValue,
+                FDBCDate: FDBCDate,
+                InvoiceCommMasId: InvoiceCommMasId,
+                AWBNo: AWBNo,
+                AWBDate: AWBDate,
+                CourierInfoId: CourierInfoId,
+                MasterLCInfoMasId: MasterLCInfoId,
+                DelItems: deletedItems
+            });
+            //OrderDetails = JSON.stringify({ OrderDetails: OItems});
+            //alert(OrderDetails);
+            //return;
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/DocSubmission/UpdateDocSubmission',
+                data: DocDetails,
+                success: function (result) {
+                    console.log(result);
+                    $("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        alert("Record save successfully!");
+                        window.location = "/DocSubmission/Index/";
+                        //window.location = "/DocSubmission/Edit/" + result.Id;
+                    }
+                    else {
+                        alert(result.message);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+    </script>
+}

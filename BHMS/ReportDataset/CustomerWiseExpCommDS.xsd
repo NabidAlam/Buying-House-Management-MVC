@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="CustomerWiseExpCommDS" targetNamespace="http://tempuri.org/CustomerWiseExpCommDS.xsd" xmlns:mstns="http://tempuri.org/CustomerWiseExpCommDS.xsd" xmlns="http://tempuri.org/CustomerWiseExpCommDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="CustomerWiseExpCommDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="CustomerWiseExpCommDS" msprop:Generator_UserDSName="CustomerWiseExpCommDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="CustomerExpComm" msprop:Generator_TableClassName="CustomerExpCommDataTable" msprop:Generator_TableVarName="tableCustomerExpComm" msprop:Generator_TablePropName="CustomerExpComm" msprop:Generator_RowDeletingName="CustomerExpCommRowDeleting" msprop:Generator_RowChangingName="CustomerExpCommRowChanging" msprop:Generator_RowEvHandlerName="CustomerExpCommRowChangeEventHandler" msprop:Generator_RowDeletedName="CustomerExpCommRowDeleted" msprop:Generator_UserTableName="CustomerExpComm" msprop:Generator_RowChangedName="CustomerExpCommRowChanged" msprop:Generator_RowEvArgName="CustomerExpCommRowChangeEvent" msprop:Generator_RowClassName="CustomerExpCommRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BuyInfoId" msprop:Generator_ColumnVarNameInTable="columnBuyInfoId" msprop:Generator_ColumnPropNameInRow="BuyInfoId" msprop:Generator_ColumnPropNameInTable="BuyInfoIdColumn" msprop:Generator_UserColumnName="BuyInfoId" type="xs:int" minOccurs="0" />
+              <xs:element name="BuyerName" msprop:Generator_ColumnVarNameInTable="columnBuyerName" msprop:Generator_ColumnPropNameInRow="BuyerName" msprop:Generator_ColumnPropNameInTable="BuyerNameColumn" msprop:Generator_UserColumnName="BuyerName" type="xs:string" minOccurs="0" />
+              <xs:element name="BuyerExpVal" msprop:Generator_ColumnVarNameInTable="columnBuyerExpVal" msprop:Generator_ColumnPropNameInRow="BuyerExpVal" msprop:Generator_ColumnPropNameInTable="BuyerExpValColumn" msprop:Generator_UserColumnName="BuyerExpVal" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BuyerCommVal" msprop:Generator_ColumnVarNameInTable="columnBuyerCommVal" msprop:Generator_ColumnPropNameInRow="BuyerCommVal" msprop:Generator_ColumnPropNameInTable="BuyerCommValColumn" msprop:Generator_UserColumnName="BuyerCommVal" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BuyerAvgComm" msprop:Generator_ColumnVarNameInTable="columnBuyerAvgComm" msprop:Generator_ColumnPropNameInRow="BuyerAvgComm" msprop:Generator_ColumnPropNameInTable="BuyerAvgCommColumn" msprop:Generator_UserColumnName="BuyerAvgComm" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Count" msprop:Generator_ColumnVarNameInTable="columnCount" msprop:Generator_ColumnPropNameInRow="Count" msprop:Generator_ColumnPropNameInTable="CountColumn" msprop:Generator_UserColumnName="Count" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SumTable" msprop:Generator_TableClassName="SumTableDataTable" msprop:Generator_TableVarName="tableSumTable" msprop:Generator_RowChangedName="SumTableRowChanged" msprop:Generator_TablePropName="SumTable" msprop:Generator_RowDeletingName="SumTableRowDeleting" msprop:Generator_RowChangingName="SumTableRowChanging" msprop:Generator_RowEvHandlerName="SumTableRowChangeEventHandler" msprop:Generator_RowDeletedName="SumTableRowDeleted" msprop:Generator_RowClassName="SumTableRow" msprop:Generator_UserTableName="SumTable" msprop:Generator_RowEvArgName="SumTableRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TotalExpVal" msprop:Generator_ColumnVarNameInTable="columnTotalExpVal" msprop:Generator_ColumnPropNameInRow="TotalExpVal" msprop:Generator_ColumnPropNameInTable="TotalExpValColumn" msprop:Generator_UserColumnName="TotalExpVal" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalCommVal" msprop:Generator_ColumnVarNameInTable="columnTotalCommVal" msprop:Generator_ColumnPropNameInRow="TotalCommVal" msprop:Generator_ColumnPropNameInTable="TotalCommValColumn" msprop:Generator_UserColumnName="TotalCommVal" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DateFrom" msprop:Generator_ColumnVarNameInTable="columnDateFrom" msprop:Generator_ColumnPropNameInRow="DateFrom" msprop:Generator_ColumnPropNameInTable="DateFromColumn" msprop:Generator_UserColumnName="DateFrom" type="xs:string" minOccurs="0" />
+              <xs:element name="DateTo" msprop:Generator_ColumnVarNameInTable="columnDateTo" msprop:Generator_ColumnPropNameInRow="DateTo" msprop:Generator_ColumnPropNameInTable="DateToColumn" msprop:Generator_UserColumnName="DateTo" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

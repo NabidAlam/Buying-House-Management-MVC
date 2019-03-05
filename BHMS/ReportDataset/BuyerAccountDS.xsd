@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="BuyerAccountDS" targetNamespace="http://tempuri.org/BuyerAccountDS.xsd" xmlns:mstns="http://tempuri.org/BuyerAccountDS.xsd" xmlns="http://tempuri.org/BuyerAccountDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="BuyerAccountDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="BuyerAccountDS" msprop:Generator_UserDSName="BuyerAccountDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="OrderedBuyerAccount" msprop:Generator_TableClassName="OrderedBuyerAccountDataTable" msprop:Generator_TableVarName="tableOrderedBuyerAccount" msprop:Generator_TablePropName="OrderedBuyerAccount" msprop:Generator_RowDeletingName="OrderedBuyerAccountRowDeleting" msprop:Generator_RowChangingName="OrderedBuyerAccountRowChanging" msprop:Generator_RowEvHandlerName="OrderedBuyerAccountRowChangeEventHandler" msprop:Generator_RowDeletedName="OrderedBuyerAccountRowDeleted" msprop:Generator_UserTableName="OrderedBuyerAccount" msprop:Generator_RowChangedName="OrderedBuyerAccountRowChanged" msprop:Generator_RowEvArgName="OrderedBuyerAccountRowChangeEvent" msprop:Generator_RowClassName="OrderedBuyerAccountRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="DiscountRef" msprop:Generator_ColumnVarNameInTable="columnDiscountRef" msprop:Generator_ColumnPropNameInRow="DiscountRef" msprop:Generator_ColumnPropNameInTable="DiscountRefColumn" msprop:Generator_UserColumnName="DiscountRef" type="xs:string" minOccurs="0" />
+              <xs:element name="DiscountStyle" msprop:Generator_ColumnVarNameInTable="columnDiscountStyle" msprop:Generator_ColumnPropNameInRow="DiscountStyle" msprop:Generator_ColumnPropNameInTable="DiscountStyleColumn" msprop:Generator_UserColumnName="DiscountStyle" type="xs:string" minOccurs="0" />
+              <xs:element name="DiscountQty" msprop:Generator_ColumnVarNameInTable="columnDiscountQty" msprop:Generator_ColumnPropNameInRow="DiscountQty" msprop:Generator_ColumnPropNameInTable="DiscountQtyColumn" msprop:Generator_UserColumnName="DiscountQty" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DiscountAmt" msprop:Generator_ColumnVarNameInTable="columnDiscountAmt" msprop:Generator_ColumnPropNameInRow="DiscountAmt" msprop:Generator_ColumnPropNameInTable="DiscountAmtColumn" msprop:Generator_UserColumnName="DiscountAmt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AdjInvoice" msprop:Generator_ColumnVarNameInTable="columnAdjInvoice" msprop:Generator_ColumnPropNameInRow="AdjInvoice" msprop:Generator_ColumnPropNameInTable="AdjInvoiceColumn" msprop:Generator_UserColumnName="AdjInvoice" type="xs:string" minOccurs="0" />
+              <xs:element name="AdjRef" msprop:Generator_ColumnVarNameInTable="columnAdjRef" msprop:Generator_ColumnPropNameInRow="AdjRef" msprop:Generator_ColumnPropNameInTable="AdjRefColumn" msprop:Generator_UserColumnName="AdjRef" type="xs:string" minOccurs="0" />
+              <xs:element name="AdjStyle" msprop:Generator_ColumnVarNameInTable="columnAdjStyle" msprop:Generator_ColumnPropNameInRow="AdjStyle" msprop:Generator_ColumnPropNameInTable="AdjStyleColumn" msprop:Generator_UserColumnName="AdjStyle" type="xs:string" minOccurs="0" />
+              <xs:element name="AdjQty" msprop:Generator_ColumnVarNameInTable="columnAdjQty" msprop:Generator_ColumnPropNameInRow="AdjQty" msprop:Generator_ColumnPropNameInTable="AdjQtyColumn" msprop:Generator_UserColumnName="AdjQty" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AdjAmt" msprop:Generator_ColumnVarNameInTable="columnAdjAmt" msprop:Generator_ColumnPropNameInRow="AdjAmt" msprop:Generator_ColumnPropNameInTable="AdjAmtColumn" msprop:Generator_UserColumnName="AdjAmt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Balance" msprop:Generator_ColumnVarNameInTable="columnBalance" msprop:Generator_ColumnPropNameInRow="Balance" msprop:Generator_ColumnPropNameInTable="BalanceColumn" msprop:Generator_UserColumnName="Balance" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RowOrder" msprop:Generator_ColumnVarNameInTable="columnRowOrder" msprop:Generator_ColumnPropNameInRow="RowOrder" msprop:Generator_ColumnPropNameInTable="RowOrderColumn" msprop:Generator_UserColumnName="RowOrder" type="xs:int" minOccurs="0" />
+              <xs:element name="CashAmt" msprop:Generator_ColumnVarNameInTable="columnCashAmt" msprop:Generator_ColumnPropNameInRow="CashAmt" msprop:Generator_ColumnPropNameInTable="CashAmtColumn" msprop:Generator_UserColumnName="CashAmt" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="BuyerAccount" msprop:Generator_TableClassName="BuyerAccountDataTable" msprop:Generator_TableVarName="tableBuyerAccount" msprop:Generator_TablePropName="BuyerAccount" msprop:Generator_RowDeletingName="BuyerAccountRowDeleting" msprop:Generator_RowChangingName="BuyerAccountRowChanging" msprop:Generator_RowEvHandlerName="BuyerAccountRowChangeEventHandler" msprop:Generator_RowDeletedName="BuyerAccountRowDeleted" msprop:Generator_UserTableName="BuyerAccount" msprop:Generator_RowChangedName="BuyerAccountRowChanged" msprop:Generator_RowEvArgName="BuyerAccountRowChangeEvent" msprop:Generator_RowClassName="BuyerAccountRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="DiscountRef" msprop:Generator_ColumnVarNameInTable="columnDiscountRef" msprop:Generator_ColumnPropNameInRow="DiscountRef" msprop:Generator_ColumnPropNameInTable="DiscountRefColumn" msprop:Generator_UserColumnName="DiscountRef" type="xs:string" minOccurs="0" />
+              <xs:element name="DiscountStyle" msprop:Generator_ColumnVarNameInTable="columnDiscountStyle" msprop:Generator_ColumnPropNameInRow="DiscountStyle" msprop:Generator_ColumnPropNameInTable="DiscountStyleColumn" msprop:Generator_UserColumnName="DiscountStyle" type="xs:string" minOccurs="0" />
+              <xs:element name="DiscountQty" msprop:Generator_ColumnVarNameInTable="columnDiscountQty" msprop:Generator_ColumnPropNameInRow="DiscountQty" msprop:Generator_ColumnPropNameInTable="DiscountQtyColumn" msprop:Generator_UserColumnName="DiscountQty" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DiscountAmt" msprop:Generator_ColumnVarNameInTable="columnDiscountAmt" msprop:Generator_ColumnPropNameInRow="DiscountAmt" msprop:Generator_ColumnPropNameInTable="DiscountAmtColumn" msprop:Generator_UserColumnName="DiscountAmt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AdjInvoice" msprop:Generator_ColumnVarNameInTable="columnAdjInvoice" msprop:Generator_ColumnPropNameInRow="AdjInvoice" msprop:Generator_ColumnPropNameInTable="AdjInvoiceColumn" msprop:Generator_UserColumnName="AdjInvoice" type="xs:string" minOccurs="0" />
+              <xs:element name="AdjRef" msprop:Generator_ColumnVarNameInTable="columnAdjRef" msprop:Generator_ColumnPropNameInRow="AdjRef" msprop:Generator_ColumnPropNameInTable="AdjRefColumn" msprop:Generator_UserColumnName="AdjRef" type="xs:string" minOccurs="0" />
+              <xs:element name="AdjStyle" msprop:Generator_ColumnVarNameInTable="columnAdjStyle" msprop:Generator_ColumnPropNameInRow="AdjStyle" msprop:Generator_ColumnPropNameInTable="AdjStyleColumn" msprop:Generator_UserColumnName="AdjStyle" type="xs:string" minOccurs="0" />
+              <xs:element name="AdjQty" msprop:Generator_ColumnVarNameInTable="columnAdjQty" msprop:Generator_ColumnPropNameInRow="AdjQty" msprop:Generator_ColumnPropNameInTable="AdjQtyColumn" msprop:Generator_UserColumnName="AdjQty" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AdjAmt" msprop:Generator_ColumnVarNameInTable="columnAdjAmt" msprop:Generator_ColumnPropNameInRow="AdjAmt" msprop:Generator_ColumnPropNameInTable="AdjAmtColumn" msprop:Generator_UserColumnName="AdjAmt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Balance" msprop:Generator_ColumnVarNameInTable="columnBalance" msprop:Generator_ColumnPropNameInRow="Balance" msprop:Generator_ColumnPropNameInTable="BalanceColumn" msprop:Generator_UserColumnName="Balance" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RowOrder" msprop:Generator_ColumnVarNameInTable="columnRowOrder" msprop:Generator_ColumnPropNameInRow="RowOrder" msprop:Generator_ColumnPropNameInTable="RowOrderColumn" msprop:Generator_UserColumnName="RowOrder" type="xs:int" minOccurs="0" />
+              <xs:element name="CashAmt" msprop:Generator_ColumnVarNameInTable="columnCashAmt" msprop:Generator_ColumnPropNameInRow="CashAmt" msprop:Generator_ColumnPropNameInTable="CashAmtColumn" msprop:Generator_UserColumnName="CashAmt" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Buyer" msprop:Generator_TableClassName="BuyerDataTable" msprop:Generator_TableVarName="tableBuyer" msprop:Generator_TablePropName="Buyer" msprop:Generator_RowDeletingName="BuyerRowDeleting" msprop:Generator_RowChangingName="BuyerRowChanging" msprop:Generator_RowEvHandlerName="BuyerRowChangeEventHandler" msprop:Generator_RowDeletedName="BuyerRowDeleted" msprop:Generator_UserTableName="Buyer" msprop:Generator_RowChangedName="BuyerRowChanged" msprop:Generator_RowEvArgName="BuyerRowChangeEvent" msprop:Generator_RowClassName="BuyerRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BuyerId" msdata:Caption="SupplierId" msprop:Generator_ColumnVarNameInTable="columnBuyerId" msprop:Generator_ColumnPropNameInRow="BuyerId" msprop:Generator_ColumnPropNameInTable="BuyerIdColumn" msprop:Generator_UserColumnName="BuyerId" type="xs:int" minOccurs="0" />
+              <xs:element name="BuyerName" msdata:Caption="SupplierName" msprop:Generator_ColumnVarNameInTable="columnBuyerName" msprop:Generator_ColumnPropNameInRow="BuyerName" msprop:Generator_ColumnPropNameInTable="BuyerNameColumn" msprop:Generator_UserColumnName="BuyerName" type="xs:string" minOccurs="0" />
+              <xs:element name="OpeningBalance" msprop:Generator_ColumnVarNameInTable="columnOpeningBalance" msprop:Generator_ColumnPropNameInRow="OpeningBalance" msprop:Generator_ColumnPropNameInTable="OpeningBalanceColumn" msprop:Generator_UserColumnName="OpeningBalance" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OpeningDate" msprop:Generator_ColumnVarNameInTable="columnOpeningDate" msprop:Generator_ColumnPropNameInRow="OpeningDate" msprop:Generator_ColumnPropNameInTable="OpeningDateColumn" msprop:Generator_UserColumnName="OpeningDate" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

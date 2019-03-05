@@ -1,0 +1,1749 @@
+﻿@model BHMS.Models.DiscountAdjustmentBuyerMas
+
+@{
+    ViewBag.Title = "Discount Adjustment Buyer";
+    ViewBag.SubTitle = "Create";
+}
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Discount Adjustment Buyer</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerInfoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("SupplierId", null, "", htmlAttributes: new { @class = "form-control select2", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-2">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.DateAdj, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DateAdj, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.DateAdj, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+
+                @*<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-xs">
+                                @Html.LabelFor(model => model.BuyerOrderMasAdjId, "BuyerOrderMasAdjId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("BuyerOrderMasAdjId", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.BuyerOrderMasAdjId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.BuyerOrderMasAdjId, "BuyerOrderMasAdjId", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("BuyerOrderMasAdjId", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuyerOrderMasAdjId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+
+        }
+
+        <br />
+
+        <div class="table-responsive">
+            <div class="col-lg-6">
+                <table class="table table-bordered table-xxs CurrentOrderItemTable" id="CurrentOrderTable">
+                    <thead>
+                        <tr class="bg-primary-400">
+                            <th style="min-width:300px;">Previous RDL Ref. No.</th>
+                            <th style="min-width:100px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6">
+                <table class="table table-bordered table-xxs AdjustOrderItemTable" id="AdjustOrderTable">
+                    <thead>
+                        <tr class="bg-primary-400">
+                            <th style="min-width:300px;">Adjusted to RDL Ref. No.</th>
+                            <th style="min-width:100px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRowAdj"><i class="icon-add position-left"></i> Add Row</button> </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div> <!-- panel body -->
+    @*<div class="panel-footer">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+        </div>*@
+
+</div>
+
+
+
+
+<div class="panel panel-primary panel-bordered" id="DV_Order_DelivPrev" style="display:none;">
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseDeliveryPrev" @*style="margin:10px 0 10px 10px"*@><i class="icon-close2 position-left"></i>Close Detail</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs DelivTablePrev" id="DelivTablePrev">
+                <thead>
+                    <tr class="bg-brown-400">
+                        <th style="min-width:150px;">Style Name</th>
+                        <th style="min-width:120px;">P.O. No.</th>
+                        <th style="min-width:100px;">Delivery No.</th>
+                        <th style="min-width:180px;">Destination/Port</th>
+                        <th style="min-width:120px;">Order Quantity</th>
+                        <th style="min-width:100px;">Delivery Quantity</th>
+                        <th style="min-width:100px;">RDL FOB</th>
+                        <th style="min-width:200px;">RDL Value</th>
+                        <th style="min-width:200px;">Discount %</th>
+                        <th style="min-width:200px;">Discount Amount</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandOrderQtyPrev text-right"></label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandShipQtyPrev text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandFactValPrev text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandDiscountAmtPrev text-right"></label></td>
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="panel panel-primary panel-bordered" id="DV_Order_DelivAdj" style="display:none;">
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseDeliveryAdj" @*style="margin:10px 0 10px 10px"*@><i class="icon-close2 position-left"></i>Close Detail</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs DelivTableAdj" id="DelivTableAdj">
+                <thead>
+                    <tr class="bg-info">
+
+                        <th style="min-width:150px;">Style Name</th>
+                        <th style="min-width:120px;">P.O. No</th>
+                        <th style="min-width:100px;">Delivery No.</th>
+                        <th style="min-width:180px;">Destination/Port</th>
+                        <th style="min-width:120px;">Order Quantity</th>
+                        <th style="min-width:100px;">Shipment Quantity</th>
+                        <th style="min-width:100px;">RDL FOB</th>
+                        <th style="min-width:200px;">RDL Value</th>
+                        <th style="min-width:200px;">Adjustment</th>
+                        <th style="min-width:200px;">RDL FOB after previous adjustment</th>
+                        <th style="min-width:200px;">RDL Invoice Value after previous adjustment</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        @*<td colspan="2" class="text-right"><label class="text-bold">Total Quantity:</label></td>*@
+                        <td></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandOrderQtyAdj text-right"></label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandShipQtyAdj text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandFactValAdj text-right"></label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandAdjustAmtAdj text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandInvValAdj text-right"></label></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        //-- global var---
+        var currSelDelivRow = 0; //
+        var cnOrderTempId = 0; //
+        var currSelOrderTempId = 0; //
+        //var currSelOrderId = 0;
+        var DelivQtyCheck = true;
+
+
+        var currSelDelivRowAdj = 0; //
+        var cnOrderTempIdAdj = 0; //
+        var currSelOrderTempIdAdj = 0; //
+        //var currSelOrderId = 0;
+        var OrderStore = [];
+
+
+        //--------------
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+        $(document).ready(function () {
+            $('body').addClass("sidebar-xs");
+            $(".select2").select2();
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+
+
+            var Id = $('#Id').val();
+
+            $.ajax({
+                type: "post",
+                url: "/BuyerDiscountAjustment/GetRDLPrevNos",
+                data: { Id: Id },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        OrderStore.push({ Id: data[i].Id, Name: data[i].Name });
+                    }
+                    GetSavedPrevRDL();
+                }
+            });
+
+
+
+           // AddNewRow();
+           // AddNewRowAdj();
+
+        });
+
+
+
+        //----------------------------------------------------GET PREV SAVED DATA------------------------
+        function GetSavedPrevRDL() {
+            //var id = $('#BuyerInfoId option:selected').val();
+
+            var Id = $('#Id').val();
+            //disabled="disabled"
+            $.ajax({
+                url: '/BuyerDiscountAjustment/GetSelectedRDLPrev/',
+                data: { Id: Id },
+                dataType: 'json',
+                TYPE: 'POST',
+                success: function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        cnOrderTempId++;
+                        //alert('ExFactDetId: ' + data[i].ExDetId);
+                        var newRow = $('<tr><td>'
+                            + '<input type="hidden" name = "BuyerOrderMasId" value="' + data[i].BuyerOrderMasPrevId + '" class="BuyerOrderMasId" /><input type="hidden" name = "PrevMasId" value="' + data[i].PrevMasId + '" class="PrevMasId" />'
+                            + '<input type="hidden" name = "DiscountFactAdjMasId" value="' + data[i].Id + '" class="DiscountFactAdjMasId" />'
+                            + '<select name="PrevRDLRef" class="PrevRDLRef form-control select2 input-xs"  ><option value="' + data[i].PrevRDLRef + '"></option></select></td>'
+                            + '<td><button onclick="ShowDelivDetailPrev(this)" type="button" class="btn btn-link Delivery_btnPrev">Detail</button>|<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+                        var currRow = $('table.CurrentOrderItemTable tbody').find('tr:last').index() + 1;
+
+                        $('table.CurrentOrderItemTable tbody').find('tr:last').before(newRow);
+                        // $('table.CurrentOrderItemTable tbody').append(newRow);
+
+                        SetSelectedPrevRDL(currRow, data[i].BuyerOrderMasPrevId);
+
+                    }
+
+                    $(".select2").select2();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        }
+
+
+        function SetSelectedPrevRDL(currRow, selBuyerOrderVal) {
+            // alert ("type: " + currRow + ", " + selBuyerOrderVal);
+
+            if (OrderStore.length > 0) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < OrderStore.length; i++) {
+                    selOptions = selOptions + '<option value=' + OrderStore[i].Id + '>' + OrderStore[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+
+                $('table.CurrentOrderItemTable tr').eq(currRow).find("select.PrevRDLRef").html(selOptions);
+                $('table.CurrentOrderItemTable tr').eq(currRow).find("select.PrevRDLRef").val(selBuyerOrderVal);
+
+                var BuyerOrderMasPrevId = $('table.CurrentOrderItemTable tr').eq(currRow).find("input.BuyerOrderMasId").val();
+                //alert('BuyerOrderMasPrevId->' + BuyerOrderMasId);
+                LoadSavedDelivDataPrev();
+                // LoadSavedDelivData(ExFactoryDetailId);
+            }
+
+        }
+
+
+
+        //-------------------------------ON CHANGE----------------------------------------------------------------------------------------------------------------------
+
+        //$('#BuyerInfoId').change(function () {
+
+
+        //    var id = $('#BuyerInfoId option:selected').val();
+
+        //    if ($('#BuyerInfoId option:selected').text() == "") {
+        //        $('#SupplierId').empty();
+        //        jQuery('table.CurrentOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasPrevId").empty();
+
+        //        var buyers = "<select id='buyers'><option value=''>--Select--</option></select>";
+
+        //        $("#DV_Order_Deliv").hide();
+
+        //        var tabLen = $('#CurrentOrderTable tr').length;
+        //        //alert('tabLen '+tabLen);
+        //        if (tabLen > 2) {
+        //            //$('#OrderTable tbody').empty();
+        //            $('#DelivTablePrev tbody').empty();
+        //        }
+
+
+        //    }
+        //    else {
+        //        $.ajax({
+        //            url: "/BuyerDiscountAjustment/GetSupplierUnderBuyer",
+        //            type: "post",
+        //            data: {
+        //                Id: id
+        //            },
+        //            dataType: "json",
+        //            success: function (data) {
+        //                $('#SupplierId').empty();
+
+        //                var buyers = "<select id='buyers'><option value=''></option></select>";
+        //                var listOfBuyers = data.ListOfBuyers.length;
+        //                //alert(listOfBuyers);
+        //                var buyers = "<select id='buyers'>";
+        //                buyers = buyers + '<option value=""></option>';
+        //                for (var i = 0; i < listOfBuyers; i++) {
+        //                    buyers = buyers + '<option value=' + data.ListOfBuyers[i].Value + '>' + data.ListOfBuyers[i].Text + '</option>';
+
+        //                }
+
+        //                buyers = buyers + '</select>';
+        //                $('#SupplierId').html(buyers);
+        //                //alert(buyers);
+
+        //            },
+        //            error: function (xhr) {
+        //                alert('error');
+        //            }
+        //        });
+        //    }
+
+        //});
+
+
+
+        //$('#SupplierId').change(function () {
+
+        //    var id = $('#BuyerInfoId option:selected').val();
+
+
+        //    if ($('#SupplierId option:selected').text() == "") {
+        //        jQuery('table.CurrentOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasPrevId").empty();
+        //        var rdl = "<select id='rdl'><option value=''></option></select>";
+
+        //        $("#DV_Order_Deliv").hide();
+
+        //        var tabLen = $('#CurrentOrderTable tr').length;
+        //        //alert('tabLen '+tabLen);
+        //        if (tabLen > 2) {
+        //            //$('#OrderTable tbody').empty();
+        //            $('#DelivTablePrev tbody').empty();
+        //        }
+        //    }
+
+        //    //==========================================================
+        //    if ($('#SupplierId option:selected').text() == "") {
+        //        $('.BuyerOrderMasPrevId').empty();
+        //        var selOptions = "<select>";
+        //        selOptions = selOptions + '<option value=""></option>';
+        //        selOptions = selOptions + '</select>';
+        //        jQuery('table.CurrentOrderItemTable tbody').find('tr:last').prev().find('tr:last').prev().find("select.BuyerOrderMasPrevId").html(selOptions);
+
+        //        // $('.BuyerOrderMasAdjId').empty();
+        //        var selOptions = "<select>";
+        //        selOptions = selOptions + '<option value=""></option>';
+        //        selOptions = selOptions + '</select>';
+        //        jQuery('table.AdjustOrderItemTable tbody').find('tr:last').prev().find('tr:last').prev().find("select.BuyerOrderMasAdjId").html(selOptions);
+
+        //    }
+        //    else {
+        //        var selectedBuyerValue = $('#BuyerInfoId option:selected').val();
+        //        var selectedSupplierValue = $('#SupplierId option:selected').val();
+
+
+        //        $.ajax({
+        //            url: "/BuyerDiscountAjustment/GetPrevNames",
+        //            type: "post",
+        //            data: { Id: selectedBuyerValue, SupplierId: selectedSupplierValue },
+        //            dataType: "json",
+        //            success: function (data) {
+
+        //                jQuery('table.CurrentOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasPrevId").empty();
+
+        //                var rdl = "<select id='rdl'><option value=''></option></select>";
+        //                var listOfRdlRef = data.ListOfRdlRef.length;
+
+        //                var rdl = "<select id='rdl'>";
+        //                rdl = rdl + '<option value=""></option>';
+        //                for (var i = 0; i < listOfRdlRef; i++) {
+        //                    rdl = rdl + '<option value=' + data.ListOfRdlRef[i].Value + '>' + data.ListOfRdlRef[i].Text + '</option>';
+        //                    $('select.BuyerOrderMasPrevId').val(data.ListOfRdlRef[i].Value);
+        //                   // $('#DelivTableAdj tr').eq(i).find(".FactoryTransFOB").text(FactTransFOB);
+        //                }
+        //                rdl = rdl + '</select>';
+        //                jQuery('table.CurrentOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasPrevId").html(rdl);
+
+
+        //            },
+        //            error: function (xhr) {
+        //                alert('error');
+        //            }
+        //        });
+
+
+        //        $.ajax({
+        //            url: "/BuyerDiscountAjustment/GetAdjNames",
+        //            type: "post",
+        //            data: { Id: selectedBuyerValue, SupplierId: selectedSupplierValue },
+        //            dataType: "json",
+        //            success: function (data) {
+
+        //                jQuery('table.AdjustOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasAdjId").empty();
+
+        //                var rdl = "<select id='rdl'><option value=''></option></select>";
+        //                var listOfRdlRef = data.ListOfRdlRef.length;
+
+        //                var rdl = "<select id='rdl'>";
+        //                rdl = rdl + '<option value=""></option>';
+        //                for (var i = 0; i < listOfRdlRef; i++) {
+        //                    rdl = rdl + '<option value=' + data.ListOfRdlRef[i].Value + '>' + data.ListOfRdlRef[i].Text + '</option>';
+        //                    $('select.BuyerOrderMasAdjId').val(data.ListOfRdlRef[i].Value);
+        //                    // $('#DelivTableAdj tr').eq(i).find(".FactoryTransFOB").text(FactTransFOB);
+        //                }
+        //                rdl = rdl + '</select>';
+        //                jQuery('table.AdjustOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasAdjId").html(rdl);
+
+
+        //            },
+        //            error: function (xhr) {
+        //                alert('error');
+        //            }
+        //        });
+
+
+
+
+
+        //    }
+        //});
+
+
+        //-------------------------------ON CHANGE ENDS HERE---------------------------------------------------------------------------------------------------
+
+
+
+
+
+        $('#btnAddRow').click(function () {
+
+            AddNewRow();
+        });
+
+
+        function AddNewRow() {
+
+            var selectedBuyerValue = $('#BuyerInfoId option:selected').val();
+            var selectedSupplierValue = $('#SupplierId option:selected').val();
+
+            cnOrderTempId++;
+
+            var newRow = jQuery('<tr><td>'
+                + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                + '<select name="BuyerOrderMasPrevId" class="BuyerOrderMasPrevId form-control select2 input-xs"><option value=""></option></select></td>'
+                + '<td><button onclick="ShowDelivDetailPrev(this)" type="button" class="btn btn-link Delivery_btnPrev">Details</button><input type="hidden" name="ShowDelivStatusPrev" value="' + 0 + '" class="ShowDelivStatusPrev" />'
+//              + '<td><select name="BuyerOrderMasAdjId" class="BuyerOrderMasAdjId form-control select2 input-xs"><option value=""></option></select></td>'
+//              + '<td><button onclick="ShowDelivDetailAdj(this)" type="button" class="btn btn-link Delivery_btnAdj">Details</button>|<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+                + '|<button onclick="RemoveOrderRowPrev(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+            jQuery('table.CurrentOrderItemTable tbody').find('tr:last').before(newRow);
+
+            $(".select2").select2();
+
+            RebindDatePicker();
+
+
+                    $.ajax({
+                        url: "/BuyerDiscountAjustment/GetPrevNames",
+                        type: "post",
+                        data: { Id: selectedBuyerValue, SupplierId: selectedSupplierValue },
+                        dataType: "json",
+                        success: function (data) {
+
+                            jQuery('table.CurrentOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasPrevId").empty();
+
+                            var rdl = "<select id='rdl'><option value=''></option></select>";
+                            var listOfRdlRef = data.ListOfRdlRef.length;
+
+                            var rdl = "<select id='rdl'>";
+                            rdl = rdl + '<option value=""></option>';
+                            for (var i = 0; i < listOfRdlRef; i++) {
+                                rdl = rdl + '<option value=' + data.ListOfRdlRef[i].Value + '>' + data.ListOfRdlRef[i].Text + '</option>';
+                               // $('#SupplierId').val(data.ListOfRdlRef[i].Value);
+                                //$('#CurrentOrderItemTable tr').eq(i).find(".BuyerOrderMasPrevId").val(data.ListOfRdlRef[i].Value);
+                                //$('select.BuyerOrderMasPrevId').val(data.ListOfRdlRef[i].Value);
+
+                            }
+                            rdl = rdl + '</select>';
+                            jQuery('table.CurrentOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasPrevId").html(rdl);
+                        },
+
+                    });
+
+                //}
+
+
+        }
+
+
+
+
+
+        $('#btnAddRowAdj').click(function () {
+
+            AddNewRowAdj();
+        });
+
+        function AddNewRowAdj() {
+
+            var selectedBuyerValue = $('#BuyerInfoId option:selected').val();
+            var selectedSupplierValue = $('#SupplierId option:selected').val();
+
+            cnOrderTempIdAdj++;
+
+            var newRow = jQuery('<tr><td>'
+                + '<input type="hidden" name = "TempOrderIdAdj" value="' + cnOrderTempIdAdj + '" class="TempOrderIdAdj" />'
+                + '<select name="BuyerOrderMasAdjId" class="BuyerOrderMasAdjId form-control select2 input-xs"><option value=""></option></select></td>'
+                + '<td><button onclick="ShowDelivDetailAdj(this)" type="button" class="btn btn-link Delivery_btnAdj">Details</button>|<button onclick="RemoveOrderRowAdj(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+            jQuery('table.AdjustOrderItemTable tbody').find('tr:last').before(newRow);
+
+            $(".select2").select2();
+
+            RebindDatePicker();
+
+            //======================================================================================================================================================================
+            $.ajax({
+                url: "/BuyerDiscountAjustment/GetAdjNames",
+                type: "post",
+                data: { Id: selectedBuyerValue, SupplierId: selectedSupplierValue },
+                dataType: "json",
+                success: function (data) {
+
+                    jQuery('table.AdjustOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasAdjId").empty();
+
+                    var rdl = "<select id='rdl'><option value=''></option></select>";
+                    var listOfRdlRef = data.ListOfRdlRef.length;
+
+                    var rdl = "<select id='rdl'>";
+                    rdl = rdl + '<option value=""></option>';
+                    for (var i = 0; i < listOfRdlRef; i++) {
+                        rdl = rdl + '<option value=' + data.ListOfRdlRef[i].Value + '>' + data.ListOfRdlRef[i].Text + '</option>';
+                        // $('#SupplierId').val(data.ListOfRdlRef[i].Value);
+                        //$('#CurrentOrderItemTable tr').eq(i).find(".BuyerOrderMasPrevId").val(data.ListOfRdlRef[i].Value);
+                        //$('select.BuyerOrderMasAdjId').val(data.ListOfRdlRef[i].Value);
+
+                    }
+                    rdl = rdl + '</select>';
+                    jQuery('table.AdjustOrderItemTable tbody').find('tr:last').prev().find("select.BuyerOrderMasAdjId").html(rdl);
+                },
+
+            });
+
+           // }
+
+
+
+        }
+
+
+
+        //$('#OrderTable').on('change', '.BuyerOrderMasPrevId', function () {
+        //    var selectedValue = $(this).val();
+        //    alert('selectedValue ' + selectedValue);
+
+
+        //var SupplierId = $('#SupplierId').val();
+        //var BuyerInfoId = $('#BuyerInfoId').val();
+        ////    alert('SupplierId ' + SupplierId);
+        ////    alert('BuyerInfoId ' + BuyerInfoId);
+
+        //    $('#DelivTablePrev tbody tr').css("visibility", "collapse");
+        //    $.ajax({
+        //        url: '/DiscountAdjustmentFactoryMas/GetDelivDataPrev/',
+        //        data: { BuyerOrderMasPrevId: selectedValue, SupplierId: SupplierId, BuyerInfoId: BuyerInfoId },
+        //        dataType: 'json',
+        //        TYPE: 'POST',
+        //        success: function (data) {
+        //            //console.log(data);
+        //            for (var i = 0; i < data.length; i++) {
+        //                var row = $('<tr>'
+        //                                 + '<td><input type="hidden" name="FactOrderDelivDetId" class="FactOrderDelivDetId" value="' + data[i].FactOrderDelivDetId + '" />' + data[i].StyleNo + '</td>'
+        //                                 + '<td><input type="hidden" name="BuyerDetId" class="BuyerDetId" value="' + data[i].BuyerDetId + '" /><label>' + data[i].PONo + '</label></td>'
+        //                                 + '<td><label class="DelivNo">' + data[i].DelivNo + '</label></td>'
+        //                                 + '<td><label class="DestPort">' + data[i].DestPort + '</label></td>'
+        //                                 + '<td><label class="OrderQty">' + data[i].OrderQty + '</label></td>'
+        //                                 + '<td><label class="ShipQty ">' + data[i].ShipQty + '</label></td>'
+        //                                 + '<td><label class="FactFOB ">' + data[i].FactFOB + '</label></td>'
+        //                                 + '<td><label class="FactValue  ">' + data[i].FactValue + '</label></td>'
+        //                                 + '<td><label class="DiscountPercent ">' + data[i].DiscountPercent + '</label></td>'
+        //                                 + '<td><label class="DiscountedAmt ">' + data[i].DiscountedAmt + '</label></td>'
+        //                                 + '</tr>');
+
+        //                //var currRow = $('table.DelivTable tbody').find('tr:last').index() + 1;
+        //                //$('table.DelivTable tbody').find('tr:last').before(row);
+        //                $('table.DelivTablePrev tbody').append(row);
+        //                $(".select2").select2();
+        //                $('.datepicker').datepicker({
+        //                    format: 'dd/mm/yyyy',
+        //                    todayHighlight: true,
+        //                    todayBtn: true,
+        //                    autoclose: true
+        //                });
+        //            }
+        //            //PopulateDelivFactFOBValue();
+
+        //            //$('.FactFOB').change(function () {
+        //            //    PopulateDelivFactFOBValue();
+        //            //});
+        //            //  PopulateDelivTotalValue();
+
+        //            //  UpdateTableRowIndex();
+
+        //        },
+        //        error: function (jqXHR, textStatus, errorThrown) {
+        //            alert('Error: ' + textStatus + ' - ' + errorThrown);
+        //        }
+        //    });
+
+
+
+
+
+
+        //})
+
+
+
+
+
+        $('#btnCloseDeliveryPrev').click(function () {
+            $("#DV_Order_DelivPrev").hide();
+            $('#CurrentOrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            $('#CurrentOrderTable tr').eq(currSelDelivRow).find("button.Delivery_btnPrev").css('color', 'black');
+        });
+
+        $('#btnCloseDeliveryAdj').click(function () {
+            $("#DV_Order_DelivAdj").hide();
+            $('#AdjustOrderTable tr').eq(currSelDelivRowAdj).removeClass("bg-info");
+            $('#AdjustOrderTable tr').eq(currSelDelivRowAdj).find("button.Delivery_btnAdj").css('color', 'black');
+        });
+
+
+
+
+        function LoadSavedDelivDataPrev() {
+
+            //var BuyMasId = $('#CurrentOrderTable tr').eq(currSelDelivRow).find("select.BuyerOrderMasId").val();
+            //CurrentOrderItemTable
+            var BuyMasId = $('#CurrentOrderItemTable tr').eq(currSelDelivRow).find("select.BuyerOrderMasId").val();
+            alert('BuyMasId ' + BuyMasId);
+
+            var temporaryId = $('#CurrentOrderTable tr').eq(currSelDelivRow).find("input.TempOrderId").val();
+            var RDLRefId = $('#CurrentOrderTable tr').eq(currSelDelivRow).find("select.BuyerOrderMasId").val();
+           // alert('RDLRefId-->' + RDLRefId);
+            var SupplierId = $('#SupplierId option:selected').val();
+            //alert('SupplierId ' + SupplierId);
+            var BuyInfoId = $('#BuyerInfoId option:selected').val();
+            //alert('BuyInfoId ' + BuyInfoId);
+            //var selectedBuyMasPrevId = $('select[name="BuyerOrderMasPrevId"] option:selected').val();
+            //alert('BuyerOrderMasPrevId ' + selectedBuyMasPrevId);
+
+            var refCount = 0;
+            alert('currSelOrderTempId ' + currSelOrderTempId);
+            alert('Table Length: ' + $('table.DelivTablePrev tbody tr').length);
+
+                //alert('New item ajax call');
+                //debugger;
+                $.ajax({
+                    url: '/BuyerDiscountAjustment/GetDelivDataPrev/',
+                    data: { BuyerOrderMasPrevId: BuyMasId, SupplierId: SupplierId, BuyerInfoId: BuyInfoId },
+                    dataType: 'json',
+                    TYPE: 'POST',
+                    success: function (data) {
+                        $('#DelivTablePrev tbody tr').empty();
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+
+
+                            var row = $('<tr>'
+                                               + '<td><input type="hidden" name="FactOrderDelivDetId" class="FactOrderDelivDetId" value="' + data[i].FactOrderDelivDetId + '" />'
+                                               + '<input type="hidden" name="DelivOrderDetTempId" value="' + currSelOrderTempId + '" class="DelivOrderDetTempId" />'
+                                               + data[i].StyleNo + '</td>'
+                                               + '<td><input type="hidden" name="BuyerDetId" class="BuyerDetId" value="' + data[i].BuyerDetId + '" /><label>' + data[i].PONo + '</label></td>'
+                                               + '<td><label class="DelivNo">' + data[i].DelivNo + '</label></td>'
+                                               + '<td><label class="DestPort">' + data[i].DestPort + '</label></td>'
+                                               + '<td><label class="OrderQty">' + data[i].OrderQty + '</label></td>'
+                                               + '<td><label class="ShipQty ">' + data[i].ShipQty + '</label></td>'
+                                               + '<td><label class="FactFOB ">' + data[i].FactFOB + '</label></td>'
+                                               + '<td><label class="FactValue  ">' + data[i].FactValue + '</label></td>'
+                                               + '<td><label class="DiscountPercent ">' + data[i].DiscountPercent + '</label></td>'
+                                               + '<td><label class="DiscountedAmt ">' + data[i].DiscountedAmt + '</label></td>'
+                                               + '</tr>');
+                            //$('table.DelivTablePrev tbody').find('tr:last').before(row);
+                            $('table.DelivTablePrev tbody').append(row);
+                        }
+                        $(".select2").select2();
+                        PopulatePrevCalc();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+        }
+
+        function ShowDelivDetailPrev(e) {
+
+
+
+            if (currSelDelivRow > 0) {
+                $('#CurrentOrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            }
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+
+            $('#CurrentOrderTable tr').find("button.Delivery_btnPrev").css('color', 'black');
+            $('#CurrentOrderTable tr').eq(currRowIndex).addClass("bg-brown");
+            $('#CurrentOrderTable tr').eq(currRowIndex).find("button.Delivery_btnPrev").css('color', 'white');
+
+            currSelDelivRow = currRowIndex;
+
+
+
+            //LoadSavedDelivDataPrev();
+
+            currSelOrderTempId = $('#CurrentOrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+            alert('currSelOrderTempId NEW' + currSelOrderTempId);
+
+
+            //currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("select.RdlRef").val();
+            //alert('RdlRef' + currSelOrderTempId);
+
+            //$("#orderRefNo").val($('#OrderTable tr').eq(currRowIndex).find("select.BuyerOrderId option:selected").text());
+
+
+            for (var i = 1; i < $('#DelivTablePrev tr').length - 1; i++) {
+
+                alert($('#DelivTablePrev tr').eq(i).find("input.DelivOrderDetTempId").val());
+
+
+                //  alert('currSelOrderTempId ' + currSelOrderTempId);
+
+                if ($('#DelivTablePrev tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+                    $('#DelivTablePrev tr').eq(i).css("visibility", "visible");
+
+                }
+
+
+                else {
+                    $('#DelivTablePrev tr').eq(i).css("visibility", "collapse");
+                }
+
+            }
+
+
+            //$("#btnAddRow").attr("disabled", "disabled");
+            //totalShipmentQty()
+            //PopulateDelivTotalValue();
+
+
+
+            $("#DV_Order_DelivPrev").show();
+
+        }
+
+
+
+
+
+        //Adjustment----------------====================================================================================================================================
+        //Column Factory Transfer FOB after previous adjustment and Factory Invoice Value after previous adjustment
+        function PopulateAdjustCalc() {
+            var grandOrderQnty = 0;
+            var grandInvValAdj = 0;
+            var grandShipQtyAdj = 0;
+            var grandFactValueAdj = 0
+            var grandAdjustment = 0;
+            var Adjustment = 0;
+            var FactValueAdj = 0;
+
+            var totRow = $('#DelivTableAdj tr').length - 1;
+            //alert('totRow: ' + totRow);
+            for (var i = 1; i < totRow; i++) {
+
+                //alert('currSelOrderTempIdAdj' + currSelOrderTempIdAdj + '----> DelivOrderDetTempIdAdj: ' + $('#DelivTableAdj tr').eq(i).find(".DelivOrderDetTempIdAdj").val());
+
+                if (currSelOrderTempIdAdj == $('#DelivTableAdj tr').eq(i).find(".DelivOrderDetTempIdAdj").val()) {
+
+                    //alert('i---->'+i++);
+                    Adjustment = $('#DelivTableAdj tr').eq(i).find(".Adjustment").val();
+                    FactValueAdj = $('#DelivTableAdj tr').eq(i).find(".FactValueAdj").val();
+                    //alert('Adjustment: ' + Adjustment);
+                    //alert('FactValueAdj: ' + FactValueAdj);
+
+                    var ShipQtyAdj = $('#DelivTableAdj tr').eq(i).find(".ShipQtyAdj").text();
+                    //alert('ShipQtyAdj ' + ShipQtyAdj);
+                    var OrderQtyAdj = $('#DelivTableAdj tr').eq(i).find(".OrderQtyAdj").text();
+                    //alert('OrderQtyAdj ' + OrderQtyAdj);
+                    var FactValueAdj = $('#DelivTableAdj tr').eq(i).find(".FactValueAdjLabel").text();
+
+
+                    var total = parseFloat(FactValueAdj) - parseFloat(Adjustment);
+                    var FactTransFOB = parseFloat(total) / parseFloat(ShipQtyAdj);
+
+                    //alert('FactTransFOB: ' + FactTransFOB);
+                    if (!$.isNumeric(total)) {
+                        total = 0;
+                    }
+                    $('#DelivTableAdj tr').eq(i).find(".FactoryTransFOB").text(FactTransFOB);
+                    $('#DelivTableAdj tr').eq(i).find(".FactoryInvVal").text(total);
+
+
+
+
+
+
+
+                     if ($.isNumeric(total)) {
+                         grandInvValAdj = grandInvValAdj + total;
+                     }
+
+                     if ($.isNumeric(parseFloat(ShipQtyAdj))) {
+                         grandShipQtyAdj = grandShipQtyAdj + parseFloat(ShipQtyAdj);
+                     }
+                     if ($.isNumeric(parseFloat(OrderQtyAdj))) {
+                         grandOrderQnty = grandOrderQnty + parseFloat(OrderQtyAdj);
+                     }
+
+                     if ($.isNumeric(parseFloat(FactValueAdj))) {
+                         grandFactValueAdj = grandFactValueAdj + parseFloat(FactValueAdj);
+                     }
+                     if ($.isNumeric(parseFloat(Adjustment))) {
+                         grandAdjustment = grandAdjustment + parseFloat(Adjustment);
+                     }
+
+                }
+            }
+
+            if (!$.isNumeric(grandInvValAdj)) {
+                grandInvValAdj = 0;
+            }
+
+            if (!$.isNumeric(ShipQtyAdj)) {
+                grandShipQtyAdj = 0;
+            }
+            if (!$.isNumeric(grandOrderQnty)) {
+                grandOrderQnty = 0;
+            }
+            if (!$.isNumeric(grandFactValueAdj)) {
+                grandFactValueAdj = 0;
+            }
+            if (!$.isNumeric(grandAdjustment)) {
+                grandAdjustment = 0;
+            }
+
+            $('#DelivTableAdj tr').eq(totRow).find(".grandAdjustAmtAdj").text(numeral(grandAdjustment).format('0,0'));
+            $('#DelivTableAdj tr').eq(totRow).find(".grandFactValAdj").text(numeral(grandFactValueAdj).format('0,0'));
+            $('#DelivTableAdj tr').eq(totRow).find(".grandOrderQtyAdj").text(numeral(grandOrderQnty).format('0,0'));
+            $('#DelivTableAdj tr').eq(totRow).find(".grandShipQtyAdj").text(numeral(grandShipQtyAdj).format('0,0'));
+            $('#DelivTableAdj tr').eq(totRow).find(".grandInvValAdj").text(numeral(grandInvValAdj).format('0,0'));
+
+        }
+
+
+
+        function PopulatePrevCalc() {
+            var prev_grandOrderQnty = 0;
+            var prev_delivQty = 0;
+            var prev_factoryVal = 0;
+            var prev_discountAmt = 0;
+
+            var totRow = $('#DelivTablePrev tr').length - 1;
+            //alert('totRow: ' + totRow);
+            for (var i = 1; i < totRow; i++) {
+
+                alert('currSelOrderTempId' + currSelOrderTempId + '----> DelivOrderDetTempId: ' + $('#DelivTablePrev tr').eq(i).find(".DelivOrderDetTempId").val());
+
+                if (currSelOrderTempId == $('#DelivTablePrev tr').eq(i).find(".DelivOrderDetTempId").val()) {
+
+                    //alert('i---->'+i++);
+                    OrderQty = $('#DelivTablePrev tr').eq(i).find(".OrderQty").text();
+                    // alert('OrderQty: ' + OrderQty);
+                    DelivQty = $('#DelivTablePrev tr').eq(i).find(".ShipQty").text();
+                    // alert('OrderQty: ' + OrderQty);
+                    FactVal = $('#DelivTablePrev tr').eq(i).find(".FactValue").text();
+                    DiscAmt = $('#DelivTablePrev tr').eq(i).find(".DiscountedAmt").text();
+
+
+                    if ($.isNumeric(parseFloat(OrderQty))) {
+                        prev_grandOrderQnty = prev_grandOrderQnty + parseFloat(OrderQty);
+                    }
+
+                    if ($.isNumeric(parseFloat(DelivQty))) {
+                        prev_delivQty = prev_delivQty + parseFloat(DelivQty);
+                    }
+
+                    if ($.isNumeric(parseFloat(FactVal))) {
+                        prev_factoryVal = prev_factoryVal + parseFloat(FactVal);
+                    }
+
+                    if ($.isNumeric(parseFloat(DiscAmt))) {
+                        prev_discountAmt = prev_discountAmt + parseFloat(DiscAmt);
+                    }
+
+                }
+            }
+
+
+            if (!$.isNumeric(prev_grandOrderQnty)) {
+                prev_grandOrderQnty = 0;
+            }
+            if (!$.isNumeric(prev_delivQty)) {
+                prev_delivQty = 0;
+            }
+            if (!$.isNumeric(prev_factoryVal)) {
+                prev_factoryVal = 0;
+            }
+            if (!$.isNumeric(prev_discountAmt)) {
+                prev_discountAmt = 0;
+            }
+
+            $('#DelivTablePrev tr').eq(totRow).find(".grandOrderQtyPrev").text(numeral(prev_grandOrderQnty).format('0,0'));
+            $('#DelivTablePrev tr').eq(totRow).find(".grandShipQtyPrev").text(numeral(prev_delivQty).format('0,0'));
+            $('#DelivTablePrev tr').eq(totRow).find(".grandFactValPrev").text(numeral(prev_factoryVal).format('0,0'));
+            $('#DelivTablePrev tr').eq(totRow).find(".grandDiscountAmtPrev").text(prev_discountAmt);
+
+
+        }
+
+
+
+
+
+        //Adjustment----------------====================================================================================================================================
+        function LoadSavedDelivDataAdj() {
+
+            var BuyMasIdAdj = $('#AdjustOrderTable tr').eq(currSelDelivRowAdj).find("select.BuyerOrderMasAdjId").val();
+            //alert('BuyMasId ' + BuyMasIdAdj);
+
+            var temporaryIdAdj = $('#AdjustOrderTable tr').eq(currSelDelivRowAdj).find("input.TempOrderIdAdj").val();
+            var RDLRefIdAdj = $('#AdjustOrderTable tr').eq(currSelDelivRowAdj).find("select.BuyerOrderMasAdjId").val();
+            //alert('RDLRefId-->' + RDLRefIdAdj);
+            var SupplierIdAdj = $('#SupplierId option:selected').val();
+            //alert('SupplierId ' + SupplierIdAdj);
+            var BuyInfoIdAdj = $('#BuyerInfoId option:selected').val();
+            //alert('BuyInfoId ' + BuyInfoIdAdj);
+            //var selectedBuyMasPrevId = $('select[name="BuyerOrderMasPrevId"] option:selected').val();
+            //alert('BuyerOrderMasPrevId ' + selectedBuyMasPrevId);
+
+            //var refCount = 0;
+            //alert('currSelOrderTempIdAdj ' + currSelOrderTempIdAdj);
+            //alert('Table Length: ' + $('table.DelivTableAdj tbody tr').length);
+
+            //alert('New item ajax call');
+            //debugger;
+
+
+            var refCount = 0;
+
+            for (var m = 0; m < $('table.DelivTableAdj tbody tr').length; m++) {
+                //var check = $('#DelivTable tr').eq(m).find("td input.DelivOrderDetTempId").val();
+                var check = $('#AdjustOrderTable tr').eq(m).find("select.BuyerOrderMasAdjId").val();
+
+
+                if (RDLRefIdAdj == check) {
+                    refCount++;
+                }
+            }
+
+            if (refCount == 0) {
+                $.ajax({
+                    url: '/BuyerDiscountAjustment/GetDelivDataAdj/',
+                    data: { BuyerOrderMasAdjId: BuyMasIdAdj, SupplierId: SupplierIdAdj, BuyerInfoId: BuyInfoIdAdj },
+                    dataType: 'json',
+                    TYPE: 'POST',
+                    success: function (data) {
+                        //$('#DelivTableAdj tbody tr').empty();
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].Adjustment==null)
+                            {
+
+                                var row = $('<tr>'
+                                                   + '<td><input type="hidden" name="FactOrderDelivDetIdAdj" class="FactOrderDelivDetIdAdj" value="' + data[i].FactOrderDelivDetId + '" />'
+                                                   + '<input type="hidden" name="DelivOrderDetTempIdAdj" value="' + currSelOrderTempIdAdj + '" class="DelivOrderDetTempIdAdj" />'
+                                                   + data[i].StyleNo + '</td>'
+                                                   //+ '<td><input type="hidden" name="BuyerMasId" class="BuyerMasId" value="' + data[i].BuyerMasId + '" /></td>'
+                                                   + '<td><input type="hidden" name="BuyerMasId" class="BuyerMasId" value="' + data[i].BuyerMasId + '" />' + '<input type="hidden" name="BuyerDetIdAdj" class="BuyerDetIdAdj" value="' + data[i].BuyerDetId + '" /><label>' + data[i].PONo + '</label></td>'
+                                                   + '<td><label class="DelivNoAdj">' + data[i].DelivNo + '</label></td>'
+                                                   + '<td><label class="DestPortAdj">' + data[i].DestPort + '</label></td>'
+                                                   + '<td><label class="OrderQtyAdj">' + data[i].OrderQty + '</label></td>'
+                                                   + '<td><label class="ShipQtyAdj ">' + data[i].ShipQty + '</label></td>'
+                                                   + '<td><label class="FactFOBAdj ">' + data[i].FactFOB + '</label></td>'
+                                                   + '<td><input type="hidden" name="FactValueAdj" value="' + (data[i].FactFOB * data[i].ShipQty) + '" class="FactValueAdj" /><label class="FactValueAdjLabel ">' + (data[i].FactFOB * data[i].ShipQty) + '</label></td>'
+                                                   + '<td><input type="hidden" name="checkFlag" class="checkFlag" value=0 /><input type="text" name="Adjustment" class="Adjustment form-control input-xs"/></td>'
+                                                  // + '<td><label class="DiscountPercentAdj ">' + data[i].FactFOB + '</label></td>'
+                                                  // + '<td><label class="DiscountedAmtAdj ">' + data[i].FactFOB + '</label></td>'
+                                                   + '<td><label class="FactoryTransFOB" >'+ " "+'</label></td>'
+                                                   //+ '<td><input type="text" name="FactoryTransFOB" value="" class="FactoryTransFOB form-control input-xs"/></td>'
+                                                   + '<td><label class="FactoryInvVal" name="FactoryInvVal"></label></td>'
+                                                   + '</tr>');
+
+                            }
+                            else
+                            {
+
+                                var row = $('<tr>'
+                                                   + '<td><input type="hidden" name="FactOrderDelivDetIdAdj" class="FactOrderDelivDetIdAdj" value="' + data[i].FactOrderDelivDetId + '" />'
+                                                   + '<input type="hidden" name="DelivOrderDetTempIdAdj" value="' + currSelOrderTempIdAdj + '" class="DelivOrderDetTempIdAdj" />'
+                                                   + data[i].StyleNo + '</td>'
+                                                   //+ '<td><input type="hidden" name="BuyerMasId" class="BuyerMasId" value="' + data[i].BuyerMasId + '" /></td>'
+                                                   + '<td><input type="hidden" name="BuyerMasId" class="BuyerMasId" value="' + data[i].BuyerMasId + '" />' + '<input type="hidden" name="BuyerDetIdAdj" class="BuyerDetIdAdj" value="' + data[i].BuyerDetId + '" /><label>' + data[i].PONo + '</label></td>'
+                                                   + '<td><label class="DelivNoAdj">' + data[i].DelivNo + '</label></td>'
+                                                   + '<td><label class="DestPortAdj">' + data[i].DestPort + '</label></td>'
+                                                   + '<td><label class="OrderQtyAdj">' + data[i].OrderQty + '</label></td>'
+                                                   + '<td><label class="ShipQtyAdj">' + data[i].ShipQty + '</label></td>'
+                                                   + '<td><label class="FactFOBAdj">' + data[i].FactFOB + '</label></td>'
+                                                   + '<td><input type="hidden" name="FactValueAdj" value="' + (data[i].FactFOB * data[i].ShipQty) + '" class="FactValueAdj" /><label class="FactValueAdjLabel ">' + (data[i].FactFOB * data[i].ShipQty) + '</label></td>'
+                                                   //+ '<td><input type="text" name="Adjustment" class="Adjustment form-control input-xs"/></td>'
+                                                   + '<td><input type="hidden" name="checkFlag" class="checkFlag" value=1 /><label class="Adjustment ">' + data[i].Adjustment + '</label></td>'
+                                                  // + '<td><label class="DiscountedAmtAdj ">' + data[i].FactFOB + '</label></td>'
+                                                  // + '<td><label class="FactoryTransFOB">' + data[i].FactoryTransFOB + '</label></td>'
+                                                   + '<td><input type="text" name="FactoryTransFOB" value="' + data[i].FactoryTransFOB + '" class="FactoryTransFOB form-control input-xs"/></td>'
+                                                   //+ '<td><label class="FactoryInvVal" name="FactoryInvVal">' + data[i].FactoryInvVal + '</label></td>'
+                                                   + '<td><input type="text" name="FactoryInvVal" value="' + data[i].FactoryInvVal + '" class="FactoryInvVal form-control input-xs"/></td>'
+
+                                                   + '</tr>');
+
+                            }
+
+
+                            //$('table.DelivTableAdj tbody').find('tr:last').before(row);
+                            $('table.DelivTableAdj tbody').append(row);
+                            //console.log($('table.DelivTableAdj tbody'));
+
+                        }
+
+
+                        $(".select2").select2();
+                        PopulateAdjustCalc();
+
+                        $('.Adjustment').change(function () {
+                            PopulateAdjustCalc();
+                        });
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+            }
+
+        }
+
+        function ShowDelivDetailAdj(e) {
+
+
+
+            if (currSelDelivRowAdj > 0) {
+                $('#AdjustOrderTable tr').eq(currSelDelivRowAdj).removeClass("bg-info");
+            }
+
+            var currRowIndexAdj = $(e).closest('tr').index() + 1;
+
+            $('#AdjustOrderTable tr').find("button.Delivery_btnAdj").css('color', 'black');
+            $('#AdjustOrderTable tr').eq(currRowIndexAdj).addClass("bg-info");
+            $('#AdjustOrderTable tr').eq(currRowIndexAdj).find("button.Delivery_btnAdj").css('color', 'white');
+
+            currSelDelivRowAdj = currRowIndexAdj;
+
+            LoadSavedDelivDataAdj();
+
+            currSelOrderTempIdAdj = $('#AdjustOrderTable tr').eq(currRowIndexAdj).find("input.TempOrderIdAdj").val();
+            //alert('currSelOrderTempId NEW ' + currSelOrderTempIdAdj);
+
+
+            //currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("select.RdlRef").val();
+            //alert('RdlRef' + currSelOrderTempId);
+
+            //$("#orderRefNo").val($('#OrderTable tr').eq(currRowIndex).find("select.BuyerOrderId option:selected").text());
+
+            var cn = 1;
+
+            for (var i = 1; i < $('#DelivTableAdj tr').length - 1; i++) {
+
+                //alert($('#DelivTableAdj tr').eq(i).find("input.DelivOrderDetTempIdAdj").val());
+
+
+                //  alert('currSelOrderTempId ' + currSelOrderTempId);
+
+                if ($('#DelivTableAdj tr').eq(i).find("input.DelivOrderDetTempIdAdj").val() == currSelOrderTempIdAdj) {
+                    $('#DelivTableAdj tr').eq(i).css("visibility", "visible");
+
+                    $('#DelivTableAdj tr').eq(i).find("td.index").text(cn);
+                    cn++;
+
+                }
+
+
+                else {
+                    $('#DelivTableAdj tr').eq(i).css("visibility", "collapse");
+                }
+
+            }
+
+
+            //$("#btnAddRow").attr("disabled", "disabled");
+            //totalShipmentQty()
+            //PopulateDelivTotalValue();
+
+
+            PopulateAdjustCalc();
+            $("#DV_Order_DelivAdj").show();
+
+        }
+
+
+
+
+        function RemoveOrderRowPrev(e) {
+            if ($('#CurrentOrderTable tr').length == 3) {
+                alert('You cannot delete this row.\nOrder requires atleast one record.');
+                return;
+            }
+
+            if (confirm('Do you really want to delete?') == false) {
+                return;
+            }
+
+            $("#DV_Order_DelivPrev").hide();
+            $('#CurrentOrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+
+            var id = $('#CurrentOrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+
+            var totRow = $('#DelivTablePrev tr').length - 1;
+            for (var i = 1; i < totRow; i++) {
+
+                if ($('#DelivTablePrev tr').eq(i).find("input.DelivOrderDetTempIdAdj").val() == id) {
+                    $('#DelivTablePrev tr').eq(i).remove();
+                    i--;
+                    totRow--;
+                }
+
+            }
+
+            $(e).parent().parent().remove();
+            //PopulateAdjustCalc();
+        }
+
+
+
+        $('#CurrentOrderTable').on('change', '.BuyerOrderMasPrevId', function () {
+            $("#DV_Order_DelivPrev").hide();
+            var selectedValue = $(this).val();
+
+            var tabLen = $('#CurrentOrderTable tbody tr').length
+            //alert();
+            alert('tabLe->' + tabLen);
+            for (var i = 1; i < tabLen - 1; i++) {
+
+                if ($('#CurrentOrderTable tr').eq(i).find("select.BuyerOrderMasPrevId").val() == selectedValue) {
+                    alert('Reference already taken!');
+                    $(this).val('');
+                    //$(".select2").select2();
+                    $(this).trigger('change');
+                    return;
+                }
+            }
+        });
+
+
+
+
+
+        function RemoveOrderRowAdj(e) {
+            if ($('#AdjustOrderTable tr').length == 3) {
+                alert('You cannot delete this row.\nOrder requires atleast one record.');
+                return;
+            }
+
+            if (confirm('Do you really want to delete?') == false) {
+                return;
+            }
+
+            $("#DV_Order_DelivAdj").hide();
+            $('#AdjustOrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+
+            var id = $('#AdjustOrderTable tr').eq(currRowIndex).find("input.TempOrderIdAdj").val();
+
+            var totRow = $('#DelivTableAdj tr').length - 1;
+            for (var i = 1; i < totRow; i++) {
+
+                if ($('#DelivTableAdj tr').eq(i).find("input.DelivOrderDetTempIdAdj").val() == id) {
+                    $('#DelivTableAdj tr').eq(i).remove();
+                    i--;
+                    totRow--;
+                }
+
+            }
+
+            $(e).parent().parent().remove();
+            //PopulateAdjustCalc();
+        }
+
+
+
+
+        $('#AdjustOrderTable').on('change', '.BuyerOrderMasAdjId', function () {
+            $("#DV_Order_DelivAdj").hide();
+            var selectedValue = $(this).val();
+
+            var tabLen = $('#AdjustOrderTable tbody tr').length
+
+            for (var i = 1; i < tabLen - 1; i++) {
+
+                if ($('#AdjustOrderTable tr').eq(i).find("select.BuyerOrderMasAdjId").val() == selectedValue) {
+                    alert('Reference already taken!');
+                    $(this).val('');
+                    //$(".select2").select2();
+                    $(this).trigger('change');
+                    return;
+                }
+            }
+        });
+
+
+
+
+        function OldCheckOrderGridDataDetail() {
+
+
+            //var totRowDeliv = $('#DelivTableAdj tr').length - 1;
+            //for (var i = 1; i < totRowDeliv; i++) {
+            //    if ($('#DelivTableAdj tr').eq(i).find(".FactOrderDelivDetIdAdj").val() == "") {
+            //        alert('Buyer Sl No required');
+            //        return false;
+            //    };
+
+
+             var refCount = 0;
+
+            // alert('Table Length: '+ $('table.DelivTable tbody tr').length);
+
+
+
+             var tabLen = $('#AdjustOrderTable tbody tr').length
+
+             var detailLen = $('table.DelivTableAdj tbody tr').length
+
+             alert(tabLen);
+
+             alert(detailLen);
+
+             if (detailLen == 0)
+             {
+                 alert("No detail, saving failed");
+                 return false;
+             }
+
+             for (var i = 1; i < tabLen; i++) {
+
+                 var RDLRefIdAdj = $('#AdjustOrderTable tr').eq(i).find("select.BuyerOrderMasAdjId").val();
+
+                 for (var m = 1; m < $('table.DelivTableAdj tbody tr').length; m++) {
+                     var check = $('#DelivTableAdj tr').eq(m).find("td input.BuyerMasId").val();
+                     //var check = $('table.DelivTableAdj tr').eq(m).find("#BuyerMasId").val();
+
+
+                     if (RDLRefIdAdj == check) {
+                         refCount++;
+                         alert("Details ache" + RDLRefIdAdj + check);
+                         break;
+                         //alert(RDLRefIdAdj);
+                         //alert(RDLRefIdAdj);
+                        // alert("Details ache" + RDLRefIdAdj + check);
+                     }
+                     //else {
+                     //    alert("Details nai" + RDLRefIdAdj + check);
+                     //}
+                 }
+             }
+
+
+
+            if (refCount == 0) {
+                //alert('RDL FOB in delivery is required');
+                alert("anis");
+                return false;
+
+            }
+                //if ($('#DelivTableAdj tr').eq(i).find(".DestinationPortId").val() == "") {
+                //    alert('Destination Port Id required');
+                //    return false;
+                //};
+
+                //if ($('#DelivTableAdj tr').eq(i).find(".DelivQuantity").val() == "") {
+                //    alert('Delivery Quantity required');
+                //    return false;
+                //};
+
+                //if ($('#DelivTableAdj tr').eq(i).find(".RdlFobDetailDet").val() == "") {
+                //    alert('RDL FOB in delivery is required');
+                //    return false;
+                //};
+
+
+
+            return true;
+        }
+
+
+        function CheckOrderGridDataDetail() {
+
+            var refCount = 0;
+
+            // alert('Table Length: '+ $('table.DelivTable tbody tr').length);
+
+
+
+            var tabLen = $('#AdjustOrderTable tbody tr').length
+
+            var detailLen = $('table.DelivTableAdj tbody tr').length
+
+            //alert(tabLen);
+
+            //alert(detailLen);
+
+            if (detailLen == 0) {
+                alert("No detail, saving failed");
+                return false;
+            }
+
+            for (var i = 1; i < tabLen; i++) {
+                refCount = 0;
+
+                var RDLRefIdAdj = $('#AdjustOrderTable tr').eq(i).find("select.BuyerOrderMasAdjId").val();
+
+                for (var m = 1; m < $('table.DelivTableAdj tbody tr').length; m++) {
+                    var check = $('#DelivTableAdj tr').eq(m).find("td input.BuyerMasId").val();
+                    //var check = $('table.DelivTableAdj tr').eq(m).find("#BuyerMasId").val();
+
+
+                    if (RDLRefIdAdj == check) {
+
+                        var adjustValue = $('#DelivTableAdj tr').eq(m).find("td input.Adjustment").val();
+
+                        if (adjustValue != "" && adjustValue > 0) {
+                            refCount++;
+                           // alert("Details ache" + RDLRefIdAdj + check);
+                            break;
+                        }
+
+
+                        //alert(RDLRefIdAdj);
+                        //alert(RDLRefIdAdj);
+                        // alert("Details ache" + RDLRefIdAdj + check);
+                    }
+                    //else {
+                    //    alert("Details nai" + RDLRefIdAdj + check);
+                    //}
+                }
+
+                if (refCount == 0)
+                {
+                    alert('No detail for: ' + RDLRefIdAdj);
+                    return false;
+                }
+
+            }
+
+
+
+            //if (refCount == 0) {
+            //    //alert('RDL FOB in delivery is required');
+            //    alert("anis");
+            //    return false;
+
+            //}
+            //if ($('#DelivTableAdj tr').eq(i).find(".DestinationPortId").val() == "") {
+            //    alert('Destination Port Id required');
+            //    return false;
+            //};
+
+            //if ($('#DelivTableAdj tr').eq(i).find(".DelivQuantity").val() == "") {
+            //    alert('Delivery Quantity required');
+            //    return false;
+            //};
+
+            //if ($('#DelivTableAdj tr').eq(i).find(".RdlFobDetailDet").val() == "") {
+            //    alert('RDL FOB in delivery is required');
+            //    return false;
+            //};
+
+
+
+            return true;
+        }
+
+
+
+        $('#saveState').click(function () {
+
+            if ($('#SupplierId option:selected').text() == "") {
+                alert('Please select factory');
+                $('#SupplierId').select2('open');
+            }
+            else if ($('#BuyerInfoId option:selected').text() == "") {
+                alert('Please select buyer');
+                $('#BuyerInfoId').select2('open');
+                alert(22);
+            }
+            //else if ($('#ExFactoryDate').val() == "") {
+            //    alert('Please select Exfactory date');
+            //    $('#ExFactoryDate').focus();
+                //}
+
+            else if (CheckOrderGridDataDetail() == false) {
+                alert('Detail Value required for all chosen Reference No.');
+
+            }
+
+            else {
+                SaveOrderData();
+            }
+
+        });
+
+
+        //----------------------------------------SAVE DATA---------------------------------------SAVE DATA------------------------------------------SAVE DATA---------------------------------------------------
+        function SaveOrderData() {
+
+            $("#saveState").attr("disabled", "disabled");
+
+            //Master
+            var SupplierId = $('#SupplierId option:selected').val();
+            var BuyerInfoId = $('#BuyerInfoId option:selected').val();
+            var DateAdj = $('#DateAdj').val();
+
+            //Master-Detail
+            var TempOrderIdPrev = document.getElementsByName("TempOrderId");
+            var RdlRefPrev = document.getElementsByName("BuyerOrderMasPrevId");
+
+            //Master-Detail
+            var TempOrderIdAdj = document.getElementsByName("TempOrderIdAdj");
+            var RdlRefAdj = document.getElementsByName("BuyerOrderMasAdjId");
+
+            //Detail-Detail
+            //debugger;
+            var ExFactoryShipDetId = document.getElementsByName("FactOrderDelivDetIdAdj");
+
+          //  debugger;
+            //test
+            var CheckFlag = document.getElementsByName("checkFlag");
+
+            //
+
+
+            //var ExFactoryDetId = document.getElementsByName("DelivOrderDetTempId");
+            var BuyerOrderDetId = document.getElementsByName("BuyerDetIdAdj");
+           // var DelivDetId = document.getElementsByName("DelivDetId");
+           // var StyleNo = document.getElementsByName("StyleNo");
+           // var PONo = document.getElementsByName("PONo");
+            //var DeliveryNo = document.getElementsByName("DeliveryNo");
+           // var SizeNo = document.getElementsByName("SizeNo");
+            //var Color = document.getElementsByName("Color");
+            //var DestPort = document.getElementsByName("DestPort");
+            //var OrderQty = document.getElementsByName("OrderQty");
+           // var PreviousShipmentQty = document.getElementsByName("PreviousShipmentQty");
+            var AdjustmentAmt = document.getElementsByName("Adjustment");
+            //var IsShipClosed = document.getElementsByName("CheckedClose");
+           // var IsShipClosed = document.getElementsByName("IsStyleIncluded");
+
+
+            //for (var i = 0; i < IsShipClosed.length; i++) {
+
+            //    if (IsShipClosed[i].checked) {
+            //        alert('True');
+            //    }
+            //    else {
+            //        alert('False');
+            //    }
+
+            //}
+
+
+            //var BuyerOrderMasId = $('#OrderTable tr').eq(currRowIndex).find("input.RdlRef").val();
+            //alert(BuyerOrderMasId);
+
+            var counter = 0;
+
+            alert(BuyerOrderDetId.length);
+            alert(AdjustmentAmt.length);
+
+            counter = (BuyerOrderDetId.length) - (AdjustmentAmt.length);
+
+            var OItems = [];
+            //ExFactory Detail's Detail Data
+            for (var i = 0; i < AdjustmentAmt.length; i++) {
+             //   debugger;
+                // if (CheckFlag[i].value == 0 && AdjustmentAmt[i].value > 0) {
+
+                if (AdjustmentAmt[i].value > 0 && AdjustmentAmt[i].value) {
+                   // alert("Flag Value" + CheckFlag[i].value);
+                    //alert("Flag Value" + AdjustmentAmt[i].value);
+                    OItems.push({
+                        ExFactoryShipDetId: ExFactoryShipDetId[counter].value,
+                        Id: 0,
+                        //ExFactoryDetId: ExFactoryDetId[i].value,
+                        AdjustmentAmt: AdjustmentAmt[i].value,
+                        // IsShipClosed: ShipChecked,
+                    });
+                }
+                //else {
+
+                //}
+
+                counter++;
+
+            }
+            console.log(OItems);
+
+
+
+            //Ex Factory Details Data
+            var DItems = [];
+
+            for (var i = 0; i < RdlRefAdj.length; i++) {
+                DItems.push({
+
+                    TempOrderIdAdj: TempOrderIdAdj[i].value,
+                    Id: 0,
+                    DiscountAdjustmentBuyerMasId: 0,
+                    BuyerOrderMasId: RdlRefAdj[i].value
+                    //OrderRefNo: RdlRef[i].value
+                });
+
+            }
+
+            console.log(DItems);
+
+            var DDItems = [];
+
+            for (var i = 0; i < RdlRefPrev.length; i++) {
+                DDItems.push({
+
+                    TempOrderIdPrev: TempOrderIdPrev[i].value,
+                    Id: 0,
+                    DiscountAdjustmentBuyerMasId: 0,
+                    BuyerOrderMasId: RdlRefPrev[i].value
+                    //OrderRefNo: RdlRef[i].value
+                });
+
+            }
+
+            console.log(DDItems);
+
+
+
+            DiscountAdjustment = JSON.stringify({
+                AdjustmentDetails: OItems,
+                DiscountAdj: DItems,
+                DiscountPrev: DDItems,
+                Id: 0,
+                BuyerInfoId: BuyerInfoId,
+                SupplierId: SupplierId,
+                DateAdj: DateAdj
+
+            });
+
+
+            console.log(DiscountAdjustment);
+
+
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/BuyerDiscountAjustment/SaveExFactory',
+                data: DiscountAdjustment,
+                success: function (result) {
+                    console.log(result);
+                    $("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        //$('#BuyDetId').val(data.buydetid);
+                        //$('#BuyDetDetId').val(data.buydetdetid);
+
+                        //alert($('#BuyDetId').val(data.buydetid));
+                        //alert($('#BuyDetDetId').val(data.buydetdetid));
+
+
+                        alert("Record save successfully!");
+                        window.location = "/BuyerDiscountAjustment/Edit/" + result.Id;
+                        //window.location = "/ExFactoryInformation/Index";
+                    }
+                    else {
+                        alert(result.message);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+
+
+    </script>
+}

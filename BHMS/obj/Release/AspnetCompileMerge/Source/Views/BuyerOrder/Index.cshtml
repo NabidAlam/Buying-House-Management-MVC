@@ -1,0 +1,156 @@
+﻿@model IEnumerable<BHMS.Models.BuyerOrderMas>
+
+@{
+    ViewBag.Title = "Orders";
+    ViewBag.SubTitle = "Buyers Order";
+}
+
+
+<p style="padding-left:5px; padding-top:5px;">
+    @Html.ActionLink("Create New", "Create",
+          null, new { @style = "color:#ffffff;", id = "lnkCreate", @class = "btn btn-success" })
+</p>
+
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h5 class="panel-title">List of Accounts</h5>
+    </div>
+    <table class="table datatable-show-all">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BuyerInfo.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProdDepartment.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SeasonInfo.Name)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Supplier.Name)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderRefNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderDate)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.IsAuth)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OpBy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OpOn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AuthBy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AuthOn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsLocked)
+                    </th>*@
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BuyerInfo.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProdDepartment.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SeasonInfo.Name)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.Supplier.Name)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderRefNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderDate)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.IsAuth)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AuthBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AuthOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsLocked)
+                        </td>*@
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                        <a class="btn btn-xs text-danger icon-cross2" title="Delete" href="javascript:deleteFunction(@item.Id)"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts {
+
+<script type="text/javascript" src="~/Scripts/plugins/forms/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="~/Scripts/datatables_advanced.js"></script>
+
+
+<script>
+    function deleteFunction(Id) {
+        var Con = confirm("Are you sure want to delete this?");
+        if (Con === true) {
+            $.ajax({
+                url: "/BuyerOrder/DeleteOrder",
+                type: "post",
+                data: {
+                    id: Id
+                },
+                dataType: "json",
+
+                success: function (flag) {
+                    //console.log(flag);
+
+                    if (flag.flag === true) {
+                        alert("Successfully deleted !");
+                        window.location = "/BuyerOrder/";
+                    } else {
+                        alert(flag.message);
+                    }
+
+                },
+
+                error: function (xhr) {
+                    alert('error');
+
+                }
+
+
+            });
+        }
+
+    }
+</script>
+
+
+}

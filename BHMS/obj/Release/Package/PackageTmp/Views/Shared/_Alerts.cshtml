@@ -1,0 +1,33 @@
+﻿@using BHMS.Helpers;
+@{
+    var alerts = TempData.ContainsKey(Alert.TempDataKey)
+    ? (List<Alert>)TempData[Alert.TempDataKey]
+    : new List<Alert>();
+
+    foreach (var alert in alerts)
+    {
+        //var dismissableClass = alert.Dismissable ? "alert-dismissable" : null;
+
+        <div class="alert alert-@alert.AlertStyle">
+            @if (alert.Dismissable)
+            {
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+            }
+            @Html.Raw(alert.Message)
+        </div>
+    }
+}
+@section Scripts {
+    
+    <script type="text/javascript">
+        alert('helo');
+    </script>
+}
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+    $(document).ready(function () {
+    setTimeout(function () {
+    $(".alert").hide();
+    }, 1000);
+    });
+    </script>*@

@@ -1,0 +1,979 @@
+﻿@model BHMS.Models.BuyerOrderMas
+
+@{
+    ViewBag.Title = "Buyer Order Information";
+    ViewBag.SubTitle = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered" id="panelBodyMain">
+    <div class="panel-heading">
+        <h5 class="panel-title">Buyer Order Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            
+            <div class="form-horizontal">
+                
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.OrderRefNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderRefNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.OrderRefNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerInfoId,  htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerInfoId", null,"", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.SeasonInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("SeasonInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.SeasonInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.ProdDepartmentId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("ProdDepartmentId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.ProdDepartmentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.FabSupplierId,  htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("FabSupplierId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.FabSupplierId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                             
+
+                
+            </div>
+        }
+
+            
+        
+        </div> <!-- panel body -->
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+            <thead>
+                <tr class="bg-primary-400">
+                    <th style="min-width:180px;">Product Category</th>
+                    <th style="min-width:180px;">Product Type</th>
+                    <th style="min-width:180px;">Style</th>
+                    <th style="min-width:95px;">Picture</th>
+                    <th style="min-width:120px;">Size Range</th>
+                    <th style="min-width:200px;">Fabric Description</th>
+                    <th style="min-width:180px;">Color</th>
+                    <th style="min-width:120px;">Unit Price Per Pc</th>
+                    <th style="min-width:100px;">Order Qnty (pcs)</th>
+                    <th style="min-width:120px;">Total Value</th>
+                    <th style="min-width:200px;">Factory name</th>
+                    <th style="min-width:200px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @*<tr>
+                    <td><select name="ProdTypeId" class="ProdTypeId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><select name="ProdCatId" class="ProdCatId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><input type="text" name="styleNo" class="styleNo form-control input-xs" /></td>
+                    <td></td>
+                    <td><select name="SizeRangeId" class="form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><select name="FabricId" class="FabricId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><select name="ColorId" class="ColorId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><input type="text" name="unitPrice" class="unitPrice form-control input-xs" /></td>
+                    <td><input type="text" name="itemQnty" class="itemQnty form-control input-xs" /></td>
+                    <td class="bg-green-300"><label class="totalValue text-bold"></label></td>
+                    <td><select name="factoryId" class="factoryId form-control select2 input-xs"><option value=""></option></select></td>
+                    <td><button onclick="RemoveTask(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button>  <button type="button" onclick="AddNewRowAfter(this);" class="btn text-success-600 btn-flat btn-icon btn-rounded "><i class="icon-plus-circle2"></i></button></td>
+                </tr>*@
+                <tr>
+                    <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>
+                    <td colspan="7" class="text-right"><label class="text-bold">Total:</label></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotalQnty text-right"></label></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotaValue text-right"></label></td>
+                    <td colspan="2"></td>
+                </tr>                
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel-footer">
+    <div class="form-group">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+        </div>
+    </div>
+
+    </div>
+    
+</div>
+
+@*<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_remote">Launch <i class="icon-play3 position-right"></i></button>*@
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+@*<!-- Remote source -->
+<div id="modal_remote" class="modal">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title">Remote source</h5>
+            </div>
+
+            <div class="modal-body"></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /remote source -->*@
+
+
+
+@section Scripts {
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript" src="~/Scripts/plugins/loaders/blockui.min.js"></script>
+
+<script type="text/javascript">
+    //-- global var---
+    var deletedItems = [];
+    //--------------
+
+    $(document).ready(function () {
+        $('body').addClass("sidebar-xs");
+        $(".select2").select2();
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+        // jquery validator bug fix using moment
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+        }
+
+        $('#OrderTable').on('change', '.unitPrice, .itemQnty', function () {
+            if ($.isNumeric($(this).val()) == false) {
+                $(this).val('');
+                alert('Only numeric allowed');
+            }
+            PopulateTotalValue();
+        });
+
+        //BindProductCategory2();
+
+        //AddNewRow();
+        LoadSavedData();
+
+        //$('#modal_remote').on('show.bs.modal', function() {
+        //    $(this).find('.modal-body').load('/BuyerOrder/DelivDetails/1', function() {
+
+        //        // Init Select2 when loaded
+        //        //$('.select').select2({
+        //        //    minimumResultsForSearch: Infinity
+        //        //});
+        //    });
+        //});
+
+    });
+
+    $('#btnAddRow').click(function () {
+        AddNewRow();
+    });
+
+    $('#saveState').click(function () {
+
+        var orderDate = moment($('#OrderDate').val(), "DD/MM/YYYY", true);
+
+        if ($.trim($('#OrderRefNo').val()) === "") {
+            alert('Order ref no required');
+            $('#OrderRefNo').focus();
+        }
+        else if ($.trim($('#OrderDate').val()) === "") {
+            alert('Order date required');
+            $('#OrderDate').focus();
+        }
+        else if (orderDate.isValid() == false) {
+            alert('Valid open date required<br />Usage:[dd/mm/yyyy]');
+            $('#OrderDate').focus();
+        }
+        else if ($('#BuyerInfoId option:selected').text() == "") {
+            alert('Please select buyer');
+            //$('#BuyerInfoId').focus();
+            $('#BuyerInfoId').select2('open');
+        }
+        else if ($('#SeasonInfoId option:selected').text() == "") {
+            alert('Please select buyer');
+            $('#SeasonInfoId').select2('open');
+        }
+        else if ($('#ProdDepartmentId option:selected').text() == "") {
+            alert('Please select department');
+            $('#ProdDepartmentId').select2('open');
+        }
+        else if (CheckOrderGridData()== false)
+        {
+
+        }
+        else
+        {
+            SaveOrderData();
+        }
+
+    });
+    // ProdCatId ProdTypeId styleNo SizeRangeId FabricId ColorId unitPrice itemQnty factoryId
+    function AddNewRow() {
+        var newRow = jQuery('<tr><td><input type="hidden" name="OrderDetId" value="0" class="OrderDetId" /><select name="ProdCatId" class="ProdCatId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><select name="ProdTypeId" class="ProdTypeId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><input type="text" name="styleNo" class="styleNo form-control input-xs" /></td>'
+                    + '<td></td>'
+                    + '<td><select name="SizeRangeId" class="SizeRangeId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><select name="FabricId" class="FabricId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><select name="ColorId" class="ColorId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><div class="input-group input-group-xs"><span class="input-group-addon">$</span><input type="text" name="unitPrice" class="unitPrice form-control input-xs text-right" /></div></td>'
+                    + '<td><input type="text" name="itemQnty" class="itemQnty form-control input-xs text-right" /></td>'
+                    + '<td class="bg-green-300 text-right"><label class="totalValue text-bold text-right"></label></td>'
+                    + '<td><select name="factoryId" class="factoryId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+        jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+
+        $(".select2").select2();
+
+        $.ajax({
+            type: "post",
+            url: "/ProdCategory/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                BindProductCategory();
+            }
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/FabricItem/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.FabricId").html(selOptions);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/ProdColors/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.ColorId").html(selOptions);
+            }
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/Supplier/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.factoryId").html(selOptions);
+            }
+        });
+
+
+    }
+
+
+
+    function BindProductCategory()
+    {
+        $('#OrderTable').on('change', '.ProdCatId', function() {
+            var selectedValue = $(this).val();
+            var row = $(this).closest('tr');
+            var stateSelect = row.find('.ProdTypeId');
+
+            if (selectedValue.length > 0) {
+                if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length){
+                    AddNewRow();
+                }
+            }
+            else
+            {
+                stateSelect.empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/ProdCatType/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function(data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    BindProductType();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        })
+    }
+
+    function BindProductType() {
+        $('#OrderTable').on('change', '.ProdTypeId', function () {
+            var selectedValue = $(this).val();
+            var row = $(this).closest('tr');
+            var stateSelect = row.find('.SizeRangeId');
+            if (selectedValue.length > 0) {
+            }
+            else {
+                stateSelect.empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/ProdSize/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+
+            });
+        })
+
+    }
+
+    function PopulateTotalValue()
+    {
+        var grandTotQnty = 0;
+        var grandTotVal = 0.0;
+
+        var totRow = $('#OrderTable tr').length - 1;
+        for (var i = 1; i < totRow; i++)
+        {
+            var strUnitPrice = $('#OrderTable tr').eq(i).find(".unitPrice").val();
+            var strQntyVal = $('#OrderTable tr').eq(i).find(".itemQnty").val();
+
+            if ($.isNumeric(strUnitPrice) && $.isNumeric(strQntyVal))
+            {
+                var totVal = parseFloat(strUnitPrice) * parseInt(strQntyVal);
+                $('#OrderTable tr').eq(i).find(".totalValue").text(numeral(totVal).format('$ 0,0.00'));
+                grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+                grandTotVal = grandTotVal + totVal
+            }
+            else
+            {
+                $('#OrderTable tr').eq(i).find(".totalValue").text(numeral(0).format('$ 0,0.00'));
+            }
+        }
+
+        $('#OrderTable tr').eq(totRow).find(".grandTotalQnty").text(numeral(grandTotQnty).format('0,0'));
+        $('#OrderTable tr').eq(totRow).find(".grandTotaValue").text(numeral(grandTotVal).format('$ 0,0.00'));
+    }
+
+    function RemoveOrderRow(e)
+    {
+        if ($('#OrderTable tr').length == 3) {
+            alert('You cannot delete this row.\nOrder requires atleast one record.');
+            return;
+        }
+
+        if (confirm('Do you really want to delete?')==false)
+        {
+            return;
+        }
+
+        var currRowIndex = $(e).closest('tr').index() + 1;
+
+        var id = $('#OrderTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+
+
+        if (id>0)
+        {
+            deletedItems.push(id);
+
+            $(e).parent().parent().remove();
+            PopulateTotalValue();
+        }
+        else
+        {
+            $(e).parent().parent().remove();
+            PopulateTotalValue();
+        }
+
+
+    }
+
+    function CheckOrderGridData()
+    {
+        // ProdCatId ProdTypeId styleNo unitPrice itemQnty factoryId
+
+        //var totRow = $('#OrderTable tr').length - 1;
+        //for (var i = 1; i < totRow; i++) {
+        //    if ($('#OrderTable tr').eq(i).find(".ProdCatId").val() == "")
+        //    {
+        //        alert('Product category required');
+        //        return false;
+        //    };
+        //}
+        return true;
+    }
+
+
+    function SaveOrderData()
+    {
+
+        $("#saveState").attr("disabled", "disabled");
+
+        // OrderRefNo  OrderDate BuyerInfoId SeasonInfoId  ProdDepartmentId FabSupplierId
+
+        // SeasonInfoId: SeasonInfoId, ProdDepartmentId: ProdDepartmentId, FabSupplierId: FabSupplierId
+
+        var OrderRefNo = $.trim($('#OrderRefNo').val());
+        var OrderDate = $('#OrderDate').val();
+        var BuyerInfoId = $('#BuyerInfoId').val();
+        var SeasonInfoId = $('#SeasonInfoId').val();
+        var ProdDepartmentId = $('#ProdDepartmentId').val();
+        var FabSupplierId = $('#FabSupplierId').val();
+
+        // ProdCatId ProdTypeId styleNo SizeRangeId FabricId ColorId unitPrice itemQnty factoryId
+
+        var OrderDetId = document.getElementsByName("OrderDetId");
+        var ProdTypeId = document.getElementsByName("ProdTypeId");
+        var styleNo = document.getElementsByName("styleNo");
+        var SizeRangeId = document.getElementsByName("SizeRangeId");
+        var FabricId = document.getElementsByName("FabricId");
+        var ColorId = document.getElementsByName("ColorId");
+        var unitPrice = document.getElementsByName("unitPrice");
+        var itemQnty = document.getElementsByName("itemQnty");
+        var factoryId = document.getElementsByName("factoryId");
+
+        //return;
+        var OItems = [];
+
+        for (var i = 0; i < ProdTypeId.length; i++) {
+            if (ProdTypeId[i].value =="") { break; }
+            OItems.push({ Id: OrderDetId[i].value, ProdCatTypeId: ProdTypeId[i].value, StyleNo: styleNo[i].value, ProdSizeId: SizeRangeId[i].value, FabricItemId: FabricId[i].value, ProdColorId: ColorId[i].value, UnitPrice: unitPrice[i].value, Quantity: itemQnty[i].value, SupplierId: factoryId[i].value });
+
+        }
+        //console.log(OItems);
+        OrderDetails = JSON.stringify({ OrderDetails: OItems, Id: @Model.Id, OrderRefNo: OrderRefNo, OrderDate: OrderDate, BuyerInfoId: BuyerInfoId, SeasonInfoId: SeasonInfoId, ProdDepartmentId: ProdDepartmentId, FabSupplierId: FabSupplierId, DelItems: deletedItems });
+        //OrderDetails = JSON.stringify({ OrderDetails: OItems});
+        //alert(OrderDetails);
+        //return;
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: '/BuyerOrder/UpdateBuyerOrder',
+            data: OrderDetails,
+            success: function (result) {
+                console.log(result);
+                $("#saveState").removeAttr("disabled");
+                if (result.flag == true) {
+                    //alert("Record save successfully!");
+                    window.location = "/BuyerOrder/Edit/@Model.Id";
+                }
+                else {
+                    alert(result.message);
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+                $("#saveState").removeAttr("disabled");
+            }
+        });
+
+    }
+
+
+//------
+    function LoadSavedData() {
+
+        var Id = @Model.Id;
+
+        $.ajax({
+            url: '/BuyerOrder/GetOrderData/',
+            data: { Id: Id },
+            dataType: 'json',
+            TYPE: 'POST',
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+
+
+
+                    //var row = $('<tr id="taskRowId_'
+                    //    + cnTaskRow + '"><td class="index"><label name="TaskId">'
+                    //    + counter + '</label></td>'
+                    //    + '<td> <input type="hidden" name="TID" class="TID" value="' + data[i].TaskId + '" /> <input type="hidden" name="ConId" class="ConId" value="' + data[i].ConId + '" /> '
+                    //    + '<input type="hidden" name="TempTaskId" class="TempTaskId" value="' + cnTaskRow + '" /> '
+                    //    + '<input type="hidden" name="PlanTaskId" class="PlanTaskId" value="' + data[i].PlanTaskId + '" /> '
+                    //    + '<input type="hidden" name="IndLevel" class="IndLevel" value="' + data[i].IndLevel + '" /> '
+                    //    + '<input type="hidden" name="Milestone" class="Milestone" value="' + data[i].Milestone + '" /> '
+                    //    + '<div class="input-group"><span class="input-group-addon">' + GetSepString(data[i].IndLevel) + '</span><input class="form-control taskname" style="width:260px;font-weight:bold" type="text" name="Task" value="' + data[i].Name + '"/></div></td>'
+                    //    + '<td> <input class="form-control" style="width:60px;" type="text" name="WBS" value="' + data[i].WBS + '" /></td>'
+                    //    + '<td> <input class="form-control dt datepicker" type="text" style="width:80px;"  name="StartDate" value="' + data[i].StartDate + '" /></td>'
+                    //    + '<td> <input class="form-control dt datepicker" type="text" style="width:80px;" name="EndDate" value="' + data[i].EndDate + '" /></td>'
+                    //    + '<td><button  onclick="RemoveTask(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button> <input type="checkbox"  /> <button   type="button"  onclick="AddNewRowAfter(this);"   class="btn  text-success-600 btn-flat btn-icon btn-rounded "><i class=" icon-plus-circle2"></i></button></td>'
+                    //    + '<td> <input class="form-control" type="text" style="width:100px;" name="WeightedAvg" value="' + data[i].WeightedAvg + '" /></td></tr>');
+
+                     
+
+                    var row = $('<tr><td><input type="hidden" name="OrderDetId" value="'+ data[i].Id +'" class="OrderDetId" /><select name="ProdCatId" class="ProdCatId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><select name="ProdTypeId" class="ProdTypeId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><input type="text" name="styleNo" class="styleNo form-control input-xs" value="'+ data[i].StyleNo +'" /></td>'
+                    + '<td><a title="View Image" href="/BuyerOrder/ImageGallery/'+ data[i].Id + '" target="_blank" class="btn btn-xs text-info icon-images2"></a>|<a title="Image Upload" href="/BuyerOrder/ImageUpload/'+ data[i].Id +'" target="_blank" class="btn btn-xs text-info icon-upload"></a></td>'
+                    + '<td><select name="SizeRangeId" class="SizeRangeId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><select name="FabricId" class="FabricId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><select name="ColorId" class="ColorId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><div class="input-group input-group-xs"><span class="input-group-addon">$</span><input type="text" name="unitPrice" value="'+ data[i].UnitPrice +'" class="unitPrice form-control input-xs text-right" /></div></td>'
+                    + '<td><input type="text" name="itemQnty" value="'+ data[i].Quantity +'" class="itemQnty form-control input-xs text-right" /></td>'
+                    + '<td class="bg-green-300 text-right"><label class="totalValue text-bold text-right"></label></td>'
+                    + '<td><select name="factoryId" class="factoryId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><a href="/BuyerOrder/DelivDetails/'+ data[i].Id +'" target="_blank">Delivery</a> | <button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+
+                    //alert($('table.OrderItemTable tbody').find('tr:last').index());
+                    //$('#OrderTable').append(row);
+
+                    var currRow = $('table.OrderItemTable tbody').find('tr:last').index() + 1;
+                    $('table.OrderItemTable tbody').find('tr:last').before(row);
+
+                    SetCategory(currRow, data[i].ProdCatId, data[i].ProdCatTypeId, data[i].ProdSizeId);
+
+                    SetFabric(currRow, data[i].FabricItemId);
+                    SetColor(currRow, data[i].ProdColorId);
+                    SetFactory(currRow, data[i].SupplierId);
+
+
+                }
+                //BindProductCategory2();
+                $(".select2").select2();
+                PopulateTotalValue();
+                //RebindDatePicker();
+                //UpdateTableMilestoneColor();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    function SetCategory(currRow, selCatVal, selCatTypeVal, selSizeVal)
+    {
+        //alert (currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+
+        $.ajax({
+            type: "post",
+            url: "/ProdCategory/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").html(selOptions);
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+                jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selCatVal);
+
+                SetCategoryType(currRow, selCatVal, selCatTypeVal, selSizeVal);
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            }
+        });
+
+    }
+
+    function SetCategoryType(currRow, selCatVal, selCatTypeVal, selSizeVal)
+    {
+        //alert ("type: " + currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+
+        $.ajax({
+            type: "post",
+            url: "/ProdCatType/GetNames",
+            data: { Id: selCatVal },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.ProdTypeId").html(selOptions);
+
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.ProdTypeId").val(selCatTypeVal);
+
+                SetSizeRange(currRow, selCatTypeVal, selSizeVal);
+
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+    function SetSizeRange(currRow, selCatTypeVal, selSizeVal)
+    {
+        //alert ("type: " + currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+
+        $.ajax({
+            type: "post",
+            url: "/ProdSize/GetNames",
+            data: { Id: selCatTypeVal },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.SizeRangeId").html(selOptions);
+
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.SizeRangeId").val(selSizeVal);
+
+                //SetSizeRange(currRow, selCatTypeVal, selColorVal);
+
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+
+    function SetFabric(currRow, selFabricVal)
+    {
+        //alert ("type: " + currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+
+        $.ajax({
+            type: "post",
+            url: "/FabricItem/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricId").html(selOptions);
+
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricId").val(selFabricVal);
+
+                //SetSizeRange(currRow, selCatTypeVal, selColorVal);
+
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    function SetColor(currRow, selColorVal)
+    {
+        //alert ("type: " + currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+
+        $.ajax({
+            type: "post",
+            url: "/ProdColors/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.ColorId").html(selOptions);
+
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.ColorId").val(selColorVal);
+
+                //SetSizeRange(currRow, selCatTypeVal, selColorVal);
+
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    function SetFactory(currRow, selFactoryVal)
+    {
+        //alert ("type: " + currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+
+        $.ajax({
+            type: "post",
+            url: "/Supplier/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.factoryId").html(selOptions);
+
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.factoryId").val(selFactoryVal);
+
+                //SetSizeRange(currRow, selCatTypeVal, selColorVal);
+
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    function BindProductCategory2()
+    {
+        $('#OrderTable').on('change', '.ProdCatId', function() {
+            var selectedValue = $(this).val();
+            var row = $(this).closest('tr');
+            var stateSelect = row.find('.ProdTypeId');
+            alert('change detected');
+            if (selectedValue.length > 0) {
+                //if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length){
+                //    AddNewRow();
+                //}
+            }
+            else
+            {
+                stateSelect.empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/ProdCatType/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function(data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    BindProductType();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        })
+    }
+
+
+
+    $(document).ajaxStart(ProcUIBlock()).ajaxStop(ProcUIUnBlock());
+
+
+    function ProcUIBlock(){
+
+        var block = $('#panelBodyMain');
+        $(block).block({
+            message: '<span class="text-semibold"><i class="icon-spinner4 spinner position-left"></i>&nbsp; Loading data</span>',
+            overlayCSS: {
+                backgroundColor: '#fff',
+                opacity: 0.8,
+                cursor: 'wait'
+            },
+            css: {
+                width: 'auto',
+                border: 0,
+                color: '#fff',
+                padding: '10px 15px',
+                backgroundColor: '#333'
+            }
+        });
+
+    }
+
+    function ProcUIUnBlock(){
+        var block = $('#panelBodyMain');
+        $(block).unblock();
+    }
+
+
+
+
+</script>
+
+
+
+
+}

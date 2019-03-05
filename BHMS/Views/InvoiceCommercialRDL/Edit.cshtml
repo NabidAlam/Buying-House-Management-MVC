@@ -1,0 +1,1290 @@
+﻿@model BHMS.Models.InvoiceCommMas
+@{
+    ViewBag.Title = "Commercial Invoice RDL Information";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Commercial Invoice RDL Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.InvoiceNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.IssueDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.IssueDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+
+                                @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.PaymentTypeId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("PaymentTypeId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.PaymentTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                @*<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-xs">
+                                @Html.LabelFor(model => model.MasterLCInfoMas.LCNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MasterLCInfoMas.LCNo, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(model => model.MasterLCInfoMasId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.MasterLCInfoMasId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("MasterLCInfoMasId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.MasterLCInfoMasId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.SplitFlag, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("SplitType", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.SplitFlag, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:150px;">Factory Name</th>
+                        <th style="min-width:100px;">Factory Invoice No.</th>
+                        @*<th style="min-width:100px;">RDL Ref No.</th>*@
+                        <th style="min-width:50px;">Quantity (Pcs)</th>
+                        <th style="min-width:50px;">Factory Invoice Value ($)</th>
+                        <th style="min-width:50px;">RDL Invoice Value ($)</th>
+                        <th style="min-width:50px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6"><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+    </div> <!-- panel body -->
+</div>
+
+<!--Delivery-->
+
+<div class="panel panel-primary panel-bordered" id="DV_Order_Deliv" style="display:none;">
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-group-xs">
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-group-xs">
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseDelivery" @*style="margin:10px 0 10px 10px"*@><i class="icon-close2 position-left"></i> Close Invoice Detail</button>
+                </div>
+            </div>
+        </div>
+        <br />
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs DelivTable" id="DelivTable">
+                <thead>
+                    <tr class="bg-brown-400">
+                        <th style="min-width:180px;">RDL Ref No.</th>
+                        <th style="min-width:140px;">Style No.</th>
+                        <th style="min-width:140px;">P.O. No.</th>
+                        <th style="min-width:150px;text-align:center;">Shipment Quantity (pcs)</th>
+                        <th style="min-width:100px;text-align:center;">Previous Split Qty</th>
+                        <th style="min-width:100px;text-align:center;">Remaining Qty</th>
+                        <th style="min-width:100px;text-align:center;">Split Qty</th>
+                        <th style="min-width:100px;text-align:center;">RDL FOB ($)</th>
+                        <th style="min-width:140px;text-align:right;">RDL Invoice Value ($)</th>
+                        <th style="min-width:100px;text-align:center;">Discount %</th>
+                        <th style="min-width:140px;text-align:right;">Discount Value</th>
+                        <th style="min-width:140px;text-align:right;">Previous Discount Adjustment Value</th>
+                        <th style="min-width:180px;text-align:center;">RDL FOB after Discount & Previous Adjustment</th>
+                        <th style="min-width:220px;text-align:right;">RDL Invoice Value after Discount & Previous Adjustment</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right"><label class="text-bold">Total:</label></td>
+                        @*<td class="bg-green-300 text-right"><label class="text-bold grandTotalOrderQnty text-right"></label></td>*@
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalShipQnty text-right"></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalRDLValue text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalDiscountValue text-right"></label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalPrevAdjValue text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalFinalValue text-right"></label></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Delivery End-->
+
+
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                @if (ViewBag.CheckDocSubExists == true)
+                {
+                    <button type="button" class="btn btn-success" id="saveState" disabled="disabled">Save<i class="icon-arrow-right14 position-right"></i></button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-success" id="saveState">Save<i class="icon-arrow-right14 position-right"></i></button>
+                }
+              
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        //-- global var---
+        var currSelDelivRow = 0; //
+        var cnOrderTempId = 0; //
+        var currSelOrderTempId = 0; //
+        //var currSelOrderId = 0;
+        var FactoryStore = [];
+        var deletedItems = [];
+        //--------------
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+        $(document).ready(function () {
+            $('body').addClass("sidebar-xs");
+            $(".select2").select2();
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+
+            ShowDetailData();
+        });
+
+
+
+
+
+
+
+
+        function ShowDetailData()
+        {
+            $('#OrderTable tbody').empty();
+            //$("#saveState").attr("disabled", "disabled");
+
+            var id = @Model.Id;
+            // var selectedBuyerValue = $('#BuyerInfoId').val();
+            // var SelectedSupplierValue = $('#SupplierId').val();
+            // var SelectedExFactoryDate = $('#IssueDate').val();
+
+
+            $.ajax({
+                type: "post",
+                url: "/InvoiceCommercialRDL/GetSelectedData",
+                data: { Id:id },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        //$("#saveState").removeAttr("disabled");
+                    }
+
+                    for (var i = 0; i < data.length; i++) {
+                        cnOrderTempId++;
+                        var row = $('<tr>'
+                          //+'<td><input type="hidden" name="InvCommMasId" class="InvCommMasId" value="' + data[i].InvCommMasId + '" />'
+                          +'<td><input type="hidden" name="InvCommDetId" class="InvCommDetId" value="' + data[i].InvCommDetId + '" />'
+                          + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                          + '<select name="SupplierId" class="SupplierId form-control select2 input-xs"></select></td>'
+                          + '<td><select name="FactInvoiceNo" class="FactInvoiceNo form-control select2 input-xs"><option value=""></option></select></td>'
+                          //+ '<td><select name="RDLRefNo" class="RDLRefNo form-control select2 input-xs"><option value=""></option></select></td>'
+                          + '<td class="bg-green-300 text-right"><label class="label_ShipQuantity text-bold text-right">' + numeral(data[i].TotalQty).format('0,0')  + '</label><input type="hidden" name="TotalQty" class="TotalQty" value="' + data[i].TotalQty + '" /></td>'
+                          + '<td class="bg-green-300 text-right"><label class="label_FactoryInvValue text-bold text-right">' + numeral( data[i].FactoryInvValue ).format('$ 0,0.00') + '</label><input type="hidden" name="FactoryInvValue" class="FactoryInvValue" value="' + data[i].FactoryInvValue + '" /></td>'
+                          + '<td class="bg-green-300 text-right"><label class="label_RDLValue text-bold text-right">' + numeral(data[i].RDLValue).format('$ 0,0.00')  + '</label><input type="hidden" name="RDLValue" class="RDLValue" value="' + data[i].RDLValue + '" /></td>'
+                            + '<td><button onclick="ShowDelivDetail(this)" type="button" class="btn btn-link deliverybtn">Details</button><input type="hidden" name="ShowDelivStatus" value="' + 0 + '" class="ShowDelivStatus" />'
+                             + '|<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button>'
+                            +'</td>'
+                          + '</tr>');
+                        $('table.OrderItemTable tbody').append(row);
+
+                        var currRow = $('table.OrderItemTable tbody').find('tr:last').index() + 1;
+
+                        SetFactory(currRow, data[i].FactoryId);
+                        SetFactoryInvoiceNo(currRow, data[i].FactoryId, data[i].InvCommFactMasId);
+                        //SetRDLRefNo(currRow, data[i].InvCommFactMasId, data[i].BuyerOrderMasId, data[i].FactoryId);
+                    }
+
+                    // PopulateTotalValue();
+                    $(".select2").select2();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        }
+
+        $('#btnCloseDelivery').click(function () {
+            $("#DV_Order_Deliv").hide();
+            $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            $('#OrderTable tr').eq(currSelDelivRow).find("button.deliverybtn").css("color", "black");
+        });
+
+
+
+        function SetFactory(currRow, selFactVal) {
+            //alert(currRow + ", " +  selFactVal);
+
+            var selectedValue = $('#BuyerInfoId').val();
+            var MasterLCInfoMasId = $('#MasterLCInfoMasId').val();
+            var BuyerInfoId = $('#BuyerInfoId').val();
+
+            $.ajax({
+                type: "post",
+                url: "/InvoiceCommercialRDL/GetLCFactory",
+                data: { MasterLCInfoMasId: MasterLCInfoMasId, BuyerInfoId: BuyerInfoId },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var selOptions = '<option value=""></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                    }
+                    //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                    jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.SupplierId").html(selOptions);
+
+                    //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+                    jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.SupplierId").val(selFactVal);
+
+                }
+            });
+
+        }
+
+
+        function SetFactoryInvoiceNo(currRow, selFactVal, selFactInvoiceVal) {
+
+            var LCMasId = $('#MasterLCInfoMasId').val();
+            var BuyerInfoId = $('#BuyerInfoId').val();
+
+            $.ajax({
+                type: "post",
+                url: "/InvoiceCommercialRDL/GetLCFactOrder",
+                data: { MasLCId: LCMasId, FactId: selFactVal, Buyer: BuyerInfoId },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var selOptions = '<option value=""></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                    }
+                    //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                    jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(1) select.FactInvoiceNo").html(selOptions);
+
+                    //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+                    jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(1) select.FactInvoiceNo").val(selFactInvoiceVal);
+
+                }
+            });
+
+        }
+
+
+        //function SetRDLRefNo(currRow, selFactInvoiceVal, selRDLMasId, selFactVal) {
+
+        //    var LCMasId = $('#MasterLCInfoMasId').val();
+        //    var BuyerInfoId = $('#BuyerInfoId').val();
+
+        //    $.ajax({
+        //        type: "post",
+        //        url: "/InvoiceCommercialRDL/GetRDLRefNo",
+        //        data: { MasLCId: LCMasId, FactId: selFactVal, Buyer: BuyerInfoId, FactoryInvoiceId: selFactInvoiceVal },
+        //        datatype: "json",
+        //        traditional: true,
+        //        success: function (data) {
+        //            var selOptions = '<option value=""></option>';
+        //            for (var i = 0; i < data.length; i++) {
+        //                selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+        //            }
+        //            //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+        //            jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(2) select.RDLRefNo").html(selOptions);
+
+        //            //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+        //            jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(2) select.RDLRefNo").val(selRDLMasId);
+
+        //        }
+        //    });
+
+        //}
+
+        function RebindFactory() {
+            $('#OrderTable').on('change', '.SupplierId', function () {
+                var selectedValue = $(this).val();
+                //alert('SuppId ' + selectedValue);
+                var row = $(this).closest('tr');
+                var stateSelect = row.find('.FactInvoiceNo');
+                var LCMasId = $('#MasterLCInfoMasId').val();
+                var BuyerInfoId = $('#BuyerInfoId').val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/InvoiceCommercialRDL/GetLCFactOrder",
+                    data: { MasLCId: LCMasId, FactId: selectedValue, Buyer: BuyerInfoId },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        stateSelect.empty();
+                        row.find('.RDLRefNo').empty();
+                        row.find('.Quantity').val("");
+
+                        stateSelect.append('<option value=""></option>');
+                        $.each(data, function (index, item) {
+                            stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                        })
+                        BindContract();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+            })
+        }
+
+        $('#btnAddRow').click(function () {
+            AddNewRow();
+        });
+
+
+        //<input type="hidden" name = "InvoiceCommFactMasId" value=0 class="InvoiceCommFactMasId" />
+        function AddNewRow() {
+
+            cnOrderTempId++;
+            var newRow = $('<tr><td>'
+                +'<input type="hidden" name="InvCommDetId" class="InvCommDetId" value="' + 0 + '" />'
+                + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                + '<select name="SupplierId" class="SupplierId form-control select2 input-xs"></select></td>'
+                + '<td><select name="FactInvoiceNo" class="FactInvoiceNo form-control select2 input-xs"><option value=""></option></select></td>'
+                //+ '<td><select name="RDLRefNo" class="RDLRefNo form-control select2 input-xs"><option value=""></option></select></td>'
+                + '<td class="bg-green-300 text-right"><label class="label_ShipQuantity text-bold text-right"></label><input type="hidden" name="Quantity" class="Quantity form-control input-xs text-right" readonly="readonly" /></td>'
+                + '<td class="bg-green-300 text-right"><label class="label_FactoryInvValue text-bold text-right"></label><input type="hidden" name="FactInvoiceVal" class="FactInvoiceVal form-control input-xs text-right" readonly="readonly" /></td>'
+                + '<td class="bg-green-300 text-right"><label class="label_RDLValue text-bold text-right"></label><input type="hidden" name="RDLInvoiceVal" class="RDLInvoiceVal form-control input-xs text-right" readonly="readonly" /></td>'
+                + '<td><button onclick="ShowDelivDetail(this)" type="button" class="btn btn-link deliverybtn">Details</button><input type="hidden" name="ShowDelivStatus" value="' + 0 + '" class="ShowDelivStatus" />'
+                + '|<button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button>'
+                +'</td></tr>');
+
+            $('table.OrderItemTable tbody').append(newRow);
+
+            $(".select2").select2();
+
+            LoadFactory();
+            BindFactory();
+            BindFactoryInvoice();
+
+        }
+
+        function RemoveOrderRow(e) {
+
+            if (confirm('Do you really want to delete?') == false) {
+                return;
+            }
+
+            $("#DV_Order_Deliv").hide();
+            $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+
+            var id = $('#OrderTable tr').eq(currRowIndex).find("input.InvCommDetId").val();
+
+            if(id>0)
+            {
+                deletedItems.push(id);
+            }
+
+            //var totRow = $('#DelivTable tr').length - 1;
+            //for (var i = 1; i < totRow; i++) {
+
+            //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == id) {
+            //        $('#DelivTable tr').eq(i).remove();
+            //        i--;
+            //        totRow--;
+            //    }
+
+            //}
+
+            $(e).parent().parent().remove();
+
+        }
+
+
+        function LoadFactory() {
+
+            var MasterLCInfoMasId = $('#MasterLCInfoMasId').val();
+            var BuyerInfoId = $('#BuyerInfoId').val();
+
+            $.ajax({
+                type: "post",
+                url: "/InvoiceCommercialRDL/GetLCFactory",
+                data: { MasterLCInfoMasId: MasterLCInfoMasId, BuyerInfoId: BuyerInfoId },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var selOptions = '<option value=""></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                    }
+                    $('table.OrderItemTable tbody').find('tr:last').find("td:eq(0) select.SupplierId").html(selOptions);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+
+        }
+
+        function BindFactory() {
+            $('#OrderTable').on('change', '.SupplierId', function () {
+                var selectedValue = $(this).val();
+                //alert('SuppId ' + selectedValue);
+                var row = $(this).closest('tr');
+                var stateSelect = row.find('.FactInvoiceNo');
+                var LCMasId = $('#MasterLCInfoMasId').val();
+                var BuyerInfoId = $('#BuyerInfoId').val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/InvoiceCommercialRDL/GetLCFactOrder",
+                    data: { MasLCId: LCMasId, FactId: selectedValue, Buyer: BuyerInfoId },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        stateSelect.empty();
+                        row.find('.RDLRefNo').empty();
+                        row.find('.Quantity').val("");
+
+                        stateSelect.append('<option value=""></option>');
+                        $.each(data, function (index, item) {
+                            stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                        })
+                        BindContract();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+            })
+        }
+
+
+
+        function BindFactoryInvoice() {
+            $('#OrderTable').on('change', '.FactInvoiceNo', function () {
+                var selectedValue = $(this).val();
+
+                var LCMasId = $('#MasterLCInfoMasId').val();
+                var BuyerInfoId = $('#BuyerInfoId').val();
+                //alert('SuppId ' + selectedValue);
+                var row = $(this).closest('tr');
+                var FactoryId = row.find('.SupplierId').val();
+                //var stateSelect = row.find('.RDLRefNo');
+
+
+                var TempOrderId = row.find('.TempOrderId').val();
+
+
+                var totrow = $("table.OrderItemTable tbody tr").length;
+
+                var duplicateflag = true;
+
+                for (var i = 0; i < totrow; i++) {
+                    var currRow = $('table.OrderItemTable tbody tr').eq(i).find(".TempOrderId").val();
+
+                    if (currRow == TempOrderId) {
+
+                        continue;
+                    }
+                    else {
+                        if ($('table.OrderItemTable tbody tr').eq(i).find(".FactInvoiceNo").val() == selectedValue) {
+                            duplicateflag = false;
+
+                        }
+                    }
+                }
+
+
+                if (duplicateflag == false) {
+                    alert("Factory Invoice already exists!");
+                    // row.find('.FactInvoiceNo').val("");
+
+                    var FactId = row.find('.SupplierId').val();
+
+                    var stateSelect = row.find('.FactInvoiceNo');
+                    $.ajax({
+                        type: "post",
+                        url: "/InvoiceCommercialRDL/GetLCFactOrder",
+                        data: { MasLCId: LCMasId, FactId: FactId, Buyer: BuyerInfoId },
+                        datatype: "json",
+                        traditional: true,
+                        success: function (data) {
+                            stateSelect.empty();
+                            stateSelect.append('<option value=""></option>');
+                            $.each(data, function (index, item) {
+                                stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                            })
+                            //BindContract();
+                            //BindFactoryInvoice();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert('Error: ' + textStatus + ' - ' + errorThrown);
+                        }
+                    });
+
+
+                    row.find('input.Quantity').val("");
+                    row.find('label.label_ShipQuantity').text("");
+
+                    row.find('input.FactInvoiceVal').val("");
+                    row.find('label.label_FactoryInvValue').text("");
+
+                    row.find('input.RDLInvoiceVal').val("");
+                    row.find('label.label_RDLValue').text("");
+                }
+                else {
+                    if (selectedValue > 0) {
+                        $.ajax({
+                            type: "post",
+                            url: "/InvoiceCommercialRDL/InvoiceRDLFactory",
+                            //data: { BuyerOrderMasId: selectedValue, BuyerInfoId: BuyerInfoId, FactoryId: FactoryId, LCMasId: LCMasId, InvoiceFactMasiD: FactInvoiceNo },
+                            data: { BuyerInfoId: BuyerInfoId, FactoryId: FactoryId, LCMasId: LCMasId, InvoiceFactMasiD: selectedValue },
+                            datatype: "json",
+                            traditional: true,
+                            success: function (data) {
+
+                                row.find('input.Quantity').val(numeral(data.Quantity).format('0,0'));
+                                row.find('label.label_ShipQuantity').text(numeral(data.Quantity).format('0,0'));
+
+                                row.find('input.FactInvoiceVal').val(numeral(data.FactInvoiceVal).format('$ 0,0.00'));
+                                row.find('label.label_FactoryInvValue').text(numeral(data.FactInvoiceVal).format('$ 0,0.00'));
+
+                                row.find('input.RDLInvoiceVal').val(numeral(data.RDLValue).format('$ 0,0.00'));
+                                row.find('label.label_RDLValue').text(numeral(data.RDLValue).format('$ 0,0.00'));
+
+                                row.find('input.OrderMasId').val(data.OrderMasId);
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert('Error: ' + textStatus + ' - ' + errorThrown);
+                            }
+                        });
+                    }
+                    else {
+                        row.find('input.Quantity').val("");
+                        row.find('label.label_ShipQuantity').text("");
+
+                        row.find('input.FactInvoiceVal').val("");
+                        row.find('label.label_FactoryInvValue').text("");
+
+                        row.find('input.RDLInvoiceVal').val("");
+                        row.find('label.label_RDLValue').text("");
+
+                        $('#DV_Order_Deliv').hide();
+                    }
+
+
+                }
+
+            });
+
+
+        }
+
+
+        function BindContract() {
+            $('#OrderTable').on('change', '.FactInvoiceNo', function () {
+
+                var selectedValue = $(this).val();
+                var row = $(this).closest('tr');
+                var FactoryId = row.find('.SupplierId').val();
+                //var FactInvoiceNo = row.find('.FactInvoiceNo').val();
+
+                var LCMasId = $('#MasterLCInfoMasId').val();
+                var BuyerInfoId = $('#BuyerInfoId').val();
+
+
+                $.ajax({
+                    type: "post",
+                    url: "/InvoiceCommercialRDL/InvoiceRDLFactory",
+                    //data: { BuyerOrderMasId: selectedValue, BuyerInfoId: BuyerInfoId, FactoryId: FactoryId, LCMasId: LCMasId, InvoiceFactMasiD: FactInvoiceNo },
+                    data: { BuyerInfoId: BuyerInfoId, FactoryId: FactoryId, LCMasId: LCMasId, InvoiceFactMasiD: selectedValue },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+
+                        row.find('input.Quantity').val(numeral(data.Quantity).format('0,0'));
+                        row.find('input.FactInvoiceVal').val(numeral(data.FactInvoiceVal).format('$ 0,0.00'));
+                        row.find('input.RDLInvoiceVal').val(numeral(data.RDLValue).format('$ 0,0.00'));
+
+                        row.find('input.OrderMasId').val(data.OrderMasId);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+            })
+        }
+
+
+
+
+
+        function ShowDelivDetail(e) {
+
+            if (currSelDelivRow > 0) {
+                $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+                $('#OrderTable tr').eq(currSelDelivRow).find("button.deliverybtn").css("color", "black");
+            }
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+            //alert('currRowIndex ' + currRowIndex);
+            var TempOrderId = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+
+            currSelOrderTempId = TempOrderId;
+
+            $('#OrderTable tr').eq(currRowIndex).addClass("bg-brown");
+
+            currSelDelivRow = currRowIndex;
+
+            $('#OrderTable tr').eq(currRowIndex).find("button.deliverybtn").css("color", "white");
+            //$('#DelivTable tbody').empty();
+
+            var BuyerInfoId = $('#BuyerInfoId').val();
+            //alert('BuyerInfoId '+BuyerInfoId);
+            var SupplierId = $('#OrderTable tr').eq(currRowIndex).find("select.SupplierId").val();
+            //alert('SupplierId '+SupplierId);
+            //var InvCommMasId = $('#OrderTable tr').eq(currRowIndex).find("select.FactInvoiceNo").val()
+
+            //var RDLRefNo = $('#OrderTable tr').eq(currRowIndex).find("select.RDLRefNo").val();
+            var InvoiceMasId = $('#OrderTable tr').eq(currRowIndex).find("select.FactInvoiceNo").val();
+            var InvCommDetId =  $('#OrderTable tr').eq(currRowIndex).find("input.InvCommDetId").val();
+            var checkStatus = $('#OrderTable tr').eq(currRowIndex).find("input.ShowDelivStatus").val();
+
+            var splitFlag = $("#SplitType").val();
+            //alert('InvCommMasId '+InvCommMasId);
+            if (checkStatus == 0) {
+                if (InvoiceMasId > 0)
+                {
+                    if (InvCommDetId > 0)
+                    {
+                        $.ajax({
+                            url: '/InvoiceCommercialRDL/GetDelivDataEdit/',
+                            //data: { BuyerId: BuyerInfoId, BuyerOrderMasId: RDLRefNo, SupplierId: SupplierId, InvoiceMasId: InvoiceMasId },
+                            data: { BuyerId: BuyerInfoId,SupplierId: SupplierId, InvoiceCommDetId: InvCommDetId },
+                            dataType: 'json',
+                            TYPE: 'POST',
+                            success: function (data) {
+                                console.log(data);
+                                for (var i = 0; i < data.length; i++) {
+                                    var currentFOB = 0.0;
+                                    var currentValue = 0.0;
+
+                                    if (data[i].DiscountValue != 0 || data[i].PreviousDiscountAdj != 0) {
+                                        var FactoryValue = parseFloat(data[i].ShipQuantity * data[i].RDLUnitPrice);
+                                        //var currentDiscount = data[i].DiscountValue == 0 ? 0.0 : parseFloat(data[i].DiscountValue).toFixed(2);
+                                        var currentDiscount = data[i].DiscountValue == 0 ? 0.0 : parseFloat(data[i].DiscountValue);
+                                        //var previousDiscount = data[i].PreviousDiscountAdj == 0 ? 0.0 : parseFloat(data[i].PreviousDiscountAdj).toFixed(2);
+                                        var previousDiscount = data[i].PreviousDiscountAdj == 0 ? 0.0 : parseFloat(data[i].PreviousDiscountAdj);
+
+                                        //currentFOB = ((FactoryValue - (currentDiscount + previousDiscount)) / parseFloat(data[i].ShipQuantity)).toFixed(2);
+                                        currentFOB = ((FactoryValue - (currentDiscount + previousDiscount)) / parseFloat(data[i].ShipQuantity));
+                                        //alert(typeof (FactoryValue) + " : " + typeof (currentDiscount) + " : " + typeof (previousDiscount));
+                                        //currentFOB = (FactoryValue - (currentDiscount + previousDiscount));
+                                        currentValue = (currentFOB * data[i].ShipQuantity).toFixed(2);
+                                        //alert('FactoryValue->' + FactoryValue);
+                                        //alert('currentDiscount->' + currentDiscount);
+                                        //alert('previousDiscount->' + previousDiscount);
+                                        //alert('currentFOB->' + currentFOB);
+
+                                    }
+                                    else {
+                                        currentValue =( data[i].ShipQuantity * data[i].RDLUnitPrice).toFixed(2);
+                                    }
+                                    if(data[i].DiscountFlag == true)
+                                    {
+                                        var row = jQuery('<tr>'
+                                                + '<td><input type="hidden" name = "DelivOrderDetTempId" value="' + TempOrderId + '" class="DelivOrderDetTempId" />' + data[i].RDLRefNo
+                                                + '<input type="hidden" name = "InvoiceCommDetDetId" value="' + data[i].InvoiceCommDetDetId + '" class="InvoiceCommDetDetId" />'
+                                                + '</td>'
+                                                + '<td><input type="hidden" name = "ExFactoryShipDetId" value="' + data[i].ExFactoryShipDetId + '" class="ExFactoryShipDetId" />' + data[i].StyleNo + '</td>'
+                                                + '<td><input type="hidden" name = "discountFlag" value="' + 1 + '" class="discountFlag" />' + data[i].BuyersPONo + '</td>'
+                                                + '<td class="bg-green-300 text-right ShipQuantity">' + data[i].ShipQuantity + '</td>'
+                                                + '<td class="bg-green-300 PreviousSplitQty"  align="center">' + data[i].PreviousSplitQty + '</td>'
+                                                + '<td class="bg-green-300 RemainingQty"  align="center">' + (data[i].ShipQuantity - data[i].PreviousSplitQty) + '</td>'
+                                                + '<td align="center">' + (splitFlag == 0 ? '<input type="text" name="SplitShipQty" class="SplitShipQty form-control input-xs" disabled="disabled" value="' + data[i].SplitQty + '" />'
+                                                                            : ((data[i].ShipQuantity - data[i].PreviousSplitQty) == 0 ? '<input type="text" name="SplitShipQty" class="SplitShipQty form-control input-xs" value="' + data[i].SplitQty + '" />' : '<input type="text" name="SplitShipQty" class="SplitShipQty form-control input-xs"  value="' + data[i].SplitQty + '" />')) + '</td>'
+                                                + '<td><label class="RDLUnitPrice">' + data[i].RDLUnitPrice + '</label></td>'
+                                                //+ '<td class="bg-green-300 text-right RDLValue">' + numeral(data[i].FactoryInvoiceValue).format('$ 0,0.00') + '</td>'
+                                                + '<td class="bg-green-300 text-right RDLValue">' + (data[i].FactoryInvoiceValue).toFixed(2) + '</td>'
+                                                + '<td>' + (data[i].DiscountPerc == 0 ? "" : data[i].DiscountPerc) + '</td>'
+                                                + '<td class="bg-green-300 text-right FactDiscountValue">' + (data[i].DiscountValue == 0 ? "" : (parseFloat(data[i].DiscountValue)).toFixed(2)) + '</td>'
+                                                + '<td class="bg-green-300 text-right PreviousDiscountAdj">' + (data[i].PreviousDiscountAdj == 0 ? "" : (data[i].PreviousDiscountAdj).toFixed(2)) + '</td>'
+                                                + '<td>' + (currentFOB == 0.0 ? "" : currentFOB.toFixed(2)) + '</td>'
+                                                + '<td class="bg-green-300 text-right"><input type="hidden" name = "detailCurrentValue" value="' + (currentValue == 0.0 ? "" : currentValue) + '" class="detailCurrentValue" /><label class="CurrentValue">' + (currentValue == 0.0 ? "" : currentValue) + '</label></td>'
+                                                + '</tr>');
+                                    }
+                                    else{
+                                        var row = jQuery('<tr>'
+                                                 + '<td><input type="hidden" name = "DelivOrderDetTempId" value="' + TempOrderId + '" class="DelivOrderDetTempId" />' + data[i].RDLRefNo
+                                                 + '<input type="hidden" name = "InvoiceCommDetDetId" value="' + data[i].InvoiceCommDetDetId + '" class="InvoiceCommDetDetId" />'
+                                                 + '</td>'
+                                                 + '<td><input type="hidden" name = "ExFactoryShipDetId" value="' + data[i].ExFactoryShipDetId + '" class="ExFactoryShipDetId" />' + data[i].StyleNo + '</td>'
+                                                 + '<td><input type="hidden" name = "discountFlag" value="' + 0 + '" class="discountFlag" />' + data[i].BuyersPONo + '</td>'
+                                                 + '<td class="bg-green-300 text-right ShipQuantity">' + data[i].ShipQuantity + '</td>'
+                                                 + '<td class="bg-green-300 PreviousSplitQty"  align="center">' + data[i].PreviousSplitQty + '</td>'
+                                                 + '<td class="bg-green-300 RemainingQty"  align="center">' + (data[i].ShipQuantity - data[i].PreviousSplitQty) + '</td>'
+                                                 + '<td align="center">' + (splitFlag == 0 ? '<input type="text" name="SplitShipQty" class="SplitShipQty form-control input-xs" disabled="disabled" value="' + data[i].SplitQty + '" />'
+                                                                             : ((data[i].ShipQuantity - data[i].PreviousSplitQty) == 0 ? '<input type="text" name="SplitShipQty"  class="SplitShipQty form-control input-xs" value="' + data[i].SplitQty + '" />' : '<input type="text" name="SplitShipQty" class="SplitShipQty form-control input-xs"  value="' + data[i].SplitQty + '" />')) + '</td>'
+                                                 + '<td><label class="RDLUnitPrice">' + data[i].RDLUnitPrice + '</label></td>'
+                                                 //+ '<td class="bg-green-300 text-right RDLValue">' + numeral(data[i].FactoryInvoiceValue).format('$ 0,0.00') + '</td>'
+                                                 + '<td class="bg-green-300 text-right RDLValue">' + (data[i].FactoryInvoiceValue).toFixed(2) + '</td>'
+                                                 + '<td></td>'
+                                                 + '<td class="bg-green-300 text-right FactDiscountValue"></td>'
+                                                 + '<td class="bg-green-300 text-right PreviousDiscountAdj"></td>'
+                                                 + '<td></td>'
+                                                 + '<td class="bg-green-300 text-right"><input type="hidden" name = "detailCurrentValue" value="' + (currentValue == 0.0 ? "" : currentValue) + '" class="detailCurrentValue" /><label class="CurrentValue">' + (currentValue == 0.0 ? "" : currentValue) + '</label></td>'
+                                                 + '</tr>');
+                                    }
+
+
+                                    $('table.DelivTable tbody').append(row);
+                                }
+
+                                $('#OrderTable tr').eq(currRowIndex).find("input.ShowDelivStatus").val(1);
+
+                                UpdateInvoiceValue();
+                                PopulateAllTotalValue();
+
+                                $('.SplitShipQty').change(function () {
+                                    UpdateInvoiceValue();
+                                    PopulateAllTotalValue();
+                                });
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert('Error: ' + textStatus + ' - ' + errorThrown);
+                            }
+                        });
+                    }
+                    else{
+                        $.ajax({
+                            url: '/InvoiceCommercialRDL/GetDelivData/',
+                            //data: { BuyerId: BuyerInfoId, BuyerOrderMasId: RDLRefNo, SupplierId: SupplierId, InvoiceMasId: InvoiceMasId },
+                            data: { BuyerId: BuyerInfoId,SupplierId: SupplierId, InvoiceMasId: InvoiceMasId },
+                            dataType: 'json',
+                            TYPE: 'POST',
+                            success: function (data) {
+                                console.log(data);
+                                for (var i = 0; i < data.length; i++) {
+                                    var currentFOB = 0.0;
+                                    var currentValue = 0.0;
+
+                                    if (data[i].CheckPrevDiscount == 0)
+                                    {
+                                        if (data[i].DiscountValue != 0 || data[i].PreviousDiscountAdj != 0) {
+                                            var FactoryValue = parseFloat(data[i].ShipQuantity * data[i].RDLUnitPrice);
+                                            var currentDiscount = data[i].DiscountValue == 0 ? 0.0 : parseFloat(data[i].DiscountValue);
+                                            var previousDiscount = data[i].PreviousDiscountAdj == 0 ? 0.0 : parseFloat(data[i].PreviousDiscountAdj);
+
+
+                                            currentFOB = ((FactoryValue - (currentDiscount + previousDiscount)) / parseFloat(data[i].ShipQuantity));
+
+                                            currentValue = (currentFOB * data[i].ShipQuantity).toFixed(2);
+
+
+                                        }
+                                        else {
+                                            currentValue =( data[i].ShipQuantity * data[i].RDLUnitPrice).toFixed(2);
+                                        }
+
+                                        discountFlag = 1;
+
+                                        var row = jQuery('<tr>'
+                                         + '<td><input type="hidden" name = "DelivOrderDetTempId" value="' + TempOrderId + '" class="DelivOrderDetTempId" />' + data[i].RDLRefNo
+                                         + '<input type="hidden" name="InvoiceCommDetDetId" value="' + 0 + '" class="InvoiceCommDetDetId" />'
+                                         + '</td>'
+                                         + '<td><input type="hidden" name = "ExFactoryShipDetId" value="' + data[i].ExFactoryShipDetId + '" class="ExFactoryShipDetId" />' + data[i].StyleNo + '</td>'
+                                         + '<td><input type="hidden" name = "discountFlag" value="' + discountFlag + '" class="discountFlag" />' + data[i].BuyersPONo + '</td>'
+                                         + '<td class="bg-green-300 text-right ShipQuantity">' + data[i].ShipQuantity + '</td>'
+                                         + '<td class="bg-green-300 PreviousSplitQty"  align="center">' + data[i].PreviousSplitQty + '</td>'
+                                         + '<td class="bg-green-300 RemainingQty"  align="center">' + (data[i].ShipQuantity - data[i].PreviousSplitQty) + '</td>'
+                                         + '<td align="center">' + (splitFlag == 0 ? '<input type="text" name="SplitShipQty" class="SplitShipQty form-control input-xs" disabled="disabled" value="' + data[i].ShipQuantity + '" />'
+                                                                        : ((data[i].ShipQuantity - data[i].PreviousSplitQty) == 0 ? '<input type="text" name="SplitShipQty" disabled="disabled" class="SplitShipQty form-control input-xs" value="" />' : '<input type="text" name="SplitShipQty" class="SplitShipQty form-control input-xs"/>')) + '</td>'
+                                         + '<td><label class="RDLUnitPrice">' + data[i].RDLUnitPrice + '</label></td>'
+                                         //+ '<td class="bg-green-300 text-right RDLValue">' + numeral(data[i].FactoryInvoiceValue).format('$ 0,0.00') + '</td>'
+                                          + '<td class="bg-green-300 text-right RDLValue">' + (data[i].FactoryInvoiceValue).toFixed(2) + '</td>'
+                                         + '<td>' + (data[i].DiscountPerc == 0 ? "" : data[i].DiscountPerc) + '</td>'
+                                         + '<td class="bg-green-300 text-right FactDiscountValue">' + (data[i].DiscountValue == 0 ? "" : (parseFloat(data[i].DiscountValue)).toFixed(2)) + '</td>'
+                                         + '<td class="bg-green-300 text-right PreviousDiscountAdj">' + (data[i].PreviousDiscountAdj == 0 ? "" : (data[i].PreviousDiscountAdj).toFixed(2)) + '</td>'
+                                         + '<td>' + (currentFOB == 0.0 ? "" : currentFOB.toFixed(2)) + '</td>'
+                                         + '<td class="bg-green-300 text-right"><input type="hidden" name = "detailCurrentValue" value="' + (currentValue == 0.0 ? "" : currentValue) + '" class="detailCurrentValue" /><label class="CurrentValue">' + (currentValue == 0.0 ? "" : currentValue) + '</label></td>'
+                                         + '</tr>');
+
+                                        $('table.DelivTable tbody').append(row);
+                                    }
+                                    else {
+                                        currentValue = (data[i].ShipQuantity * data[i].RDLUnitPrice).toFixed(2);
+
+                                        var row = jQuery('<tr>'
+                                                + '<td><input type="hidden" name = "DelivOrderDetTempId" value="' + TempOrderId + '" class="DelivOrderDetTempId" />' + data[i].RDLRefNo + '</td>'
+                                                + '<input type="hidden" name="InvoiceCommDetDetId" value="' + 0 + '" class="InvoiceCommDetDetId" />'
+                                                + '<td><input type="hidden" name = "ExFactoryShipDetId" value="' + data[i].ExFactoryShipDetId + '" class="ExFactoryShipDetId" />' + data[i].StyleNo + '</td>'
+                                                + '<td><input type="hidden" name = "discountFlag" value="' + discountFlag + '" class="discountFlag" />' + data[i].BuyersPONo + '</td>'
+                                                + '<td class="bg-green-300 ShipQuantity"  align="center">' + data[i].ShipQuantity + '</td>'
+                                                + '<td class="bg-green-300 PreviousSplitQty"  align="center">' + data[i].PreviousSplitQty + '</td>'
+                                                + '<td class="bg-green-300 RemainingQty"  align="center">' + (data[i].ShipQuantity - data[i].PreviousSplitQty) + '</td>'
+                                                + '<td align="center">' + (splitFlag == 0 ? '<input type="text" name="SplitShipQty" class="SplitShipQty form-control input-xs" disabled="disabled" value="' + (data[i].ShipQuantity - data[i].PreviousSplitQty) + '" />'
+                                                                                : ((data[i].ShipQuantity - data[i].PreviousSplitQty) == 0 ? '<input type="text" name="SplitShipQty" disabled="disabled" class="SplitShipQty form-control input-xs" value="" />' : '<input type="text" name="SplitShipQty" class="SplitShipQty form-control input-xs" value="' + (data[i].ShipQuantity - data[i].PreviousSplitQty) + '"/>')) + '</td>'
+                                                + '<td><label class="RDLUnitPrice">' + data[i].RDLUnitPrice + '</label></td>'
+                                                //+ '<td class="bg-green-300 text-right RDLValue">' + numeral(data[i].FactoryInvoiceValue).format('$ 0,0.00') + '</td>'
+                                                + '<td class="bg-green-300 text-right RDLValue">' + data[i].FactoryInvoiceValue.toFixed(2) + '</td>'
+                                                + '<td></td>'
+                                                + '<td class="bg-green-300 text-right FactDiscountValue"></td>'
+                                                + '<td class="bg-green-300 text-right PreviousDiscountAdj"></td>'
+                                                + '<td></td>'
+                                                + '<td class="bg-green-300 text-right"><input type="hidden" name = "detailCurrentValue" value="' + (currentValue == 0.0 ? "" : currentValue) + '" class="detailCurrentValue" /><label class="CurrentValue">' + (currentValue == 0.0 ? "" : currentValue) + '</label></td>'
+                                                + '</tr>');
+
+                                        $('table.DelivTable tbody').append(row);
+                                    }
+                                }
+                                $('#OrderTable tr').eq(currRowIndex).find("input.ShowDelivStatus").val(1);
+
+                                UpdateInvoiceValue();
+                                PopulateAllTotalValue();
+
+
+                                $('.SplitShipQty').change(function () {
+                                    UpdateInvoiceValue();
+                                    PopulateAllTotalValue();
+                                });
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert('Error: ' + textStatus + ' - ' + errorThrown);
+                            }
+                        });
+                    }
+
+
+                    var cn = 1;
+                    for (var i = 1; i < $('#DelivTable tr').length - 1; i++) {
+                        //if (currSelOrderId == 0) {
+                        //alert($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() + '--->' + TempOrderId);
+                        if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() != TempOrderId) {
+                            $('#DelivTable tr').eq(i).css("visibility", "collapse");
+                            $('#DelivTable tr').eq(i).find("td.index").text(cn);
+                            cn++;
+                        }
+                        else {
+                            $('#DelivTable tr').eq(i).css("visibility", "visible");
+                        }
+
+                    }
+
+                    UpdateInvoiceValue();
+                    PopulateAllTotalValue();
+
+                    $("#DV_Order_Deliv").show();
+                }
+                else {
+                    $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+                    $('#OrderTable tr').eq(currSelDelivRow).find("button.deliverybtn").css("color", "black");
+
+                    alert("Please select Factory Invoice No.");
+
+                    PopulateAllTotalValue();
+                    $('#DV_Order_Deliv').hide();
+                }
+            }
+            else {
+                var cn = 1;
+                for (var i = 1; i < $('#DelivTable tr').length - 1; i++) {
+                    //if (currSelOrderId == 0) {
+                    //alert($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() + '--->' + TempOrderId);
+                    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == TempOrderId) {
+                        $('#DelivTable tr').eq(i).css("visibility", "visible");
+                        $('#DelivTable tr').eq(i).find("td.index").text(cn);
+                        cn++;
+                    }
+                    else {
+                        $('#DelivTable tr').eq(i).css("visibility", "collapse");
+                    }
+
+                }
+
+
+                PopulateAllTotalValue();
+                $("#DV_Order_Deliv").show();
+            }
+        }
+
+
+
+
+        $('#saveState').click(function () {
+
+            var IssueDate = moment($('#IssueDate').val(), "DD/MM/YYYY", true);
+
+            if ($.trim($('#InvoiceNo').val()) === "") {
+                alert('Invoice no required');
+                //$('#InvoiceNoFact').focus();
+            }
+            else if (IssueDate.isValid() == false) {
+                alert('Date required');
+
+            }
+            else if ($('#BuyerInfoId option:selected').text() == "") {
+                alert('Please select Buyer');
+                $('#BuyerInfoId').select2('open');
+            }
+                //else if (ExFactoryDate.isValid() == false) {
+                //    alert('Valid Ex-Factory date required<br />Usage:[dd/mm/yyyy]');
+                //    //$('#SalesContractDate').focus();
+                //}
+
+            else {
+                SaveInvoiceRDLData();
+            }
+
+        });
+
+
+        function SaveInvoiceRDLData() {
+
+            $("#saveState").attr("disabled", "disabled");
+
+            //Id, BuyerOrderMasId, SalesContractNo, SalesContractDate, SupplierId
+            var InvoiceRDLMasId= @Model.Id;
+            var InvoiceNo = $('#InvoiceNo').val();
+            //var BuyerInfoId = $('#BuyerInfoId').val();
+            //var InvoiceNoFact = $.trim($('#InvoiceNoFact').val());
+            var IssueDate = $('#IssueDate').val();
+            var SplitFlag = $('#SplitType').val();
+
+            //ExFactoryShipDetId
+            var TempOrderId = document.getElementsByName("TempOrderId");
+            var InvoiceDetailId =  document.getElementsByName("InvCommDetId");
+            var FactInvoiceNo = document.getElementsByName("FactInvoiceNo");
+
+
+
+            var OItems = [];
+
+            //alert(InvoiceDetailId.length);
+            // Detail Data
+
+            for (var i = 0; i < InvoiceDetailId.length; i++) {
+
+                if (FactInvoiceNo[i].value == "") {
+                    continue;
+                }
+
+                OItems.push({TempOrderDetId: TempOrderId[i].value,  Id: InvoiceDetailId[i].value ,InvoiceCommMasId : InvoiceRDLMasId ,InvoiceCommFactMasId: FactInvoiceNo[i].value });
+            }
+
+
+            //--------------- delivery items
+            var DelivOrderDetTempId = document.getElementsByName("DelivOrderDetTempId");
+            var InvoiceCommDetDetId =  document.getElementsByName("InvoiceCommDetDetId");
+            var ExFactoryShipDetId = document.getElementsByName("ExFactoryShipDetId");
+            var ShipQuantity = document.getElementsByName("SplitShipQty");
+            var DiscountFlag = document.getElementsByName("discountFlag");
+            var CurrentValue = document.getElementsByName("detailCurrentValue");
+
+            var DItems = [];
+            //alert('ExFactoryShipDetId.length->'+ExFactoryShipDetId.length);
+
+            for (var i = 0; i < ExFactoryShipDetId.length; i++) {
+                if (ShipQuantity[i].value == "" || ShipQuantity[i].value == 0) {
+                    continue;
+                }
+
+                var discount = false;
+                if (DiscountFlag[i].value == 1)
+                {
+                    discount = true;
+                }
+
+                //alert(InvoiceCommDetDetId[i].value);
+                DItems.push({ Id: InvoiceCommDetDetId[i].value, DelivOrderDetTempId: DelivOrderDetTempId[i].value, ExFactoryShipDetId: ExFactoryShipDetId[i].value, ShipQty: ShipQuantity[i].value , DiscountFlag: discount, CurrentValue: CurrentValue[i].value});
+            }
+
+            InvoiceRDLDetails = JSON.stringify({ InvoiceDetails: OItems, DelivDetails: DItems,  Id: InvoiceRDLMasId,  InvoiceNo: InvoiceNo, IssueDate: IssueDate, DelItems: deletedItems });
+
+            if(InvoiceDetailId.length>0)
+            {
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: '/InvoiceCommercialRDL/UpdateInvoiceRDL',
+                    data: InvoiceRDLDetails,
+                    success: function (result) {
+                        console.log(result);
+                        //$("#saveState").removeAttr("disabled");
+                        if (result.flag == true) {
+                            alert("Record save successfully!");
+                            //window.location = "/InvoiceCommercialRDL/Edit/" + result.Id;
+                            window.location = "/InvoiceCommercialRDL/Index";
+                        }
+                        else {
+                            alert(result.message);
+                        }
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                        //$("#saveState").removeAttr("disabled");
+                    }
+                });
+            }
+            else{
+                alert("Please add at least one detail item.");
+                $("#saveState").removeAttr("disabled");
+            }
+
+        }
+
+
+        function PopulateAllTotalValue() {
+            var grandTotShipQnty = 0.0;
+            var grandTotFactValue = 0.0;
+            var grandTotDiscountValue = 0.0;
+            var grandTotPrevAdjValue = 0.0;
+            var grandTotFinalValue = 0.0;
+
+            var totRow = $('#DelivTable tr').length - 1;
+
+            //alert('totRow ' + totRow);
+
+            for (var i = 1; i < totRow; i++) {
+                if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+                    var strShipQnty = 0;
+                    var strFactValue = 0;
+                    var strDiscountValue = 0;
+                    var strPrevAdjValue = 0;
+                    var strFinalValue = 0;
+
+
+                    strShipQnty = $('#DelivTable tr').eq(i).find(".ShipQuantity").text();
+                    strFactValue = $('#DelivTable tr').eq(i).find(".RDLValue").text();
+                    strDiscountValue = $('#DelivTable tr').eq(i).find(".FactDiscountValue").text();
+                    strPrevAdjValue = $('#DelivTable tr').eq(i).find(".PreviousDiscountAdj").text();
+                    strFinalValue = $('#DelivTable tr').eq(i).find(".CurrentValue").text();
+
+                    //alert('strOrderQnty->' + strOrderQnty);
+
+
+
+
+                    if (!$.isNumeric(strShipQnty)) {
+                        strShipQnty = 0;
+                    }
+                    grandTotShipQnty = grandTotShipQnty + parseInt(strShipQnty);
+
+                    if (!$.isNumeric(strFactValue)) {
+                        strFactValue = 0;
+                    }
+                    grandTotFactValue = grandTotFactValue + parseFloat(strFactValue);
+
+
+                    if (!$.isNumeric(strDiscountValue)) {
+                        strDiscountValue = 0;
+                    }
+                    grandTotDiscountValue = grandTotDiscountValue + parseFloat(strDiscountValue);
+
+                    if (!$.isNumeric(strPrevAdjValue)) {
+                        strPrevAdjValue = 0;
+                    }
+                    grandTotPrevAdjValue = grandTotPrevAdjValue + parseFloat(strPrevAdjValue);
+
+                    if (!$.isNumeric(strFinalValue)) {
+                        strFinalValue = 0;
+                    }
+                    grandTotFinalValue = grandTotFinalValue + parseFloat(strFinalValue);
+                }
+            }
+
+
+            $('#DelivTable tr').eq(totRow).find(".grandTotalShipQnty").text(numeral(grandTotShipQnty).format('0,0'));
+            $('#DelivTable tr').eq(totRow).find(".grandTotalRDLValue").text(numeral(grandTotFactValue).format('$ 0,0.00'));
+            $('#DelivTable tr').eq(totRow).find(".grandTotalDiscountValue").text(numeral(grandTotDiscountValue).format('$ 0,0.00'));
+            $('#DelivTable tr').eq(totRow).find(".grandTotalPrevAdjValue").text(numeral(grandTotPrevAdjValue).format('$ 0,0.00'));
+            $('#DelivTable tr').eq(totRow).find(".grandTotalFinalValue").text(numeral(grandTotFinalValue).format('$ 0,0.00'));
+
+        }
+
+
+        function UpdateInvoiceValue() {
+            var RDlValue = 0.0;
+            var totRow = $('#DelivTable tr').length - 1;
+
+            for (var i = 1; i < totRow; i++) {
+
+                var strSplitShipQty = 0;
+                var strRDLFOB = 0;
+                var currentDiscount = 0;
+                var previousDiscount = 0;
+
+                strSplitShipQty = $('#DelivTable tr').eq(i).find(".SplitShipQty").val();
+                strRDLFOB = $('#DelivTable tr').eq(i).find(".RDLUnitPrice").text();
+
+                var result = parseFloat(strSplitShipQty) * parseFloat(strRDLFOB);
+
+                if (isNaN(result))
+                {
+                    result = 0;
+                }
+
+                $('#DelivTable tr').eq(i).find(".RDLValue").text(result.toFixed(2));
+
+                currentDiscount = $('#DelivTable tr').eq(i).find(".FactDiscountValue").text();
+                previousDiscount = $('#DelivTable tr').eq(i).find(".PreviousDiscountAdj").text();
+
+                if (currentDiscount == "" || isNaN(currentDiscount)) {
+                    currentDiscount = 0;
+                }
+                else {
+                    currentDiscount = parseFloat(currentDiscount);
+                }
+
+                if (previousDiscount == "") {
+                    previousDiscount = 0;
+                }
+                else {
+                    previousDiscount = parseFloat(previousDiscount);
+                }
+
+
+                var currentFOB = ((result - (currentDiscount + previousDiscount)) / parseFloat(strSplitShipQty));
+                var currentValue = (currentFOB * strSplitShipQty).toFixed(2);
+
+                if (isNaN(currentValue))
+                {
+                    currentValue = 0;
+                }
+
+                $('#DelivTable tr').eq(i).find(".CurrentValue").text(currentValue);
+                $('#DelivTable tr').eq(i).find(".detailCurrentValue").val(currentValue);
+
+            }
+
+        }
+
+    </script>
+}

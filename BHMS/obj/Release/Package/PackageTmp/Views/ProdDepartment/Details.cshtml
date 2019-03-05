@@ -1,0 +1,40 @@
+﻿@model BHMS.Models.ProdDepartment
+
+@{
+    ViewBag.Title = "Department";
+    ViewBag.SubTitle = "Details";
+}
+
+<div class="panel panel-primary panel-bordered" id="panelBodyMain">
+    <div class="panel-heading">
+        <h5 class="panel-title">Department Information</h5>
+    </div>
+    <div class="panel-body">
+        <div>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Brand.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Brand.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dd class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>

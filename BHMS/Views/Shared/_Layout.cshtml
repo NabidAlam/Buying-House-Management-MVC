@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - BHMS</title>
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="~/Content/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css">
+    @*<link href="~/Content/bootstrap-datepicker.css"  rel="stylesheet" type="text/css">*@
+    <link href="~/Content/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/core.css" rel="stylesheet" type="text/css">
+    @*<link href="~/Content/components.css" rel="stylesheet" type="text/css">*@
+    <link href="~/Content/components.css" rel="stylesheet" type="text/css">
+    @*<link href="~/Content/bootstrap-editable.css"  rel="stylesheet" type="text/css">*@
+
+    <link href="~/Content/colors.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    @*<script type="text/javascript" src="~/Scripts/plugins/loaders/pace.min.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+    @*<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/cupertino/jquery-ui.css" rel="stylesheet" />*@
+
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/respond.js"></script>*@
+    @*<script type="text/javascript" src="~/Scripts/bootstrap-editable.min.js"></script>*@
+
+    @*<script type="text/javascript" src="~/Scripts/modernizr-2.8.3.js"></script>*@
+    @*<script type="text/javascript" src="~/Scripts/plugins/loaders/blockui.min.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    @*<script type="text/javascript" src="~/Scripts/plugins/forms/validation/validate.min.js"></script>*@
+
+
+    @*<script type="text/javascript" src="~/Scripts/plugins/forms/selects/bootstrap_multiselect.js"></script>
+    <script type="text/javascript" src="~/Scripts/plugins/forms/inputs/touchspin.min.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/plugins/forms/select2.min.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/plugins/forms/styling/switch.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/plugins/forms/styling/switchery.min.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/plugins/forms/uniform.min.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/numeral.min.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/plugins/notifications/bootbox.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/plugins/notifications/sweet_alert.min.js"></script>*@
+    @*<script type="text/javascript" src="~/Scripts/plugins/tables/datatables/datatables.min.js"></script>*@
+    @*<script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/app.js"></script>
+
+
+
+    @*<script type="text/javascript" src="~/Scripts/pages/form_validation.js"></script>*@
+    <!-- /theme JS files -->
+</head>
+<body>
+    <!-- Main navbar -->
+    <div class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")">@*<img src="~/images/logo_light.png" alt="">*@Buying House Management System</a>
+            <ul class="nav navbar-nav visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+                <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-mobile">
+
+            <ul class="nav navbar-nav">
+                <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+                @*<li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-git-compare"></i>
+                        <span class="visible-xs-inline-block position-right">Git updates</span>
+                        <span class="badge bg-warning-400">9</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-content">
+                        <div class="dropdown-content-heading">
+                            Git updates
+                            <ul class="icons-list">
+                                <li><a href="#"><i class="icon-sync"></i></a></li>
+                            </ul>
+                        </div>
+                        <ul class="media-list dropdown-content-body width-350">
+                            <li class="media">
+                                <div class="media-left">
+                                    <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
+                                </div>
+                                <div class="media-body">
+                                    Drop the IE <a href="#">specific hacks</a> for temporal inputs
+                                    <div class="media-annotation">4 minutes ago</div>
+                                </div>
+                            </li>
+                            
+                        </ul>
+                        <div class="dropdown-content-footer">
+                            <a href="#" data-popup="tooltip" title="All activity"><i class="icon-menu display-block"></i></a>
+                        </div>
+                    </div>
+                </li>*@
+            </ul>
+
+            @*<p class="navbar-text">
+                <span class="label bg-success">Online</span>
+            </p>*@
+
+            @*<div class="navbar-right">
+                <ul class="nav navbar-nav">                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-bubbles4"></i>
+                            <span class="visible-xs-inline-block position-right">Messages</span>
+                            <span class="badge bg-warning-400">2</span>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-content width-350">
+                            <div class="dropdown-content-heading">
+                                Messages
+                                <ul class="icons-list">
+                                    <li><a href="#"><i class="icon-compose"></i></a></li>
+                                </ul>
+                            </div>
+                            <ul class="media-list dropdown-content-body">
+                                <li class="media">
+                                    <div class="media-left">
+                                        <img src="~/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                                        <span class="badge bg-danger-400 media-badge">5</span>
+                                    </div>
+                                    <div class="media-body">
+                                        <a href="#" class="media-heading">
+                                            <span class="text-semibold">James Alexander</span>
+                                            <span class="media-annotation pull-right">04:58</span>
+                                        </a>
+                                        <span class="text-muted">who knows, maybe that would be the best thing for me...</span>
+                                    </div>
+                                </li>
+                                
+                                <li class="media">
+                                    <div class="media-left"><img src="~/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
+                                    <div class="media-body">
+                                        <a href="#" class="media-heading">
+                                            <span class="text-semibold">Richard Vango</span>
+                                            <span class="media-annotation pull-right">Mon</span>
+                                        </a>
+
+                                        <span class="text-muted">Other travelling salesmen live a life of luxury...</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="dropdown-content-footer">
+                                <a href="#" data-popup="tooltip" title="All messages"><i class="icon-menu display-block"></i></a>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>*@
+        
+        </div>
+    </div>
+    <!-- /main navbar -->
+    <!-- Page container -->
+    <div class="page-container">
+        <!-- Page content -->
+        <div class="page-content">
+            <!-- Main sidebar -->
+            <div class="sidebar sidebar-main">
+                <div class="sidebar-content">
+                    
+                    @*<!-- User menu -->
+                    <div class="sidebar-user">
+                        <div class="category-content">
+                            <div class="media">
+                                <a href="#" class="media-left"><img src="~/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+                                <div class="media-body">
+                                    <span class="media-heading text-semibold">Victoria Baker</span>
+                                    <div class="text-size-mini text-muted">
+                                        <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
+                                    </div>
+                                </div>
+                                <div class="media-right media-middle">
+                                    <ul class="icons-list">
+                                        <li>
+                                            <a href="#"><i class="icon-cog3"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /user menu -->*@
+
+
+                    <!--Main Naviagation-->
+                    @{ //Html.RenderAction("Index", "Menu");
+
+                    }
+                    @Html.Partial("_MainMenuPartial")
+                    <!--End-->
+                </div>
+            </div>
+            <!-- /main sidebar -->
+            <!-- Main content -->
+            <div class="content-wrapper">
+                <!-- Page header  -->
+                <div class="page-header page-header-default border-bottom-lg border-bottom-teal">
+                    @*<div class="page-header-content">
+                        <div class="page-title">
+                            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">@ViewBag.Title</span>@(string.IsNullOrEmpty(ViewBag.SubTitle) ? "" : " - " + ViewBag.SubTitle)</h4>
+                        </div>
+                        <div class="heading-elements">
+                            <div class="heading-btn-group">
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    @*<div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li><a href="form_validation.html">Forms</a></li>
+                                <li class="active">Validation</li>
+                            </ul>
+                            <ul class="breadcrumb-elements">
+                                <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-gear position-left"></i>
+                                        Settings
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                                        <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                                        <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>*@
+
+
+                </div>
+                <!-- /page header -->
+                <!-- Content area -->
+                <div class="content">
+                    @{ Html.RenderPartial("_Alerts"); }
+                    @RenderBody()
+                    <!-- Footer -->
+                    @*<div class="footer text-muted">
+                        &copy; BHMS, 2018. <a href="#">Software Designed & Developed By</a> by: <a href="http://www.convincebd.com" target="_blank">Convince Computer Ltd.</a>
+                    </div>*@
+                    <!-- /footer -->
+                </div>
+                <!-- /content area -->
+            </div>
+            <!-- /main content -->
+        </div>
+        <!-- /page content -->
+    </div>
+    <!-- /page container -->
+    <!-- Footer -->
+    <div class="navbar navbar-default navbar-fixed-bottom">
+        <ul class="nav navbar-nav no-border visible-xs-block">
+            <li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second"><i class="icon-circle-up2"></i></a></li>
+        </ul>
+
+        <div class="navbar-collapse collapse" id="navbar-second">
+            <div class="navbar-text">
+                @*&copy; BHMS, 2018. <a href="#">Software Designed & Developed By</a> by: <a href="http://www.convincebd.com" target="_blank">Convince Computer Ltd.</a>*@
+            </div>
+
+            @*<div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Help center</a></li>
+                    <li><a href="#">Policy</a></li>
+                    <li><a href="#" class="text-semibold">Upgrade your account</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-cog3"></i>
+                            <span class="visible-xs-inline-block position-right">Settings</span>
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#"><i class="icon-dribbble3"></i> Dribbble</a></li>
+                            <li><a href="#"><i class="icon-pinterest2"></i> Pinterest</a></li>
+                            <li><a href="#"><i class="icon-github"></i> Github</a></li>
+                            <li><a href="#"><i class="icon-stackoverflow"></i> Stack Overflow</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>*@
+
+        </div>
+    </div>
+    <!-- /footer -->
+    @RenderSection("scripts", required: false)
+</body>
+</html>

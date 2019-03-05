@@ -1,0 +1,343 @@
+﻿@model BHMS.Models.TimeActionMas
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Time & Action Template</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.TemplateName, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.TemplateName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @*@Html.EditorFor(model => model.InvoiceCommMasId, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.UserDeptId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("UserDeptId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @*@Html.EditorFor(model => model.InvoiceCommMasId, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.ValidationMessageFor(model => model.UserDeptId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @*@Html.LabelFor(model => model.CompanyResourceId, htmlAttributes: new { @class = "control-label col-md-4" })*@
+                            @Html.Label("Responsible Person", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("CompanyResourceId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @*@Html.EditorFor(model => model.InvoiceCommMasId, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.ValidationMessageFor(model => model.CompanyResourceId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+
+
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:150px;">Activity Name</th>
+                        <th style="min-width:150px;">Days</th>
+                        <th style="min-width:100px;">Source</th>
+                        <th style="min-width:50px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-left">
+                            <button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i>Add Row</button>
+                        </td>
+                    </tr>
+
+                </tfoot>
+            </table>
+        </div>
+    </div> <!-- panel body -->
+</div>
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        //-- global var---
+        var currSelDelivRow = 0; //
+        var cnOrderTempId = 0; //
+        var currSelOrderTempId = 0; //
+        //var currSelOrderId = 0;
+        //--------------
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+        $(document).ready(function () {
+            //$('body').addClass("sidebar-xs");
+            $(".select2").select2();
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+        });
+
+
+
+        $('#btnAddRow').click(function () {
+            AddNewRow();
+        });
+
+
+        function AddNewRow() {
+            cnOrderTempId++;
+            var newRow = $('<tr><td>'
+                + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                + '<input type="text" name ="ActivityName"  class="form-control input-xs ActivityName" /></td>'
+                + '<td><input type="text" name ="ActivityDays"  class="form-control input-xs ActivityDays" /></td>'
+                + '<td><select name="ActivitySource" class="ActivitySource form-control select2 input-xs"><option value=""></option></select></td>'
+                + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+            $('table.OrderItemTable tbody').append(newRow);
+
+            $.ajax({
+                type: "post",
+                url: "/TimeActionMas/GetSourceForm",
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var selOptions = "<select>";
+                    selOptions = selOptions + '<option value=""></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        selOptions = selOptions + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    selOptions = selOptions + '</select>';
+
+                    jQuery('table.OrderItemTable tbody').find('tr:last').find("select.ActivitySource").html(selOptions);
+                }
+            });
+
+            $(".select2").select2();
+
+        }
+
+
+        $('table.OrderItemTable').on('change', '.ActivityDays', function () {
+            if ($.isNumeric($(this).val()) == false) {
+                $(this).val('');
+                alert('Only numeric allowed');
+                $(this).focus();
+            }
+        });
+
+
+
+        function RemoveOrderRow(e) {
+            //if ($('#OrderTable tr').length == 3) {
+            //    alert('You cannot delete this row.\nSubmission requires atleast one record.');
+            //    return;
+            //}
+
+            //if (confirm('Do you really want to delete?') == false) {
+            //    return;
+            //}
+
+            //$("#DV_Order_Deliv").hide();
+            //$('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+
+            //var currRowIndex = $(e).closest('tr').index() + 1;
+
+            //var id = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+
+            $(e).parent().parent().remove();
+        }
+
+
+
+
+        $('#saveState').click(function () {
+
+            if ($.trim($('#TemplateName').val()) === "") {
+                alert('Template Name required');
+                $('#TemplateName').focus();
+            }
+            else if ($.trim($('#BuyerInfoId').val()) === "") {
+                alert('Buyer required');
+                $('#BuyerInfoId').select2('open');
+            }
+            else if ($.trim($('#UserDeptId').val()) === "") {
+                alert('Department required');
+                $('#UserDeptId').select2('open');
+            }
+            else if ($('#CompanyResourceId option:selected').val() == "") {
+                alert('Responsible Person required');
+                $('#CompanyResourceId').select2('open');
+            }
+            else if (CheckDetail()==false) {
+                alert('Please add atleast one activity');
+            }
+            else {
+                SaveData();
+            }
+
+        });
+
+
+        function CheckDetail()
+        {            
+            var flag = false;
+            var ActivityName = document.getElementsByName("ActivityName");
+            for (var i = 0; i < ActivityName.length; i++) {
+                if (ActivityName[i].value == "") { continue; }
+                else {
+                    flag = true;
+                }
+            }
+            return flag;
+        }
+
+
+        function SaveData() {
+
+            $("#saveState").attr("disabled", "disabled");
+            //Master
+            var TemplateName = $('#TemplateName').val();
+            var BuyerInfoId = $('#BuyerInfoId option:selected').val();
+            var UserDeptId = $('#UserDeptId option:selected').val();
+            var CompanyResourceId = $('#CompanyResourceId option:selected').val();
+
+            //Detail
+            var ActivityName = document.getElementsByName("ActivityName");
+            var ActivityDays = document.getElementsByName("ActivityDays");
+            var ActivitySource = document.getElementsByName("ActivitySource");
+
+            //return;
+            var OItems = [];
+
+            for (var i = 0; i < ActivityName.length; i++) {
+                if (ActivityName[i].value == "") { continue; }
+
+                var activity = 0;
+                if (ActivitySource[i].value=="")
+                {
+                    activity = 0;
+                }
+                else {
+                    activity = ActivitySource[i].value;
+                }
+                OItems.push({ Id: 0, TimeActionMasId: 0, ActivityName: ActivityName[i].value, ActivityDays: ActivityDays[i].value, Source: activity });
+            }
+            //console.log(OItems);
+
+
+            //-----------------
+            ItemDetails = JSON.stringify({
+                ActionDetails: OItems,
+                Id: 0,
+                TemplateName: TemplateName,
+                BuyerInfoId: BuyerInfoId,
+                UserDeptId: UserDeptId,
+                CompanyResourceId: CompanyResourceId
+            });
+
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/TimeActionMas/SaveTimeAction',
+                data: ItemDetails,
+                success: function (result) {
+                    console.log(result);
+                    $("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        alert("Record save successfully!");
+                        window.location = "/TimeActionMas/Index/";
+                        //window.location = "/DocSubmission/Edit/" + result.Id;
+                    }
+                    else {
+                        alert(result.message);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+    </script>
+}

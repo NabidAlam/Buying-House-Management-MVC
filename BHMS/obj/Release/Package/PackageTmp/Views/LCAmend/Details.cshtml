@@ -1,0 +1,98 @@
+﻿@model BHMS.Models.LCAmendInfo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LCAmendInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MasterLCInfoMas.LCNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MasterLCInfoMas.LCNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmendDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmendDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmendLCNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmendLCNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmendLCRecvDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmendLCRecvDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmendLatestShipDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmendLatestShipDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmendQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmendQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmendTotalValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmendTotalValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmendLCExpiryDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmendLCExpiryDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmendPaymentTerm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmendPaymentTerm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmendTenor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmendTenor)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

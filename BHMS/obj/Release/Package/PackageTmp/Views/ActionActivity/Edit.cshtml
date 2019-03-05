@@ -1,0 +1,331 @@
+﻿@model BHMS.Models.ActionActivityMas
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Time & Action Activity</h5>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">RDl Ref No.</label>
+                            <div class="col-md-8">
+                                <input class="form-control input-xs" id="RDLRefNo" readonly="readonly" value="@ViewBag.RDLRefNo" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Order Confirmation Date</label>
+                            <div class="col-md-8">
+                                <input class="form-control input-xs" id="OrderConfirmationDate" readonly="readonly" value="@ViewBag.OrderDate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Style Name</label>
+                            <div class="col-md-8">
+                                <input class="form-control input-xs" id="style" readonly="readonly" value="@ViewBag.Style" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Order Quantity</label>
+                            <div class="col-md-8">
+                                <input class="form-control input-xs" id="OrderQuantity" readonly="readonly" value="@ViewBag.OrderQty" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.TimeActionMasId, "Action Plan", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("TimeActionMasId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.TimeActionMasId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.FactoryOrderDelivDetId, "Delivery No.", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("ShipmentSummDetId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.FactoryOrderDelivDetId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:50px;">SL</th>
+                        <th style="min-width:150px;">Activity Name</th>
+                        <th style="min-width:150px;">Days</th>
+                        <th style="min-width:100px;">Plan Date</th>
+                        <th style="min-width:100px;">Revised Date</th>
+                        <th style="min-width:100px;">Actual Date</th>
+                        <th style="min-width:100px;">Remarks</th>
+                        <th style="min-width:100px;">Source</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div> <!-- panel body -->
+</div>
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+    </div>*@
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        //-- global var---
+        var currSelDelivRow = 0; //
+        var cnOrderTempId = 0; //
+        var currSelOrderTempId = 0; //
+        //var currSelOrderId = 0;
+        //--------------
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+        $(document).ready(function () {
+            $('body').addClass("sidebar-xs");
+            $(".select2").select2();
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+            LoadSavedData();
+        });
+
+        $("#TimeActionMasId").change(function () {
+            var selectedValue = $(this).val();
+            if (selectedValue > 0) {
+
+                $.ajax({
+                    type: "post",
+                    url: "/TimeActionMas/GetTimeActionList",
+                    datatype: "json",
+                    data: { Id: selectedValue },
+                    traditional: true,
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            cnOrderTempId++;
+                            var newRow = $('<tr><td>'
+                                + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />' + cnOrderTempId + '<input type="hidden" name = "timeActionDetId" value="' + data[i].timeActionDetId + '" class="timeActionDetId" /></td>'
+                                + '<td>' + data[i].ActivityName + '</td>'
+                                + '<td>' + data[i].ActivityDays + '</td>'
+                                + '<td><input type="text" name ="PlanDate"  class="form-control datepicker input-xs PlanDate" /></td>'
+                                + '<td><input type="text" name ="RevisedDate"  class="form-control datepicker input-xs RevisedDate" disabled="disabled"/></td>'
+                                + '<td><input type="text" name ="ActualDate"  class="form-control datepicker input-xs ActualDate" disabled="disabled"/></td>'
+                                + '<td><input type="text" name ="Remarks"  class="form-control input-xs Remarks" /></td>'
+                                + '<td></td>'
+                                + '</tr>');
+
+                            $('table.OrderItemTable tbody').append(newRow);
+                        }
+
+                        RebindDatePicker();
+                    }
+                });
+            }
+        });
+
+
+
+        $('#saveState').click(function () {
+
+            if ($.trim($('#TimeActionMasId').val()) === "") {
+                alert('Action Plan required');
+                $('#TimeActionMasId').select2('open');
+            }
+            else if ($.trim($('#ShipmentSummDetId').val()) === "") {
+                alert('Buyer SL No. required');
+                $('#ShipmentSummDetId').select2('open');
+            }
+            else {
+                SaveData();
+            }
+
+        });
+
+
+        function SaveData() {
+
+            $("#saveState").attr("disabled", "disabled");
+            //Master
+            var Id = $('#Id').val();
+            var TimeActionMasId = $('#TimeActionMasId option:selected').val();
+            var FactoryOrderDelivDetId = $('#ShipmentSummDetId option:selected').val();
+
+            //Detail
+            var ActionActivityDetId = document.getElementsByName("ActionActivityDetId");
+            var timeActionDetId = document.getElementsByName("timeActionDetId");
+
+            var PlanDate = document.getElementsByName("PlanDate");
+            var RevisedDate = document.getElementsByName("RevisedDate");
+            var ActualDate = document.getElementsByName("ActualDate");
+            var Remarks = document.getElementsByName("Remarks");
+
+            //return;
+            var OItems = [];
+
+            for (var i = 0; i < timeActionDetId.length; i++) {
+                //if (timeActionDetId[i].value == "") { continue; }
+                OItems.push({ Id: ActionActivityDetId[i].value, ActionActivityMasId: Id, TimeActionDetId: timeActionDetId[i].value, PlanDate: PlanDate[i].value, RevisedDate: RevisedDate[i].value, ActualDate: ActualDate[i].value, Remarks: Remarks[i].value });
+            }
+            //console.log(OItems);
+
+            //-----------------
+            ItemDetails = JSON.stringify({
+                ActivityDetails: OItems,
+                Id: Id,
+                TimeActionMasId: TimeActionMasId,
+                FactoryOrderDelivDetId: FactoryOrderDelivDetId
+            });
+
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/ActionActivity/SaveActivity',
+                data: ItemDetails,
+                success: function (result) {
+                    console.log(result);
+                    $("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        alert("Record save successfully!");
+                        //window.location = "/ActionActivity/Index/";
+                        window.location = "/FactoryOrder/Edit/" + result.Id;
+                    }
+                    else {
+                        alert(result.message);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+
+
+
+        function LoadSavedData() {
+            var Id = $('#Id').val();
+
+            $.ajax({
+                type: "post",
+                url: "/ActionActivity/GetSavedData",
+                data: { Id: Id },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        cnOrderTempId++;
+
+                        var Formsource = "";
+                        if (data[i].Source == 1) {
+                            Formsource = "Order Confirmation Date";
+                        }
+                        else if (data[i].Source == 2)
+                        {
+                            Formsource = "Exfactory Date";
+                        }
+                        else {
+                            Formsource = "";
+                        }
+
+
+
+                        var newRow = $('<tr><td>'
+                            + '<input type="hidden" name = "ActionActivityDetId" value="' + data[i].ActionActivityDetId + '" class="ActionActivityDetId" />' + cnOrderTempId
+                            + '<input type="hidden" name = "timeActionDetId" value="' + data[i].timeActionDetId + '" class="timeActionDetId" /></td>'
+                            + '<td>' + data[i].ActivityName + '</td>'
+                            + '<td>' + data[i].ActivityDays + '</td>'
+                            + '<td><input type="text" name ="PlanDate"  class="form-control datepicker input-xs PlanDate" value="' + data[i].PlanDate + '"  disabled="disabled"/></td>'
+                            + '<td>' + (data[i].ActualDate == "" ? '<input type="text" name ="RevisedDate"  class="form-control datepicker input-xs RevisedDate" value="' + data[i].RevisedDate + '"/></td>'
+                             : '<input type="text" name ="RevisedDate"  class="form-control datepicker input-xs RevisedDate" value="' + data[i].RevisedDate + '"   disabled="disabled"/></td>')
+                            + '<td><input type="text" name ="ActualDate"  class="form-control datepicker input-xs ActualDate" value="' + data[i].ActualDate + '"/></td>'
+                            + '<td><input type="text" name ="Remarks"  class="form-control input-xs Remarks"  value="' + data[i].Remarks + '"/></td>'
+                            + '<td>' + Formsource + '</td>'
+                            + '</tr>');
+                        $('table.OrderItemTable tbody').append(newRow);
+                    }
+                    RebindDatePicker();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+
+        }
+
+    </script>
+}

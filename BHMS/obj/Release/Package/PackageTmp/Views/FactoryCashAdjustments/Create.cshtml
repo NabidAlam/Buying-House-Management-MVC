@@ -1,0 +1,413 @@
+﻿@model BHMS.Models.FactoryCashAdjustment
+@using BHMS.Helpers
+
+@{
+    ViewBag.Title = "FactoryAdjustment";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Cash Adjustment From Factory</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="col-md-6">
+                    <div class="form-group form-group-xs">
+                         @Html.LabelFor(model => model.EntryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                       <div class="col-md-10">
+                           @Html.TextBox("EntryDate", NullHelpers.DateToString(DateTime.Now), new { @class = "form-control datepicker",@disabled="disabled" })
+                           @Html.ValidationMessageFor(model => model.EntryDate, "", new { @class = "text-danger" })
+                       </div>
+                    </div>
+                </div>
+                <hr />
+                <br />
+            </div>
+        }
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs FactoryCashAdjustmentTable" id="FactoryCashAdjustment">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:150px;">Factory Name</th>
+                        <th style="min-width:100px;">Adjustment Date</th>
+                        <th style="min-width:50px;">RDL Rcpt. No.</th>
+                        <th style="min-width:50px;">Amount</th>
+                        <th style="min-width:50px;">Remarks</th>
+                        <th style="min-width:50px;"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        @*<td class="text-right">
+                            <button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button>                          
+                        </td>*@   
+                        <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>                
+                        <td></td>
+                    </tr>
+
+
+                </tfoot>
+            </table>
+        </div>
+
+                @*<div class="form-group form-group-xs">
+                    @Html.LabelFor(model => model.SupplierId, "Factory Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("SupplierId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                        @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                    <div class="form-group form-group-xs">
+                        @Html.LabelFor(model => model.FacAdjustDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">                         
+                            @Html.TextBoxFor(model => model.FacAdjustDate, new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.FacAdjustDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group form-group-xs">
+                        @Html.LabelFor(model => model.FacReciptNo, "RDL Rcpt. No", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FacReciptNo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FacReciptNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-xs">
+                        @Html.LabelFor(model => model.FacAdjustAmount, "Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FacAdjustAmount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FacAdjustAmount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-xs">
+                        @Html.LabelFor(model => model.FacAdjustRemarks, "Remarks", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FacAdjustRemarks, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FacAdjustRemarks, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.IsAuth, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.IsAuth)
+                                    @Html.ValidationMessageFor(model => model.IsAuth, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OpBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.OpBy, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.OpBy, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OpOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.OpOn, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.OpOn, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AuthBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.AuthBy, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AuthBy, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AuthOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.AuthOn, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AuthOn, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                    @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-success" />
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>*@
+      </div>
+        
+</div>
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        var cnOrderTempId = 0;
+        var currSelDelivRow = 0;
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+
+
+        $(document).ready(function () {
+            $(".select2").select2();
+
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+
+            //$('#FactoryCahsAdjustment').on('change', '.FacAdjustAmount', function () {
+            //    if ($.isNumeric($(this).val()) == false) {
+            //        $(this).val('');
+            //        alert('Only numeric allowed');
+            //    }
+            //   // PopulateTotalValue();
+            //});
+
+             AddNewRow();
+
+  
+               
+
+        });
+
+
+        $('#btnAddRow').click(function () {
+           
+            AddNewRow();            
+        });
+
+
+        function AddNewRow() {
+            cnOrderTempId++;
+            //debugger;
+            var newRow = jQuery('<tr><td>'
+                + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                + '<select name="SupplierId" class="SupplierId form-control select2 input-xs"><option value=""></option></select></td>'
+                + '<td><input type="text" name="FacAdjustDate" class="FacAdjustDate form-control datepicker input-xs" /></td>'
+                + '<td><input type="text" name="FacReciptNo" class="FacReciptNo form-control input-xs" /></td>'
+                + '<td><input type="text" name="FacAdjustAmount" class="FacAdjustAmount form-control input-xs" /></td>'
+                + '<td><input type="text" name="FacAdjustRemarks" class="FacAdjustRemarks form-control input-xs" /></td>'
+                + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+            //jQuery('table.FactoryCashAdjustmentTable tbody').find('tr:last').before(newRow);
+            jQuery('table.FactoryCashAdjustmentTable tbody').append(newRow);
+
+            $(".select2").select2();
+
+            RebindDatePicker();
+                  
+            //$.ajax({
+            //    type: "post",
+            //    url: "/Supplier/GetNames",
+            //    datatype: "json",
+            //    traditional: true,
+            //    success: function (data) {
+            //        var selOptions = "<select>";
+            //        selOptions = selOptions + '<option value=""></option>';
+            //        for (var i = 0; i < data.length; i++) {
+            //            selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+            //        }
+            //        selOptions = selOptions + '</select>';
+            //        console.log(selOptions);
+            //        jQuery('table.FactoryCashAdjustmentTable tbody').find('tr:last').prev().find("select.SupplierId").html(selOptions);
+            //    }
+            //});
+
+            $.ajax({
+                type: "post",
+                url: "/Supplier/GetNames",
+                //data: { Id: selectedDeptValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+                    //$('.SupplierId').empty();
+                    $('.SupplierId').append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        $('.SupplierId').append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    //BindProductCategory();
+                }
+            });
+
+        }
+
+
+
+        function RemoveOrderRow(e) {
+
+
+            //alert($('#FactoryCashAdjustment tr').length);
+            //debugger;
+            if ($('#FactoryCashAdjustment tr').length == 3) {
+                alert('You cannot delete this row.\nOrder requires atleast one record.');
+                return;
+            }
+
+            if (confirm('Do you really want to delete?') == false) {
+                return;
+            }
+
+            $('#FactoryCashAdjustment tr').eq(currSelDelivRow).removeClass("bg-brown");
+
+            //var currRowIndex = $(e).closest('tr').index() + 1;
+
+            //var id = $('#FactoryCashAdjustment tr').eq(currRowIndex).find("input.TempOrderId").val();
+
+            $(e).parent().parent().remove();
+        }
+
+
+        $('#saveState').click(function () {
+
+           if (CheckOrderGridData() == false) {
+
+            }
+            else {
+                SaveOrderData();
+            }
+            // SaveOrderData();
+          
+
+        });
+
+
+        function CheckOrderGridData() {
+            // ProdCatId ProdTypeId styleNo unitPrice itemQnty factoryId
+
+            var totRow = $('#FactoryCashAdjustment tr').length ;
+            //alert(totRow);
+            for (var i = 1; i <= totRow; i++) {
+                if ($('#FactoryCashAdjustment tr').eq(i).find(".SupplierId").val() == "") {
+                    alert('Supplier required');
+                    return false;
+                };
+
+                if ($('#FactoryCashAdjustment tr').eq(i).find(".FacAdjustDate").val() == "") {
+                    alert('Adjustment Date required');
+                    return false;
+                };
+
+                if ($('#FactoryCashAdjustment tr').eq(i).find(".FacAdjustAmount").val() == "") {
+                    alert('Adjustment Amount required');
+                    return false;
+                };
+
+            }                      
+
+            return true;
+        }
+
+
+
+        function SaveOrderData() {
+
+            $("#saveState").attr("disabled", "disabled");
+
+            var EntryDate = $('#EntryDate').val();
+
+            var SupplierId = document.getElementsByName("SupplierId");
+            var FacAdjustDate = document.getElementsByName("FacAdjustDate");
+            var FacReciptNo = document.getElementsByName("FacReciptNo");
+            var FacAdjustAmount = document.getElementsByName("FacAdjustAmount");
+            var FacAdjustRemarks = document.getElementsByName("FacAdjustRemarks");
+ 
+
+            //return;
+            var OItems = [];
+
+            for (var i = 0; i < SupplierId.length; i++) {             
+                OItems.push({ Id: 0, SupplierId: SupplierId[i].value, FacAdjustDate: FacAdjustDate[i].value, FacReciptNo: FacReciptNo[i].value, FacAdjustAmount: FacAdjustAmount[i].value, FacAdjustRemarks: FacAdjustRemarks[i].value });
+                console.log(OItems[i]);
+            }
+
+
+            factoryCashAdjustment = JSON.stringify({ factoryCashAdjustment: OItems, EntryDate: EntryDate });
+            //OrderDetails = JSON.stringify({ OrderDetails: OItems});
+            //alert(OrderDetails);
+            //return;
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/FactoryCashAdjustments/SaveFactoryCashAdjustment',
+                data: factoryCashAdjustment,
+                success: function (result) {
+                    console.log(result);
+                    $("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        //alert("Record save successfully!");
+                        window.location = "/FactoryCashAdjustments/Index/";
+                    }
+                    else {
+                        alert(result.message);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+    </script>
+
+}

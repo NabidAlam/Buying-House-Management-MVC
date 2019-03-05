@@ -1,0 +1,154 @@
+﻿@model IEnumerable<BHMS.Models.BuyerInfo>
+
+@{
+    ViewBag.Title = "Buyers";
+    //ViewBag.SubTitle = "Company";
+}
+
+<p style="padding-left:5px; padding-top:5px;">
+    <button class="btn btn-success" style="width:auto;">
+        @Html.ActionLink("Create New", "Create",
+          null, new { @style = "color:#ffffff;", id = "lnkCreate" })
+    </button>
+</p>
+
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h5 class="panel-title">List of Buyers</h5>
+    </div>
+    <div class="panel-body">
+        <table class="table datatable-show-all">
+            <thead>
+                <tr>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.BankBranch.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CompanyResource.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CountryInfo.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MiddleParty.Name)
+                    </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NameShort)
+                    </th>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ContactPerson)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ContactPhone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaymentTypeId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tenor)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaymentTerm)
+                    </th>*@
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.BuyerGroup)
+                    </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsAuth)
+                    </th>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.OpBy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OpOn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AuthBy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AuthOn)
+                    </th>*@
+                    <th></th>
+                </tr>
+                </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.BankBranch.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompanyResource.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CountryInfo.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MiddleParty.Name)
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameShort)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactPerson)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactPhone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentTypeId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tenor)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentTerm)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BuyerGroup)
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsAuth)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.OpBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AuthBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AuthOn)
+                        </td>*@
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/plugins/forms/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/datatables_advanced.js"></script>
+}

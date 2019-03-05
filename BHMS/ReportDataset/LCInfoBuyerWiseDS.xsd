@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="LCInfoBuyerWiseDS" targetNamespace="http://tempuri.org/LCInfoBuyerWiseDS.xsd" xmlns:mstns="http://tempuri.org/LCInfoBuyerWiseDS.xsd" xmlns="http://tempuri.org/LCInfoBuyerWiseDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="LCInfoBuyerWiseDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="LCInfoBuyerWiseDS" msprop:Generator_UserDSName="LCInfoBuyerWiseDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="LCBuyerWise" msprop:Generator_TableClassName="LCBuyerWiseDataTable" msprop:Generator_TableVarName="tableLCBuyerWise" msprop:Generator_TablePropName="LCBuyerWise" msprop:Generator_RowDeletingName="LCBuyerWiseRowDeleting" msprop:Generator_RowChangingName="LCBuyerWiseRowChanging" msprop:Generator_RowEvHandlerName="LCBuyerWiseRowChangeEventHandler" msprop:Generator_RowDeletedName="LCBuyerWiseRowDeleted" msprop:Generator_UserTableName="LCBuyerWise" msprop:Generator_RowChangedName="LCBuyerWiseRowChanged" msprop:Generator_RowEvArgName="LCBuyerWiseRowChangeEvent" msprop:Generator_RowClassName="LCBuyerWiseRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BuyerId" msprop:Generator_ColumnVarNameInTable="columnBuyerId" msprop:Generator_ColumnPropNameInRow="BuyerId" msprop:Generator_ColumnPropNameInTable="BuyerIdColumn" msprop:Generator_UserColumnName="BuyerId" type="xs:int" minOccurs="0" />
+              <xs:element name="BuyerName" msprop:Generator_ColumnVarNameInTable="columnBuyerName" msprop:Generator_ColumnPropNameInRow="BuyerName" msprop:Generator_ColumnPropNameInTable="BuyerNameColumn" msprop:Generator_UserColumnName="BuyerName" type="xs:string" minOccurs="0" />
+              <xs:element name="LCId" msprop:Generator_ColumnVarNameInTable="columnLCId" msprop:Generator_ColumnPropNameInRow="LCId" msprop:Generator_ColumnPropNameInTable="LCIdColumn" msprop:Generator_UserColumnName="LCId" type="xs:int" minOccurs="0" />
+              <xs:element name="LCNo" msprop:Generator_ColumnVarNameInTable="columnLCNo" msprop:Generator_ColumnPropNameInRow="LCNo" msprop:Generator_ColumnPropNameInTable="LCNoColumn" msprop:Generator_UserColumnName="LCNo" type="xs:string" minOccurs="0" />
+              <xs:element name="LCOpening" msprop:Generator_ColumnVarNameInTable="columnLCOpening" msprop:Generator_ColumnPropNameInRow="LCOpening" msprop:Generator_ColumnPropNameInTable="LCOpeningColumn" msprop:Generator_UserColumnName="LCOpening" type="xs:string" minOccurs="0" />
+              <xs:element name="LCReceive" msprop:Generator_ColumnVarNameInTable="columnLCReceive" msprop:Generator_ColumnPropNameInRow="LCReceive" msprop:Generator_ColumnPropNameInTable="LCReceiveColumn" msprop:Generator_UserColumnName="LCReceive" type="xs:string" minOccurs="0" />
+              <xs:element name="OrderQty" msprop:Generator_ColumnVarNameInTable="columnOrderQty" msprop:Generator_ColumnPropNameInRow="OrderQty" msprop:Generator_ColumnPropNameInTable="OrderQtyColumn" msprop:Generator_UserColumnName="OrderQty" type="xs:int" minOccurs="0" />
+              <xs:element name="LCValue" msprop:Generator_ColumnVarNameInTable="columnLCValue" msprop:Generator_ColumnPropNameInRow="LCValue" msprop:Generator_ColumnPropNameInTable="LCValueColumn" msprop:Generator_UserColumnName="LCValue" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LCExpire" msprop:Generator_ColumnVarNameInTable="columnLCExpire" msprop:Generator_ColumnPropNameInRow="LCExpire" msprop:Generator_ColumnPropNameInTable="LCExpireColumn" msprop:Generator_UserColumnName="LCExpire" type="xs:string" minOccurs="0" />
+              <xs:element name="Liason_x0020_Bank" msprop:Generator_ColumnVarNameInTable="columnLiason_Bank" msprop:Generator_ColumnPropNameInRow="Liason_Bank" msprop:Generator_ColumnPropNameInTable="Liason_BankColumn" msprop:Generator_UserColumnName="Liason Bank" type="xs:string" minOccurs="0" />
+              <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

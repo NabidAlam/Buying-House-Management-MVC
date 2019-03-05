@@ -1,0 +1,94 @@
+﻿@model BHMS.Models.ProdCategory
+
+
+@{
+    ViewBag.Title = "Type";
+    ViewBag.SubTitle = "Product";
+}
+
+<div class="panel panel-primary panel-bordered" id="panelBodyMain">
+    <div class="panel-heading">
+        <h5 class="panel-title">Product Type Information</h5>
+    </div>
+    <div class="panel-body">
+
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.BuyerInfo.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BuyerInfo.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                @*<dt>
+                        @Html.DisplayNameFor(model => model.IsAuth)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.IsAuth)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.OpBy)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.OpBy)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.OpOn)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.OpOn)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AuthBy)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.AuthBy)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AuthOn)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.AuthOn)
+                    </dd>*@
+
+            </dl>
+            <br />
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            }
+        </div>
+    </div>
+</div>

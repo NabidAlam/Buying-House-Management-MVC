@@ -1,0 +1,82 @@
+﻿@model IEnumerable<BHMS.Models.BuyerCashAdjustment>
+
+@{
+    ViewBag.Title = "BuyerCashAdjustment";
+    //ViewBag.SubTitle = "Company";
+}
+
+<p style="padding-left:5px; padding-top:5px;">
+    <button class="btn btn-success" style="width:auto;">
+        @Html.ActionLink("Create New", "Create",
+          null, new { @style = "color:#ffffff;", id = "lnkCreate" })
+    </button>
+</p>
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">List of Buyer Adjustments</h5>
+    </div>
+    <div class="panel-body">
+        <table class="table datatable-show-all table-hover table-xs">
+            <thead>
+                <tr>
+                    <th class="col-xs-3">Buyer Name</th>
+                    <th class="col-xs-2">Adjustment Date</th>
+                    <th class="col-xs-2">RDL Trn. No.</th>
+                    <th class="col-xs-1">Amount</th>
+                    <th class="col-xs-2">Remarks</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BuyerInfo.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BuyerAdjustDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BuyerReciptNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BuyerAdjustAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BuyerAdjustRemarks)
+                        </td>
+
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.IsAuth)
+                            </td>*@
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.OpBy)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OpOn)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AuthBy)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AuthOn)
+                            </td>*@
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/plugins/forms/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/datatables_advanced.js"></script>
+}

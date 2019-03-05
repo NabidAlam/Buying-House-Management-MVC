@@ -1,0 +1,117 @@
+﻿@model IEnumerable<BHMS.Models.DiscountMas>
+@using BHMS.Helpers
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<p style="padding-left:5px; padding-top:5px;">
+    @Html.ActionLink("Create New", "Create",
+          null, new { @style = "color:#ffffff;", id = "lnkCreate", @class = "btn btn-success" })
+</p>
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">List of Discounts</h5>
+    </div>
+    <table class="table datatable-show-all table-hover table-xs">
+        <thead>
+            <tr>
+                <th class="col-lg-2">
+                    @Html.DisplayNameFor(model => model.BuyerOrderDet.BuyerOrderMas.BuyerInfo.Name)
+                </th>
+                <th class="col-lg-2">
+                    @Html.DisplayNameFor(model => model.BuyerOrderDet.Supplier.Name)
+                </th>
+                <th class="col-lg-3">
+                    @Html.DisplayNameFor(model => model.BuyerOrderDet.BuyerOrderMas.OrderRefNo)
+                </th>
+                <th class="col-lg-2">
+                    @Html.DisplayNameFor(model => model.BuyerOrderDet.StyleNo)
+                </th>
+                <th class="col-lg-1">
+                    @Html.DisplayNameFor(model => model.DiscountDate)
+                </th>
+                <th class="col-lg-2"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BuyerOrderDet.BuyerOrderMas.BuyerInfo.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BuyerOrderDet.Supplier.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BuyerOrderDet.BuyerOrderMas.OrderRefNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BuyerOrderDet.StyleNo)
+                    </td>
+                    <td>
+                        @NullHelpers.DateToString(item.DiscountDate)
+                    </td>
+
+                    <td>
+                        <ul class="icons-list">
+                            <li class="text-info"><a href="@Url.Action("Edit", new { id = item.Id } )" data-popup="tooltip" title="Edit"><i class="icon-pencil7"></i></a></li>
+                            <li>|</li>
+                            <li class="text-danger"><a href="javascript:deleteFunction(@item.Id)" data-popup="tooltip" title="Delete"><i class="icon-cross2"></i></a></li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/plugins/forms/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/datatables_advanced.js"></script>
+
+
+    <script>
+        function deleteFunction(Id) {
+            var Con = confirm("Are you sure want to delete this?");
+            if (Con === true) {
+                $.ajax({
+                    url: "/Discount/DeleteOrder",
+                    type: "post",
+                    data: {
+                        id: Id
+                    },
+                    dataType: "json",
+
+                    success: function (flag) {
+                        //console.log(flag);
+
+                        if (flag.flag === true) {
+                            alert("Successfully deleted !");
+                            window.location = "/Discount/";
+                        } else {
+                            alert(flag.message);
+                        }
+
+                    },
+
+                    error: function (xhr) {
+                        alert('error');
+
+                    }
+
+
+                });
+            }
+
+        }
+    </script>
+
+
+}

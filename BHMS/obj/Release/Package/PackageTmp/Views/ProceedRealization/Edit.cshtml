@@ -1,0 +1,509 @@
+﻿@model BHMS.Models.ProceedRealizationMas
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Proceed Realization</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.PaymentTypeId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("PaymentTypeId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", @disabled="disabled" })
+                                @Html.ValidationMessageFor(model => model.PaymentTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.ProceedDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            @*<div class="col-md-8">
+                                @Html.EditorFor(model => model.ProceedDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.ProceedDate, "", new { @class = "text-danger" })
+                            </div>*@
+                            <div class="col-md-8">
+                                @Html.TextBox("ProceedDate", null, new { @class = "form-control datepicker"})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.DocSubmissionMasId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("DocSubmissionMasId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.DocSubmissionMasId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.DocSubmissionMas.MasterLCInfoMas.LCNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextBox("MasterLCNo", null, new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:150px;">RDL Commercial Invoice No.</th>
+                        <th style="min-width:100px;">RDL Invoice Value ($)</th>
+                        <th style="min-width:50px;">Proceed Amount</th>
+                        <th style="min-width:50px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-right">
+                            @*<button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button>*@
+                            <label class="text-bold">Total:</label>
+                        </td>
+                        @*<td colspan="7" class="text-right"></td>*@
+                        <td class="bg-green-300 position-right text-right"><label class="text-bold grandTotalQnty text-right"></label></td>
+                        @*<td class="bg-green-300 position-right text-left"><label class="text-bold grandTotalQnty1 text-left"></label></td>*@
+                        <td class="bg-green-300 text-right"><label class="text-bold gQty text-right" id="gQty"></label></td>
+
+                        <td></td>
+                    </tr>
+
+
+                </tfoot>
+            </table>
+        </div>
+
+
+    </div> <!-- panel body -->
+</div>
+
+
+
+<div class="panel panel-primary panel-bordered" id="DV_Order_Deliv" style="display:none;">
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+            <div class="row">
+
+
+                <div class="col-md-8">
+                    <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseDelivery" @*style="margin:10px 0 10px 10px"*@><i class="icon-close2 position-left"></i> Close Delivery Detail</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs DelivTable" id="DelivTable">
+                <thead>
+                    <tr class="bg-brown-400">
+                        @*<th>Delivery No</th>*@
+                        <th style="min-width:200px;">Factory Name</th>
+                        <th style="min-width:100px;">Factory Invoice No.</th>
+                        <th style="min-width:100px;">Factory FDBC No.</th>
+                        <th style="min-width:180px;">Quantity (pcs)</th>
+                        <th style="min-width:120px;">Factory Invoice Value ($)</th>
+                        <th style="min-width:180px;">RDL Invoice Value ($)</th>
+                        @*<th style="min-width:200px;">Action</th>*@
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                @*<tfoot>
+                        <tr>
+
+                            <td class="text-right" colspan="2">
+                                <label class="text-bold">Total:</label>
+                            </td>
+                            <td class="bg-green-300 position-right text-right"><label class="text-bold grandTotalQnty text-right"></label></td>
+                            <td class="text-right"></td>
+
+                        </tr>
+                    </tfoot>*@
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Delivery End-->
+
+
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        //-- global var---
+        var currSelDelivRow = 0; //
+        var cnOrderTempId = 0; //
+        var currSelOrderTempId = 0; //
+        //var currSelOrderId = 0;
+        //--------------
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+        $(document).ready(function () {
+            $('body').addClass("sidebar-xs");
+            $(".select2").select2();
+
+            ShowDetailData();
+
+
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }           
+        });
+
+        
+        function ProceedAmtValue() {
+            //debugger;
+            var grandTotVal = 0.0;
+            var totVal = 0.0;
+
+            var totRow = $('#OrderTable tbody tr').length;
+            //alert('totRow-> new ' + totRow);
+            for (var i = 0; i < totRow; i++) {
+                var strPrices = parseFloat($('#OrderTable tbody tr').eq(i).find(".ProceedAmount").val());
+                //alert('strPrice-> new ' + strPrices);
+                if ($.isNumeric(strPrices)) {
+                    totVal = totVal + parseFloat(strPrices);
+                   // alert('totVal-> new' + totVal);
+                }
+                else {
+                   // alert('Not working!');
+                }
+            }
+
+
+            $('#OrderTable tfoot tr').find(".gQty").text(numeral(totVal).format('$ 0,0.00'));
+
+
+
+        }
+
+
+        function PopulateTotalValue() {
+          
+            var grandTotVal = 0.0;
+            var totVal = 0.0;
+
+            var totRow = $('#OrderTable tbody tr').length;
+            //alert('totRow->' + totRow);
+            for (var i = 0; i < totRow; i++) {
+                var strPrice = parseFloat($('#OrderTable tbody tr').eq(i).find(".label_RDlInvoiceData").text());
+                //alert('strPrice->' + strPrice);
+                if ($.isNumeric(strPrice)) {
+
+                    totVal = totVal + parseFloat(strPrice);
+                    //alert('totVal->' + totVal);
+                   
+                }
+                else {
+                    //alert('Not working!');
+                 
+                }
+            }
+
+
+            $('#OrderTable tfoot tr').find(".grandTotalQnty").text(numeral(totVal).format('$ 0,0.00'));
+
+            
+          
+        }
+
+
+        function ShowDetailData()
+        {
+            $('#OrderTable tbody').empty();
+            //$("#saveState").attr("disabled", "disabled");
+
+            var id = @Model.Id;
+           // var selectedBuyerValue = $('#BuyerInfoId').val();
+           // var SelectedSupplierValue = $('#SupplierId').val();
+           // var SelectedExFactoryDate = $('#IssueDate').val();
+            var paymentTypeid = $('#PaymentTypeId').val();
+
+
+
+            $.ajax({
+                type: "post",
+                url: "/ProceedRealization/GetSelectedData",
+                data: { Id:id, paymentType:paymentTypeid },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        $("#saveState").removeAttr("disabled");
+                    }
+                       
+                  //  for (var i = 0; i < data.length; i++) {                    
+                        for (var i = 0; i < data.length; i++) {
+                            var row = $('<tr>'
+                         //   + '<td><input type="hidden" name="DocDetId" class="DocDetId" value="' + data[i].DocDetId + '" />' + data[i].OrderRefNo + '<input type="hidden" name="OrderRefNo" class="OrderRefNo" value="' + data[i].OrderRefNo + '" /></td>'                  
+                           + '<td><input type="hidden" name="DocDetId" class="DocDetId" value="' + data[i].DocDetId + '" /><input type="hidden" name="ProceedDetId" class="ProceedDetId" value="' + data[i].ProceedDetId + '" />' + data[i].OrderRefNo + '<input type="hidden" name="OrderRefNo" class="OrderRefNo" value="' + data[i].OrderRefNo + '" /></td>'
+                           + '<td class="bg-green-300 text-right"><label class="label_RDlInvoiceData text-bold text-right">' + (data[i].RDlInvoiceData).toFixed(2) + '</label><input type="hidden" name="RDlInvoiceData" class="RDlInvoiceData" value="' + data[i].RDlInvoiceData + '" /></td>'
+                           + '<td><input type="text" name="ProceedAmount" value="' + data[i].ProceedAmt + '" class="ProceedAmount form-control input-xs text-right" /></td>'
+                           + '<td><button onclick="ShowDelivDetail(this)" type="button" class="btn btn-link deliverybtn">Delivery</button></td>'
+                           + '</tr>');
+                            $('table.OrderItemTable tbody').append(row);
+                        }
+                 // }
+
+                        PopulateTotalValue();
+                        ProceedAmtValue();
+                    //June 4 
+                        $('#OrderTable tbody tr').on('change', '.ProceedAmount', function () {
+                          
+                            if ($.isNumeric($(this).val()) == false) {
+                                $(this).val('');
+                                alert('Only numeric allowed');
+                                $(this).focus();
+                            }
+                           
+                            ProceedAmtValue();
+                        });
+                    //June 4 ended
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        }
+
+        $('#btnCloseDelivery').click(function () {
+            $("#DV_Order_Deliv").hide();
+            $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            $('#OrderTable tr').eq(currSelDelivRow).find("button.deliverybtn").css("color", "black");
+        });
+
+
+
+        function ShowDelivDetail(e) {
+
+            if (currSelDelivRow > 0) {
+                $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+                $('#OrderTable tr').eq(currSelDelivRow).find("button.deliverybtn").css("color", "black");
+            }
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+            //alert('currRowIndex: ' + currRowIndex);
+            $('#OrderTable tr').eq(currRowIndex).addClass("bg-brown");
+
+            currSelDelivRow = currRowIndex;
+
+            //currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+            $('#OrderTable tr').eq(currRowIndex).find("button.deliverybtn").css("color", "white");
+
+            currSelOrderId = $('#OrderTable tr').eq(currRowIndex).find("input.DocDetId").val();
+            //alert('DocDetId: ' + currSelOrderId);
+          
+            $('#DelivTable tbody').empty();
+            //currSelOrderId = 24;
+          
+            var paymentTypeid = $('#PaymentTypeId').val();
+
+
+            $.ajax({
+                url: '/ProceedRealization/LoadFactoryInvoiceDetails/',
+                data: { Id: currSelOrderId, paymentType: paymentTypeid },
+                dataType: 'json',
+                TYPE: 'POST',
+                success: function (data) {
+                    //console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+
+                        //var row = $('<tr><td class="index"></td>'
+                        var row = $('<tr>'
+                            + '<td>' + data[i].FactoryName + '</td>'
+                            + '<td>' + data[i].FactoryInvoiceNo + '</td>'
+                            + '<td>' + data[i].FDBCDetNo + '</td>'
+                            + '<td>' + data[i].ShipQty + '</td>'
+                            + '<td>' + (data[i].FactoryInvoiceValue).toFixed(2) + '</td>'
+                            + '<td>' + (data[i].RDLPrice).toFixed(2) + '</td>'
+                            + '</tr>');
+                        
+                        $('table.DelivTable tbody').append(row);
+
+                        //SetDestination(currRow, data[i].DestinationPortId);
+                    }
+
+
+                    //PopulateDelivTotalValue();
+                    //UpdateTableRowIndex();
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+
+
+            $("#DV_Order_Deliv").show();
+        }
+
+
+
+
+
+
+
+
+        $('#saveState').click(function () {
+
+           // var ExFactoryDate = moment($('#IssueDate').val(), "DD/MM/YYYY", true);
+
+
+            if ($('#BuyerInfoId option:selected').text() == "") {
+                alert('Please select Buyer');
+                //$('#BuyerInfoId').focus();
+                $('#BuyerInfoId').select2('open');
+            }
+            else if ($('#ProceedDate').val() == "") {
+                alert('Preceed date required');
+                $('#ProceedDate').focus();
+            }
+            else {
+                UpdateProceedRealization();
+            }
+
+        });
+
+
+        function UpdateProceedRealization() {
+
+            $("#saveState").attr("disabled", "disabled");
+
+            //Id, BuyerOrderMasId, SalesContractNo, SalesContractDate, SupplierId
+            debugger;
+            var BuyerInfoId = $('#BuyerInfoId').val();
+            var PaymentTypeId = $('#PaymentTypeId').val();
+            var ProceedDate = $('#ProceedDate').val();
+            var DocSubmissionMasId = $('#DocSubmissionMasId').val();
+            var DocDetId = document.getElementsByName("DocDetId");
+            var ProceedDetId = document.getElementsByName("ProceedDetId");                      
+            //console.log('DocDetId ' + DocDetId);
+            var ProceedAmount = document.getElementsByName("ProceedAmount");
+           
+            var id = @Model.Id;
+
+            var OItems = [];
+            //alert('DocDetId.length ' + DocDetId.length);
+
+            debugger;
+            for (var i = 0; i < DocDetId.length; i++) {
+                OItems.push({ Id: ProceedDetId[i].value, ProceedQty: ProceedAmount[i].value, DocSubmissionDetId: DocDetId[i].value });
+                //console.log(OItems);
+            }
+
+
+
+            InvoiceDetails = JSON.stringify({ InvoiceDetails: OItems, Id: id, PaymentTypeId: PaymentTypeId, BuyerInfoId: BuyerInfoId, ProceedDate: ProceedDate, DocSubmissionMasId: DocSubmissionMasId });
+
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/ProceedRealization/UpdateData',
+                data: InvoiceDetails,
+                success: function (result) {
+                    console.log(result);
+                    //$("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        alert("Record save successfully!");
+                        //window.location = "/InvoiceCommFact/Edit/" + result.Id;
+                        window.location = "/ProceedRealization/Index";
+                    }
+                    else {
+                        alert(result.message);
+                        $("#saveState").removeAttr("disabled");
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+    </script>
+}
+
+
+
+
+

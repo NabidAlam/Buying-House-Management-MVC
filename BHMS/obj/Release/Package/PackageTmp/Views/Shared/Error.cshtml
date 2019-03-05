@@ -1,0 +1,24 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+
+@{
+    ViewBag.Title = "Error Occured";
+
+    var exception = Model.Exception;
+
+    var errorMessage = exception.Message;
+
+    var innerMessage = exception.InnerException.Message;
+
+}
+
+
+
+
+<div class="alert bg-danger alert-styled-left">
+    <span class="text-bold">Sorry!</span> <span class="text-semibold">An error occurred while processing your request.</span>
+</div>
+
+<div class="alert alert-danger">
+    <span class="text-bold">@errorMessage.</span><br />@innerMessage
+</div>

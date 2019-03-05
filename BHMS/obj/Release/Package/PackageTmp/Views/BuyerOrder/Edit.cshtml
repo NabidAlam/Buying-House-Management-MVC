@@ -1,0 +1,2936 @@
+﻿@model BHMS.Models.BuyerOrderMas
+
+@{
+    ViewBag.Title = "Buyer Order Information";
+    ViewBag.SubTitle = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered" id="panelBodyMain">
+    <div class="panel-heading">
+        <h5 class="panel-title">Buyer Order Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.OrderRefNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderRefNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.OrderRefNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BuyerInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.SeasonInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("SeasonInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.SeasonInfoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.BrandId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("BrandId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="col-md-4">FOB Type</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("FOBType", null, "", new { @class = "form-control select2", @id = "FOBType" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.ProdDepartmentId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("ProdDepartmentId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                @Html.ValidationMessageFor(model => model.ProdDepartmentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-md-6">
+                            <div class="form-group form-group-xs">
+                                @Html.LabelFor(model => model.FabSupplierId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownList("FabSupplierId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                    @Html.ValidationMessageFor(model => model.FabSupplierId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                        </div>*@
+
+
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="col-md-4">Delivery Based On</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("DeliveryBased", null, "", new { @class = "form-control select2", @id = "DeliveryBased" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        }
+
+
+
+        @*</div>*@ <!-- panel body -->
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:180px;">Product Type</th>
+                        <th style="min-width:180px;">Product Category</th>
+                        <th style="min-width:180px;">Style</th>
+                        <th style="min-width:95px;">Picture</th>
+                        <th style="min-width:120px;">Size Range</th>
+                        <th style="min-width:120px;">Fabric Type</th>
+                        <th style="min-width:200px;">Fabric Description</th>
+                        <th style="min-width:120px;">Fabric Supplier</th>
+                        <th style="min-width:180px;">Colorway</th>
+                        <th style="min-width:120px;">RDL FOB</th>
+                        <th style="min-width:100px;">Order Qnty (pcs)</th>
+                        <th style="min-width:120px;">Total Value</th>
+                        <th style="min-width:200px;">Factory name</th>
+                        <th style="min-width:200px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="7" class="text-right"><label class="text-bold">Total:</label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalQnty text-right"></label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotaValue text-right"></label></td>
+                        <td colspan="3"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- panel body -->
+
+
+</div>
+
+<div class="panel panel-primary panel-bordered" id="DV_Order_Deliv" style="display:none;">
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-group-xs">
+                        <label class="control-label col-md-6">Style</label>
+                        <div class="col-md-6">
+                            <input name="delivStyle" id="delivStyle" value="" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-group-xs">
+                        <label class="control-label col-md-6">Quantity</label>
+                        <div class="col-md-6">
+                            <input name="delivQnty" id="delivQnty" value="" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseDelivery" @*style="margin:10px 0 10px 10px"*@><i class="icon-close2 position-left"></i> Close Delivery Detail</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs DelivTable" id="DelivTable">
+                <thead>
+                    <tr class="bg-brown-400">
+                        <th>SL. No</th>
+                        <th style="min-width:150px;">Buyer Delivery No.</th>
+                        <th style="min-width:120px;">Handover Date</th>
+                        <th style="min-width:100px;">ETD Date</th>
+                        <th style="min-width:180px;">Destination / Country</th>
+                        @*<th style="min-width:120px;">Delivery Quantity</th>*@
+                        <th style="min-width:120px;">Lot Quantity</th>
+                        <th style="min-width:100px;">RDL FOB</th>
+                        <th style="min-width:100px;">RDL Value</th>
+                        <th style="min-width:200px;">PO No.</th>
+                        <th style="min-width:200px;">Shipment Mode</th>
+                        <th style="min-width:200px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRowDeliv"><i class="icon-add position-left"></i> Add Row</button> </td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="2" class="text-right"><label class="text-bold">Total:</label></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalDelivQnty text-right"></label></td>
+                        <td></td>
+                        <td class="bg-green-300 text-right"><label class="text-bold grandTotalFobVal text-right"></label></td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_remote">Launch <i class="icon-play3 position-right"></i></button>*@
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+@*<!-- Remote source -->
+    <div id="modal_remote" class="modal">
+        <div class="modal-dialog modal-full">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Remote source</h5>
+                </div>
+
+                <div class="modal-body"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /remote source -->*@
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript" src="~/Scripts/plugins/loaders/blockui.min.js"></script>
+
+    <script type="text/javascript">
+    //-- global var---
+    var deletedItems = [];
+    var deletedDelivItems = [];
+    var currSelDelivRow = 0;
+    var cnOrderTempId = 0;
+    var currSelOrderTempId = 0;
+    var currSelOrderId = 0;
+    var DelivQtyCheck = true;
+
+    //--------------
+
+    function RebindDatePicker()
+    {
+        $('.datepicker').datepicker("destroy");
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+
+    }
+
+    $(document).ready(function () {
+        $('body').addClass("sidebar-xs");
+        $(".select2").select2();
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+        // jquery validator bug fix using moment
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+        }
+
+        $('#OrderTable').on('change', '.RdlFobDet, .itemQnty', function () {
+            if ($.isNumeric($(this).val()) == false) {
+                $(this).val('');
+                alert('Only numeric allowed');
+            }
+            PopulateTotalValue();
+        });
+
+        $('#DelivTable').on('change', '.DelivQuantity', function () {
+            if ($.isNumeric($(this).val()) == false) {
+                $(this).val('');
+                alert('Only numeric allowed');
+                $(this).focus();
+            }
+            PopulateDelivTotalValue();
+        });
+
+
+        $('#DelivTable').on('change', '.BuyerSlNo', function () {
+            var BuyerSlNo = $('.BuyerSlNo').val();
+            if ($.isNumeric($(this).val()) == false ) {
+                $(this).val(BuyerSlNo);
+                alert('Only numeric allowed');
+                $(this).focus();
+            }
+        });
+
+
+
+
+
+        //BindProductCategory2();
+
+        //AddNewRow();
+        LoadSavedData();
+
+        //LoadSavedDelivData();
+        //$('#modal_remote').on('show.bs.modal', function() {
+        //    $(this).find('.modal-body').load('/BuyerOrder/DelivDetails/1', function() {
+
+        //        // Init Select2 when loaded
+        //        //$('.select').select2({
+        //        //    minimumResultsForSearch: Infinity
+        //        //});
+        //    });
+        //});
+
+
+        //11aug18
+
+
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/FabricTypes/GetNames",
+        //    //data: { Id: selectedDeptValue },
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+
+        //        $('.FabricType').empty();
+        //        $('.FabricType').append('<option value=""></option>');
+        //        $.each(data, function (index, item) {
+        //            $('.FabricType').append($('<option></option>').val(item.Id).text(item.Name));
+        //        })
+        //        //BindProductCategory();
+        //    }
+        //});
+
+
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/FabricSuppliers/GetNames",
+        //    //data: { Id: selectedDeptValue },
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+
+        //        $('.FabricSupplier').empty();
+        //        $('.FabricSupplier').append('<option value=""></option>');
+        //        $.each(data, function (index, item) {
+        //            $('.FabricSupplier').append($('<option></option>').val(item.Id).text(item.Name));
+        //        })
+        //        //BindProductCategory();
+        //    }
+        //});
+        //11aug18
+
+        PopulateDelivTotalValue();
+
+    });
+
+
+
+    //new nabid 8 july 2018
+    $('#FOBType').change(function () {
+        var flag = true;
+        var tempRdlFOB = 0.0;
+        var id = $("#FOBType").val();
+        var totRow = $('#OrderTable tbody tr').length - 1;
+        //alert('totRow ' + totRow);
+
+        var delivCounter = 0;
+        if (id == 0) {
+            //selected Style
+            $('.RdlFobDetailDet').attr('disabled', 'disabled');
+
+            for (var j = 0; j < totRow; j++) {
+                var detId = $('#OrderTable tbody tr').eq(j).find("input.TempOrderId").val();
+                //alert('detId ' + detId);
+                var delivTable = $('#DelivTable tbody tr').length - 1;
+                //alert('delivTable ' + delivTable);
+                delivCounter = 0;
+                for (var i = 0; i < delivTable; i++) {
+                    var delivOrderId = $('#DelivTable tbody tr').eq(i).find("input.DelivOrderDetTempId").val();
+                    //alert('delivOrderId ' + delivOrderId);
+                    if (detId == delivOrderId) {
+                        //alert('deliv counter ->' + delivCounter);
+                        if (delivCounter == 0) {
+                            tempRdlFOB = $('#DelivTable tbody tr').eq(i).find("input.RdlFobDetailDet").val();
+                            //alert('tempRdlFOB ' + tempRdlFOB);
+                        }
+                        var currentRdlFob = $('#DelivTable tbody tr').eq(i).find("input.RdlFobDetailDet").val();
+                        //alert('tempRdlFOB ' + tempRdlFOB + '--> currentRdlFob ' + currentRdlFob);
+                        if (tempRdlFOB == currentRdlFob) {
+                            delivCounter++;
+                        }
+                        else {
+                            flag = false;
+                        }
+                    }
+                }
+                //alert('loop counter ' + j);
+            }
+
+            if (flag == false) {
+                alert('Please give same FOB in delivery');
+                $('.RdlFobDetailDet').removeAttr("disabled");
+                $("#FOBType").val(1);
+            }
+            else {
+                $('.RdlFobDet').removeAttr("disabled");
+
+
+                for (var j = 0; j < totRow; j++) {
+
+                    var detId = $('#OrderTable tbody tr').eq(j).find("input.TempOrderId").val();
+                    //alert('detId ' + detId);
+                    var delivTable = $('#DelivTable tbody tr').length - 1;
+
+                    //alert('delivTable ' + delivTable);
+                    for (var i = 0; i < delivTable; i++) {
+                        var delivOrderId = $('#DelivTable tbody tr').eq(i).find("input.DelivOrderDetTempId").val();
+
+                        //alert('delivOrderId ' + delivOrderId);
+                        if (detId == delivOrderId) {
+                            var currentRdlFob = $('#DelivTable tbody tr').eq(i).find("input.RdlFobDetailDet").val();
+                            $('#OrderTable tbody tr').eq(j).find("input.RdlFobDet").val(currentRdlFob);
+                            //alert('tempRdlFOB ' + tempRdlFOB + '--> currentRdlFob ' + currentRdlFob);
+                            break;
+                        }
+
+
+                    }
+                    //alert('loop counter ' + j);
+                }
+
+            }
+
+
+        }
+
+        else {
+            $('.RdlFobDet').attr("disabled", "disabled");
+            $('.RdlFobDet').val("");
+            $('.RdlFobDetailDet').removeAttr("disabled");
+
+        }
+    });
+
+    $('#DeliveryBased').change(function () {
+
+        var id = $("#DeliveryBased").val();
+        //alert('Yo!'+id);
+        if (id == 0) {
+            $('.ETD').attr('disabled', 'disabled');
+            //$("#RdlFobDet").prop("disabled", false);
+            $('.HandoverDate').removeAttr("disabled");
+            $('.ETD').val("");
+
+
+        }
+        else if (id == 1) {
+            $('.HandoverDate').removeAttr("disabled");
+            //$("#RdlFobDetailDet").prop("disabled", false);
+            $('.ETD').removeAttr("disabled");
+            //$('.HandoverDate').val("");
+        }
+
+
+    });
+
+
+    //nabid end july
+
+
+
+
+
+
+    $('#BuyerInfoId').change(function () {
+
+        var selectedValue = $(this).val();
+        var stateSelect = $('#ProdDepartmentId');
+        var brandSelect = $('#BrandId');
+
+        $("#ProdDepartmentId option:selected").prop("selected", false);
+
+        if (selectedValue.length > 0) {
+            $('.ProdCatId').empty();
+            $('.ProdTypeId').empty();
+
+            $.ajax({
+                type: "post",
+                url: "/Brand/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    brandSelect.empty();
+                    brandSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        brandSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+
+
+
+
+        }
+        else {
+            stateSelect.empty();
+            brandSelect.empty();
+            $('.ProdCatId').empty();
+            $('.ProdTypeId').empty();
+            return;
+        }
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/ProdDepartment/GetNames",
+        //    data: { Id: selectedValue },
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+        //        stateSelect.empty();
+        //        stateSelect.append('<option value=""></option>');
+        //        $.each(data, function (index, item) {
+        //            stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+        //        })
+        //    },
+        //    error: function (jqXHR, textStatus, errorThrown) {
+        //        alert('Error: ' + textStatus + ' - ' + errorThrown);
+        //    }
+        //});
+
+        //============================================================
+        //===========Added by Tazbirul(26 April,2018)=================
+        $.ajax({
+            type: "post",
+            url: "/ProdCategory/GetProductTypeNames",
+            data: { Id: selectedValue },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('.ProdCatId').empty();
+                $('.ProdCatId').append('<option value=""></option>');
+                $.each(data, function (index, item) {
+                    $('.ProdCatId').append($('<option></option>').val(item.Id).text(item.Name));
+                })
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+        //===========================END============================
+        //==========================================================
+
+
+        //==========================================================
+        //===========Added by Tazbirul(5 MAy,2018)==================
+        $.ajax({
+            type: "post",
+            url: "/SeasonInfo/GetNames",
+            data: { Id: selectedValue },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                selectSeasonState.empty();
+                selectSeasonState.append('<option value=""></option>');
+                $.each(data, function (index, item) {
+                    selectSeasonState.append($('<option></option>').val(item.Id).text(item.Name));
+                })
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    })
+
+
+
+    $('#BrandId').change(function () {
+        var selectedValue = $(this).val();
+        var stateSelect = $('#ProdDepartmentId');
+
+        if (selectedValue.length > 0) {
+            $.ajax({
+                type: "post",
+                url: "/ProdDepartment/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        }
+        else {
+            stateSelect.empty();
+            return;
+        }
+
+    });
+
+
+    $('#ProdDepartmentId').change(function () {
+
+        var selectedValue = $(this).val();
+        //var stateSelect = $('#SeasonInfoId');
+
+
+        $("#SeasonInfoId option:selected").prop("selected", false);
+
+        if (selectedValue.length > 0) {
+        }
+        else {
+            //stateSelect.empty();
+            return;
+        }
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/SeasonInfo/GetNames",
+        //    data: { Id: selectedValue },
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+        //        stateSelect.empty();
+        //        stateSelect.append('<option value=""></option>');
+        //        $.each(data, function (index, item) {
+        //            stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+        //        })
+        //    },
+        //    error: function (jqXHR, textStatus, errorThrown) {
+        //        alert('Error: ' + textStatus + ' - ' + errorThrown);
+        //    }
+        //});
+
+
+        //==========================================================
+        //===========Added by Tazbirul(28 April,2018)===============
+        if ($('#ProdDepartmentId option:selected').text() == "") {
+            $('.SizeRangeId').empty();
+            var selOptions = "<select>";
+            selOptions = selOptions + '<option value=""></option>';
+            selOptions = selOptions + '</select>';
+            jQuery('table.OrderItemTable tbody').find('tr:last').prev().find('tr:last').prev().find("select.SizeRangeId").html(selOptions);
+            //BindProductCategory();
+        }
+        else {
+            var selectedDeptValue = $('#ProdDepartmentId option:selected').val();
+
+            $.ajax({
+                type: "post",
+                url: "/ProdSize/GetNames",
+                data: { Id: selectedDeptValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    //$('.SizeRangeId').empty();
+                    //var selOptions = "<select>";
+                    //selOptions = selOptions + '<option value=""></option>';
+                    //for (var i = 0; i < data.length; i++) {
+                    //    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                    //}
+                    //selOptions = selOptions + '</select>';
+                    //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.SizeRangeId").html(selOptions);
+
+                    $('.SizeRangeId').empty();
+                    $('.SizeRangeId').append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        $('.SizeRangeId').append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    //BindProductCategory();
+                }
+            });
+
+
+
+            //==========================================================
+            //===========Added by Tazbirul(5 may,2018)===============
+
+            //$.ajax({
+            //    type: "post",
+            //    url: "/ProdColors/GetProdColorNames",
+            //    data: { DeptId: selectedDeptValue, SeasonId: selectedSeasonValue },
+            //    datatype: "json",
+            //    traditional: true,
+            //    success: function (data) {
+            //        //$('.ColorId').empty();
+            //        //var selOptions = "<select>";
+            //        //selOptions = selOptions + '<option value=""></option>';
+            //        //for (var i = 0; i < data.length; i++) {
+            //        //    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+            //        //}
+            //        //selOptions = selOptions + '</select>';
+            //        //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.ColorId").html(selOptions);
+            //        //BindProductCategory();
+
+            //        $('.ColorId').empty();
+            //        $('.ColorId').append('<option value=""></option>');
+            //        $.each(data, function (index, item) {
+            //            $('.ColorId').append($('<option></option>').val(item.Id).text(item.Name));
+            //        })
+            //    }
+            //});
+        }
+
+        //===========================END============================
+        //==========================================================
+
+    });
+
+
+
+    //==========================================================
+    //===========Added by Tazbirul(28 April,2018)===============
+
+    $('#SeasonInfoId').change(function () {
+        if ($('#SeasonInfoId option:selected').text() == "") {
+            $('.ColorId').empty();
+            var selOptions = "<select>";
+            selOptions = selOptions + '<option value=""></option>';
+            selOptions = selOptions + '</select>';
+            jQuery('table.OrderItemTable tbody').find('tr:last').prev().find('tr:last').prev().find("select.ColorId").html(selOptions);
+            //BindProductCategory();
+        }
+        else {
+            //var selectedDeptValue = $('#SeasonInfoId option:selected').val();
+
+            //$.ajax({
+            //    type: "post",
+            //    url: "/ProdColors/GetProdColorNames",
+            //    data: { Id: selectedDeptValue },
+            //    datatype: "json",
+            //    traditional: true,
+            //    success: function (data) {
+            //        //$('.ColorId').empty();
+            //        //var selOptions = "<select>";
+            //        //selOptions = selOptions + '<option value=""></option>';
+            //        //for (var i = 0; i < data.length; i++) {
+            //        //    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+            //        //}
+            //        //selOptions = selOptions + '</select>';
+            //        //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.ColorId").html(selOptions);
+            //        //BindProductCategory();
+
+            //        $('.ColorId').empty();
+            //        $('.ColorId').append('<option value=""></option>');
+            //        $.each(data, function (index, item) {
+            //            $('.ColorId').append($('<option></option>').val(item.Id).text(item.Name));
+            //        })
+            //    }
+            //});
+
+            var selectedDeptValue = $('#ProdDepartmentId option:selected').val();
+            var selectedSeasonValue = $('#SeasonInfoId option:selected').val();
+
+            $.ajax({
+                type: "post",
+                url: "/ProdColors/GetProdColorNames",
+                data: { DeptId: selectedDeptValue, SeasonId: selectedSeasonValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+                    $('.ColorId').empty();
+                    $('.ColorId').append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        $('.ColorId').append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                }
+            });
+        }
+    });
+
+
+    //===========================END============================
+    //==========================================================
+
+
+    $('#btnAddRow').click(function () {
+        AddNewRow();
+    });
+
+    $('#saveState').click(function () {
+
+        var orderDate = moment($('#OrderDate').val(), "DD/MM/YYYY", true);
+
+        if ($.trim($('#OrderRefNo').val()) === "") {
+            alert('Order ref no required');
+            $('#OrderRefNo').focus();
+        }
+        else if ($.trim($('#OrderDate').val()) === "") {
+            alert('Order date required');
+            $('#OrderDate').focus();
+        }
+        else if (orderDate.isValid() == false) {
+            alert('Valid open date required<br />Usage:[dd/mm/yyyy]');
+            $('#OrderDate').focus();
+        }
+        else if ($('#BuyerInfoId option:selected').text() == "") {
+            alert('Please select buyer');
+            //$('#BuyerInfoId').focus();
+            $('#BuyerInfoId').select2('open');
+        }
+        else if ($('#SeasonInfoId option:selected').text() == "") {
+            alert('Please select Season');
+            $('#SeasonInfoId').select2('open');
+        }
+        else if ($('#ProdDepartmentId option:selected').text() == "") {
+            alert('Please select department');
+            $('#ProdDepartmentId').select2('open');
+        }
+        else if ($('#FOBType option:selected').text() == "") {
+            alert('Please select FOB Type');
+            $('#FOBType').select2('open');
+        }
+        else if ($('#DeliveryBased option:selected').text() == "") {
+            alert('Please select Delivery Date');
+            $('#DeliveryBased').select2('open');
+        }
+
+        else if (CheckOrderGridData()== false)
+        {
+
+        }
+        else if (CheckOrderGridDataDetail() == false) {
+
+        }
+
+        else
+        {
+            SaveOrderData();
+        }
+
+    });
+    // ProdCatId ProdTypeId styleNo SizeRangeId FabricId ColorId unitPrice itemQnty factoryId
+    function AddNewRow() {
+        cnOrderTempId++;
+
+        var newRow = jQuery('<tr><td><input type="hidden" name="OrderDetId" value="0" class="OrderDetId" />'
+              + '<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+              + '<select name="ProdCatId" class="ProdCatId form-control select2 input-xs"><option value=""></option></select></td>'
+              + '<td><select name="ProdTypeId" class="ProdTypeId form-control select2 input-xs"><option value=""></option></select></td>'
+              + '<td><input type="text" name="styleNo" class="styleNo form-control input-xs" /></td>'
+              + '<td></td>'
+              + '<td><select name="SizeRangeId" class="SizeRangeId form-control select2 input-xs"><option value=""></option></select></td>'
+              + '<td><select name="FabricType" class="FabricType form-control select2 input-xs"><option value=""></option></select></td>'
+              + '<td><select name="FabricDes" class="FabricDes form-control select2 input-xs"><option value=""></option></select></td>'
+              + '<td><select name="FabricSupplier" class="FabricSupplier form-control select2 input-xs"><option value=""></option></select></td>'
+              + '<td><select name="ColorId" class="ColorId form-control select2 input-xs"><option value=""></option></select></td>'
+              + '<td><div class="input-group input-group-xs"><span class="input-group-addon">$</span><input type="text" name="RdlFobDet" class="RdlFobDet form-control input-xs text-right" /></div></td>'
+              + '<td><input type="text" name="itemQnty" class="itemQnty form-control input-xs text-right" /></td>'
+              + '<td class="bg-green-300 text-right"><label class="totalValue text-bold text-right"></label><input type="hidden" name="totalDetailValue" value="0" class="totalDetailValue" /></td>'
+              + '<td><select name="factoryId" class="factoryId form-control select2 input-xs"><option value=""></option></select></td>'
+              + '<td><button onclick="ShowDelivDetail(this)" type="button" class="btn btn-link Delivery_btn">Delivery</button> | <button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+
+
+        jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+
+        $(".select2").select2();
+
+        RebindDatePicker();
+
+
+        //11aug18
+        //FabricSupplier();
+        //11aug18
+        if ($('#FOBType').val() == 0) {
+            $('.RdlFobDet').removeAttr("disabled");
+        }
+        else {
+            $('.RdlFobDet').attr("disabled", "disabled");
+        }
+
+
+        //11aug18
+        $('.RdlFobDet').change(function () {
+            var currentrOW = $(this).closest("tr").index();
+            //alert('currentrOW->' + currentrOW);
+            var detId = $('#OrderTable tbody tr').eq(currentrOW).find("input.TempOrderId").val();
+            var RdlFob = $('#OrderTable tbody tr').eq(currentrOW).find("input.RdlFobDet").val();
+            //alert('detId ' + detId);
+            var delivTable = $('#DelivTable tbody tr').length - 1;
+            //alert('delivTable ' + delivTable);
+            for (var i = 0; i < delivTable; i++) {
+                var delivOrderId = $('#DelivTable tbody tr').eq(i).find("input.DelivOrderDetTempId").val();
+                //alert('delivOrderId ' + delivOrderId);
+                if (detId == delivOrderId) {
+                    $('#DelivTable tbody tr').eq(i).find("input.RdlFobDetailDet").val(RdlFob);
+                    //alert('tempRdlFOB ' + tempRdlFOB + '--> currentRdlFob ' + currentRdlFob);
+                }
+            }
+        });
+        //11aug18
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/ProdCategory/GetNames",
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+        //        var selOptions = "<select>";
+        //        selOptions = selOptions + '<option value=""></option>';
+        //        for (var i = 0; i < data.length; i++) {
+        //            selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+        //        }
+        //        selOptions = selOptions + '</select>';
+        //        jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+        //        BindProductCategory();
+        //    }
+        //});
+
+        //============================================================
+        //===========Added by Tazbirul(28 April,2018)=================
+
+        if ($('#BuyerInfoId option:selected').text() == "") {
+            var selOptions = "<select>";
+            selOptions = selOptions + '<option value=""></option>';
+            selOptions = selOptions + '</select>';
+            jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+            BindProductCategory();
+        }
+        else {
+            var selectedValue = $('#BuyerInfoId option:selected').val();
+            $.ajax({
+                type: "post",
+                url: "/ProdCategory/GetProductTypeNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var selOptions = "<select>";
+                    selOptions = selOptions + '<option value=""></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                    }
+                    selOptions = selOptions + '</select>';
+                    jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                    BindProductCategory();
+                }
+            });
+        }
+
+        //===========================END============================
+        //==========================================================
+
+
+        //==========================================================
+        //===========Added by Tazbirul(28 April,2018)===============
+        if ($('#ProdDepartmentId option:selected').text() == "") {
+            var selOptions = "<select>";
+            selOptions = selOptions + '<option value=""></option>';
+            selOptions = selOptions + '</select>';
+            jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.SizeRangeId").html(selOptions);
+            //BindProductCategory();
+        }
+        else {
+            var selectedValue = $('#ProdDepartmentId option:selected').val();
+            //alert(selectedValue);
+            $.ajax({
+                type: "post",
+                url: "/ProdSize/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var selOptions = "<select>";
+                    selOptions = selOptions + '<option value=""></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                    }
+                    selOptions = selOptions + '</select>';
+
+                    jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.SizeRangeId").html(selOptions);
+                    //BindProductCategory();
+                }
+            });
+
+            //==========================================================
+            //===========Added by Tazbirul(5 May,2018)===============
+            var selectedValue = $('#ProdDepartmentId option:selected').val();
+            var selectedSeasonValue = $('#SeasonInfoId option:selected').val();
+            //alert(selectedValue);
+            $.ajax({
+                type: "post",
+                url: "/ProdColors/GetProdColorNames",
+                data: { DeptId: selectedValue, SeasonId: selectedSeasonValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var selOptions = "<select>";
+                    selOptions = selOptions + '<option value=""></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                    }
+                    selOptions = selOptions + '</select>';
+
+                    jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.ColorId").html(selOptions);
+                    //BindProductCategory();
+                }
+            });
+        }
+
+        //===========================END============================
+        //==========================================================
+
+        //NEW 11 AUG 18 UNCOMMENTED
+        //$.ajax({
+        //    type: "post",
+        //    url: "/FabricItem/GetNames",
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+        //        var selOptions = "<select>";
+        //        selOptions = selOptions + '<option value=""></option>';
+        //        for (var i = 0; i < data.length; i++) {
+        //            selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+        //        }
+        //        selOptions = selOptions + '</select>';
+        //        jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.FabricId").html(selOptions);
+        //    },
+        //    error: function (jqXHR, textStatus, errorThrown) {
+        //        alert('Error: ' + textStatus + ' - ' + errorThrown);
+        //    }
+        //});
+
+
+
+        //11aug18
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/FabricTypes/GetNames",
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+        //        var selOptions = "<select>";
+        //        selOptions = selOptions + '<option value=""></option>';
+        //        for (var i = 0; i < data.length; i++) {
+        //            selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+        //        }
+        //        selOptions = selOptions + '</select>';
+        //        jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.FabricType").html(selOptions);
+        //    }
+        //});
+
+
+
+        $.ajax({
+            type: "post",
+            url: "/FabricSuppliers/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.FabricSupplier").html(selOptions);
+            }
+        });
+
+        //11aug18
+
+
+
+
+
+
+        //$.ajax({
+        //    type: "post",
+        //    url: "/ProdColors/GetNames",
+        //    datatype: "json",
+        //    traditional: true,
+        //    success: function (data) {
+        //        var selOptions = "<select>";
+        //        selOptions = selOptions + '<option value=""></option>';
+        //        for (var i = 0; i < data.length; i++) {
+        //            selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+        //        }
+        //        selOptions = selOptions + '</select>';
+        //        jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.ColorId").html(selOptions);
+        //    }
+        //});
+
+        //==========================================================
+        //===========Added by Tazbirul(28 April,2018)===============
+        //if ($('#SeasonInfoId option:selected').text() == "") {
+        //    var selOptions = "<select>";
+        //    selOptions = selOptions + '<option value=""></option>';
+        //    selOptions = selOptions + '</select>';
+        //    jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.ColorId").html(selOptions);
+        //    //BindProductCategory();
+        //}
+        //else {
+        //    var selectedValue = $('#SeasonInfoId option:selected').val();
+        //    //alert(selectedValue);
+        //    $.ajax({
+        //        type: "post",
+        //        url: "/ProdColors/GetProdColorNames",
+        //        data: { Id: selectedValue },
+        //        datatype: "json",
+        //        traditional: true,
+        //        success: function (data) {
+        //            var selOptions = "<select>";
+        //            selOptions = selOptions + '<option value=""></option>';
+        //            for (var i = 0; i < data.length; i++) {
+        //                selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+        //            }
+        //            selOptions = selOptions + '</select>';
+
+        //            jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.ColorId").html(selOptions);
+        //            //BindProductCategory();
+        //        }
+        //    });
+        //}
+
+        //===========================END============================
+        //==========================================================
+
+
+        $.ajax({
+            type: "post",
+            url: "/Supplier/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.factoryId").html(selOptions);
+            }
+        });
+
+    }
+
+
+
+    function BindProductCategory()
+    {
+        $('#OrderTable').on('change', '.ProdCatId', function() {
+            var selectedValue = $(this).val();
+            var row = $(this).closest('tr');
+            var stateSelect = row.find('.ProdTypeId');
+           // alert('stateSelect ' + stateSelect);
+
+            if (selectedValue.length > 0) {
+                if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length){
+                    AddNewRow();
+                }
+            }
+            else
+            {
+                stateSelect.empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/ProdCatType/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function(data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    //BindProductType();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+
+            var stateSelectFabricType = row.find('.FabricType');
+          //  alert('stateSelectFabricType ' + stateSelectFabricType);
+            $.ajax({
+                type: "post",
+                url: "/FabricTypes/GetNamesOnProdType",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    //console.log(data);
+                    stateSelectFabricType.empty();
+                    stateSelectFabricType.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelectFabricType.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    //BindProductType();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+
+            });
+
+        })
+    }
+
+
+    //nabid 8july 2018
+
+    $('#OrderTable').on('change', '.FabricType', function () {
+        var selectedValue = $(this).val();
+        var row = $(this).closest('tr');
+        var stateSelect = row.find('.FabricDes');
+
+        if (selectedValue.length > 0) {
+            if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length) {
+                AddNewRow();
+            }
+        }
+        else {
+            stateSelect.empty();
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: "/FabricItem/GetDesc",
+            data: { Id: selectedValue },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                stateSelect.empty();
+                stateSelect.append('<option value=""></option>');
+                $.each(data, function (index, item) {
+                    stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                })
+                //BindProductType();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    })
+
+    function BindFabricType() {
+        $('#OrderTable').on('change', '.FabricType', function () {
+            var selectedValue = $(this).val();
+            var row = $(this).closest('tr');
+            var stateSelect = row.find('.FabricDes');
+
+            if (selectedValue.length > 0) {
+                if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length) {
+                    AddNewRow();
+                }
+            }
+            else {
+                stateSelect.empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/FabricItem/GetDesc",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    //BindProductType();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        })
+    }
+
+    //nabid end 8 july
+
+
+    //function BindProductType() {
+    //    $('#OrderTable').on('change', '.ProdTypeId', function () {
+    //        var selectedValue = $(this).val();
+    //        var row = $(this).closest('tr');
+    //        var stateSelect = row.find('.SizeRangeId');
+    //        if (selectedValue.length > 0) {
+    //        }
+    //        else {
+    //            stateSelect.empty();
+    //            return;
+    //        }
+
+    //        $.ajax({
+    //            type: "post",
+    //            url: "/ProdSize/GetNames",
+    //            data: { Id: selectedValue },
+    //            datatype: "json",
+    //            traditional: true,
+    //            success: function (data) {
+    //                stateSelect.empty();
+    //                stateSelect.append('<option value=""></option>');
+    //                $.each(data, function (index, item) {
+    //                    stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+    //                })
+    //            },
+    //            error: function (jqXHR, textStatus, errorThrown) {
+    //                alert('Error: ' + textStatus + ' - ' + errorThrown);
+    //            }
+
+    //        });
+    //    })
+
+    //}
+
+    //function PopulateTotalValue()
+    //{
+    //    var grandTotQnty = 0;
+    //    var grandTotVal = 0.0;
+
+    //    var totRow = $('#OrderTable tr').length - 1;
+    //    for (var i = 1; i < totRow; i++)
+    //    {
+    //        var strUnitPrice = $('#OrderTable tr').eq(i).find(".RdlFobDet").val();
+    //        var strQntyVal = $('#OrderTable tr').eq(i).find(".itemQnty").val();
+    //        if ($.isNumeric(strUnitPrice) && $.isNumeric(strQntyVal))
+    //        {
+    //           // debugger;
+    //            var totVal = parseFloat(strUnitPrice) * parseInt(strQntyVal);
+    //            $('#OrderTable tr').eq(i).find(".totalValue").text(numeral(totVal).format('$ 0,0.00'));
+    //            grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+    //            grandTotVal = grandTotVal + totVal;
+    //            //alert(totVal);
+
+    //            $('#OrderTable tr').eq(i).find("input.totalDetailValue").val(totVal);
+    //            //alert($('#OrderTable tr').eq(i).find("input.totalDetailValue").val());
+    //        }
+    //        else
+    //        {
+    //            $('#OrderTable tr').eq(i).find(".totalValue").text(numeral(0).format('$ 0,0.00'));
+    //        }
+    //    }
+    //    $('#OrderTable tr').eq(totRow).find(".grandTotalQnty").text(numeral(grandTotQnty).format('0,0'));
+    //    $('#OrderTable tr').eq(totRow).find(".grandTotaValue").text(numeral(grandTotVal).format('$ 0,0.00'));
+
+    //    //var x = $('#OrderTable tr').eq(totRow).find(".grandTotaValue").text();
+    //    //alert(x);
+
+
+    //}
+
+
+    function PopulateTotalValue() {
+        var grandTotQnty = 0;
+        var grandTotVal = 0.0;
+
+        var totRow = $('#OrderTable tr').length - 1;
+        for (var i = 1; i < totRow; i++) {
+            var strUnitPrice = $('#OrderTable tr').eq(i).find(".RdlFobDet").val();
+            var strQntyVal = $('#OrderTable tr').eq(i).find(".itemQnty").val();
+
+            if ($('#FOBType').val() == 1) {
+                debugger;
+                if ($.isNumeric(strQntyVal)) {
+                    //var totVal = parseFloat(strUnitPrice) * parseInt(strQntyVal);
+                    //$('#OrderTable tr').eq(i).find(".totalValue").text(numeral(totVal).format('$ 0,0.00'));
+
+                    grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+
+                    //alert('totVal->' + totVal);
+                    //$('#OrderTable tr').eq(i).find("input.totalDetailValue").val(totVal);
+                }
+                else {
+                    //$('#OrderTable tr').eq(i).find(".totalValue").text(numeral(0).format('$ 0,0.00'));
+                }
+
+
+                var totVal = $('#OrderTable tr').eq(i).find(".totalValue").text();
+
+               // alert('totaVal ' + t);
+                var changeTOT = numeral(totVal).value();
+                //alert('totVal->' + numeral(totVal).format('0.0') + '    float->' + parseFloat(totVal));
+                if (!isNaN(changeTOT)) {
+                    grandTotVal = grandTotVal + changeTOT;
+
+                }
+
+                //$('#OrderTable tr').eq(i).find("input.totalDetailValue").val(totVal);
+
+
+
+            }
+            else {
+                if ($.isNumeric(strUnitPrice) && $.isNumeric(strQntyVal)) {
+                    var totVal = parseFloat(strUnitPrice) * parseInt(strQntyVal);
+                    $('#OrderTable tr').eq(i).find(".totalValue").text(numeral(totVal).format('$ 0,0.00'));
+                    $('#OrderTable tr').eq(i).find("input.totalDetailValue").val(totVal);
+
+                    grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+                    grandTotVal = grandTotVal + totVal;
+                    //$('#OrderTable tr').eq(i).find("input.totalDetailValue").val(totVal);
+
+                }
+                else {
+                    $('#OrderTable tr').eq(i).find(".totalValue").text(numeral(0).format('$ 0,0.00'));
+
+                }
+            }
+
+
+        }
+
+       // alert('grandTotVal->' + grandTotVal);
+
+        $('#OrderTable tr').eq(totRow).find(".grandTotalQnty").text(numeral(grandTotQnty).format('0,0'));
+        $('#OrderTable tr').eq(totRow).find(".grandTotaValue").text(numeral(grandTotVal).format('$ 0,0.00'));
+    }
+
+
+
+
+    function RemoveOrderRow(e)
+    {
+        if ($('#OrderTable tr').length == 3) {
+            alert('You cannot delete this row.\nOrder requires atleast one record.');
+            return;
+        }
+
+        if (confirm('Do you really want to delete?')==false)
+        {
+            return;
+        }
+
+        var currRowIndex = $(e).closest('tr').index() + 1;
+
+        //----------------
+
+        $("#DV_Order_Deliv").hide();
+        $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+
+        //var currRowIndex = $(e).closest('tr').index() + 1;
+
+        var Oid = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+
+        var id = $('#OrderTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+
+        var totRow = $('#DelivTable tr').length - 1;
+        for (var i = 1; i < totRow; i++) {
+
+            if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == Oid) {
+                $('#DelivTable tr').eq(i).remove();
+                i--;
+                totRow--;
+            }
+            else if (id > 0 && $('#DelivTable tr').eq(i).find("input.DelivOrderDetId").val() == id)
+            {
+                $('#DelivTable tr').eq(i).remove();
+                i--;
+                totRow--;
+            }
+
+        }
+
+        //---------------
+
+
+
+        if (id>0)
+        {
+            deletedItems.push(id);
+
+            $(e).parent().parent().remove();
+            PopulateTotalValue();
+        }
+        else
+        {
+            $(e).parent().parent().remove();
+            PopulateTotalValue();
+        }
+
+
+    }
+
+    function CheckOrderGridData() {
+        // ProdCatId ProdTypeId styleNo unitPrice itemQnty factoryId
+
+        var totRow = $('#OrderTable tr').length - 3;
+        //alert(totRow);
+       for (var i = 1; i <= totRow; i++) {
+           //alert($('#OrderTable tr').eq(i).find(".ProdCatId").val());
+           //alert($('#OrderTable tr').eq(i).find(".FabricSupplier").val());
+           if ($('#OrderTable tr').eq(i).find(".ProdCatId").val() == "") {
+                alert('Product type required');
+                return false;
+            }
+
+           else if ($('#OrderTable tr').eq(i).find(".ProdTypeId").val() == "") {
+                alert('Product category required');
+                return false;
+            }
+
+           else if ($('#OrderTable tr').eq(i).find(".styleNo").val() == "") {
+                alert('Style required');
+                return false;
+            }
+
+           else if ($('#OrderTable tr').eq(i).find(".SizeRangeId").val() == "") {
+                alert('Size Range required');
+                return false;
+            }
+
+           //else if ($('#OrderTable tr').eq(i).find(".FabricType").val() == "") {
+           //     alert('Fabric Type required');
+           //     return false;
+           // }
+
+           else if ($('#OrderTable tr').eq(i).find(".FabricSupplier").val() == "" || $('#OrderTable tr').eq(i).find(".FabricSupplier").val() == null) {
+
+               alert('Fabric Supplier required');
+               return false;
+           }
+
+           else if ($('#OrderTable tr').eq(i).find(".factoryId").val() == "") {
+                alert('Factory required');
+                return false;
+            }
+
+
+        }
+
+        return true;
+    }
+
+
+    function CheckOrderGridDataDetail() {
+
+
+        var totRowDeliv = $('#DelivTable tr').length - 1;
+        for (var i = 1; i < totRowDeliv; i++) {
+            if ($('#DelivTable tr').eq(i).find(".BuyerSlNo").val() == "") {
+                alert('Buyer Sl No required');
+                return false;
+            };
+
+            if ($('#DelivTable tr').eq(i).find(".DestinationPortId").val() == "") {
+                alert('Destination Port required');
+                return false;
+            };
+
+            if ($('#DelivTable tr').eq(i).find(".DelivQuantity").val() == "") {
+                alert('Delivery Quantity required');
+                return false;
+            };
+
+            if ($('#DelivTable tr').eq(i).find(".RdlFobDetailDet").val() == "") {
+                alert('RDL FOB in delivery is required');
+                return false;
+            };
+
+            if ($('#DelivTable tr').eq(i).find(".ShipmentMode").val() == "") {
+                alert('Shipment Mode is required');
+                return false;
+            };
+
+        }
+
+        return true;
+    }
+
+
+    function SaveOrderData()
+    {
+
+        var Id = $('#Id').val();
+
+        $("#saveState").attr("disabled", "disabled");
+
+        // OrderRefNo  OrderDate BuyerInfoId SeasonInfoId  ProdDepartmentId FabSupplierId
+
+        // SeasonInfoId: SeasonInfoId, ProdDepartmentId: ProdDepartmentId, FabSupplierId: FabSupplierId
+        //debugger;
+        var OrderRefNo = $.trim($('#OrderRefNo').val());
+        var OrderDate = $('#OrderDate').val();
+        var BuyerInfoId = $('#BuyerInfoId').val();
+        var BrandId = $('#BrandId').val();
+        var SeasonInfoId = $('#SeasonInfoId').val();
+        var ProdDepartmentId = $('#ProdDepartmentId').val();
+        //var FabSupplierId = $('#FabSupplierId').val();
+
+
+        //11AUG18
+        var FOBType = $('#FOBType').val();
+        var DeliveryBased = $('#DeliveryBased').val();
+        //END
+
+        // ProdCatId ProdTypeId styleNo SizeRangeId FabricId ColorId unitPrice itemQnty factoryId
+
+        var TempOrderId = document.getElementsByName("TempOrderId");
+        var OrderDetId = document.getElementsByName("OrderDetId");
+        var ProdTypeId = document.getElementsByName("ProdTypeId");
+        var styleNo = document.getElementsByName("styleNo");
+        var SizeRangeId = document.getElementsByName("SizeRangeId");
+
+        //11AUG18
+        var FabricType = document.getElementsByName("FabricType");
+        var FabricDes = document.getElementsByName("FabricDes");
+        var FabricSupplier = document.getElementsByName("FabricSupplier");
+        //END
+
+
+        //var FabricId = document.getElementsByName("FabricId");
+
+        var ColorId = document.getElementsByName("ColorId");
+        var unitPrice = document.getElementsByName("RdlFobDet");
+        var itemQnty = document.getElementsByName("itemQnty");
+        var factoryId = document.getElementsByName("factoryId");
+        // var OrderExFactoryDate = document.getElementsByName("OrderExFactoryDate");
+
+
+        var RdlTotal = document.getElementsByName("totalDetailValue");
+
+        //return;
+        var OItems = [];
+
+        for (var i = 0; i < ProdTypeId.length; i++) {
+            if (ProdTypeId[i].value =="") { continue; }
+            OItems.push({ TempOrderDetId: TempOrderId[i].value, Id: OrderDetId[i].value, ProdCatTypeId: ProdTypeId[i].value, StyleNo: styleNo[i].value, ProdSizeId: SizeRangeId[i].value, FabricItemId: FabricDes[i].value, FabricSupplierId: FabricSupplier[i].value, ProdColorId: ColorId[i].value, UnitPrice: unitPrice[i].value, Quantity: itemQnty[i].value, SupplierId: factoryId[i].value, RDLTotal: RdlTotal[i].value });
+
+        }
+
+        //console.log(OItems);
+
+        //--------------- delivery items
+        //debugger;
+
+        var DelivOrderDetTempId = document.getElementsByName("DelivOrderDetTempId");
+        var DelivOrderDetId = document.getElementsByName("DelivOrderDetId");
+
+        var DelivDetId = document.getElementsByName("DelivDetId");
+      //  var ExFactoryDate = document.getElementsByName("ExFactoryDate");
+        var HandoverDate = document.getElementsByName("HandoverDate");
+        var ETD = document.getElementsByName("ETD");
+        var DestinationPortId = document.getElementsByName("DestinationPortId");
+        var DelivQuantity = document.getElementsByName("DelivQuantity");
+        var BuyersPONo = document.getElementsByName("BuyersPONo");
+
+
+        //11AUG18
+        var BuyerSlNo = document.getElementsByName("BuyerSlNo");
+        var RdlFobDetailDet = document.getElementsByName("RdlFobDetailDet");
+        //var RdlValue = document.getElementsByName("RdlValue");
+        var ShipmentMode = document.getElementsByName("ShipmentMode");
+        //END
+
+        //return;
+        var DItems = [];
+
+        for (var i = 0; i < DelivQuantity.length; i++) {
+            //  if (ExFactoryDate[i].value == "") { continue; }
+            DItems.push({ DelivOrderDetTempId: DelivOrderDetTempId[i].value, Id: DelivDetId[i].value, BuyerOrderDetId: DelivOrderDetId[i].value, BuyerSlNo: BuyerSlNo[i].value, HandoverDate: HandoverDate[i].value, ETD: ETD[i].value, DestinationPortId: DestinationPortId[i].value, DelivQuantity: DelivQuantity[i].value, RdlFobDetailDet: RdlFobDetailDet[i].value, BuyersPONo: BuyersPONo[i].value, ShipmentMode: ShipmentMode[i].value });
+        }
+
+
+
+       // alert(DItems);
+
+        //-----------------
+
+        OrderDetails = JSON.stringify({ OrderDetails: OItems, DelivDetails: DItems, Id: Id, OrderRefNo: OrderRefNo, OrderDate: OrderDate, BuyerInfoId: BuyerInfoId, SeasonInfoId: SeasonInfoId, ProdDepartmentId: ProdDepartmentId, BrandId: BrandId,FOBType: FOBType, DeliveryBased: DeliveryBased, DelItems: deletedItems, DelDelivItems: deletedDelivItems });
+        //OrderDetails = JSON.stringify({ OrderDetails: OItems});
+        //alert(OrderDetails);
+        //return;
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: '/BuyerOrder/UpdateBuyerOrder',
+            data: OrderDetails,
+            success: function (result) {
+                console.log(result);
+                $("#saveState").removeAttr("disabled");
+                if (result.flag == true) {
+                    //alert("Record save successfully!");
+                    window.location = "/BuyerOrder/Edit/" + Id;
+                }
+                else {
+                    alert(result.message);
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+                $("#saveState").removeAttr("disabled");
+            }
+        });
+
+    }
+
+
+//------
+    function LoadSavedData() {
+
+        var Id = $('#Id').val();
+
+        //SetFabricInfo();
+
+        $.ajax({
+            url: '/BuyerOrder/GetOrderData/',
+            data: { Id: Id },
+            dataType: 'json',
+            TYPE: 'POST',
+            async: false,
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    var fob = "";
+                    cnOrderTempId++;
+
+                    if (data[i].RdlFobDet != null) {
+                        fob = data[i].RdlFobDet;
+                    }
+
+                    var row = $('<tr><td><input type="hidden" name="OrderDetId" value="'+ data[i].Id +'" class="OrderDetId" />'
+                        +'<input type="hidden" name = "TempOrderId" value="' + cnOrderTempId + '" class="TempOrderId" />'
+                        +'<select name="ProdCatId" class="ProdCatId form-control select2 input-xs"><option value=""></option></select></td>'
+                        + '<td><select name="ProdTypeId" class="ProdTypeId form-control select2 input-xs"><option value=""></option></select></td>'
+                        + '<td><input type="text" name="styleNo" class="styleNo form-control input-xs" value="'+ data[i].StyleNo +'" /></td>'
+                        + '<td><a title="View Image" href="/BuyerOrder/ImageGallery/'+ data[i].Id + '" target="_blank" class="btn btn-xs text-info icon-images2"></a>|<a title="Image Upload" href="/BuyerOrder/ImageUpload/'+ data[i].Id +'" target="_blank" class="btn btn-xs text-info icon-upload"></a></td>'
+                        + '<td><select name="SizeRangeId" class="SizeRangeId form-control select2 input-xs"><option value=""></option></select></td>'
+                       // + '<td><select name="FabricId" class="FabricId form-control select2 input-xs"><option value=""></option></select></td>'
+                        + '<td><select name="FabricType" class="FabricType form-control select2 input-xs"><option value=""></option></select></td>'
+                        + '<td><select name="FabricDes" class="FabricDes form-control select2 input-xs"><option value=""></option></select></td>'
+                        + '<td><select name="FabricSupplier" class="FabricSupplier form-control select2 input-xs"><option value=""></option></select></td>'
+                        + '<td><select name="ColorId" class="ColorId form-control select2 input-xs"><option value=""></option></select></td>'
+                       // + '<td><div class="input-group input-group-xs"><span class="input-group-addon">$</span><input type="text" name="unitPrice" value="'+ data[i].UnitPrice +'" class="unitPrice form-control input-xs text-right" /></div></td>'
+
+                        + '<td><div class="input-group input-group-xs"><span class="input-group-addon">$</span><input type="text" name="RdlFobDet"  value="' + fob + '" class="RdlFobDet form-control input-xs text-right" /></div></td>'
+
+                        + '<td><input type="text" name="itemQnty" value="' + data[i].Quantity + '" class="itemQnty form-control input-xs text-right" /></td>'
+                        + '<td class="bg-green-300 text-right"><label class="totalValue text-bold text-right">' + data[i].RdlTotal + '</label><input type="hidden" name="totalDetailValue" value="0" class="totalDetailValue" /></td>'
+                        + '<td><select name="factoryId" class="factoryId form-control select2 input-xs"><option value=""></option></select></td>'
+                        + '<td><button onclick="ShowDelivDetail(this)" type="button" class="btn btn-link Delivery_btn">Delivery</button> | <button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+
+                    //alert($('table.OrderItemTable tbody').find('tr:last').index());
+                    //$('#OrderTable').append(row);
+
+                    var currRow = $('table.OrderItemTable tbody').find('tr:last').index() + 1;
+                    $('table.OrderItemTable tbody').find('tr:last').before(row);
+
+
+
+                    SetCategory(currRow, data[i].ProdCatId, data[i].ProdCatTypeId, data[i].ProdSizeId);
+
+                    //SetFabric(currRow, data[i].FabricItemId);
+                    //SetColor(currRow, data[i].ProdColorId);
+                    //SetFactory(currRow, data[i].SupplierId);
+
+                    SetFabricInfo(currRow, data[i].FabricType, data[i].FabricDes, data[i].ProdCatId);
+
+
+                    //SetFabricInfo(currRow, data[i].FabricType, data[i].FabricDes,);
+                    FabricSupplier(currRow, data[i].FabricSupplier);
+
+                    SetColor(currRow, data[i].ProdColorId);
+                    SetFactory(currRow, data[i].SupplierId);
+
+                    LoadSavedDelivData(data[i].Id);
+
+                }
+                //BindProductCategory2();
+                $(".select2").select2();
+                PopulateTotalValue();
+                RebindDatePicker();
+                FabricSupplier();
+                AddNewRow();
+
+
+                if ($('#FOBType').val() == 0) {
+
+                    $('.RdlFobDetailDet').attr("disabled", "disabled");
+                }
+                else {
+
+                    $('.RdlFobDet').attr("disabled", "disabled");
+                    $('.RdlFobDetailDet').removeAttr("disabled");
+                }
+
+
+                //if Handover Date is selected
+                if ($('#DeliveryBased').val() == 0) {
+
+                    $('.ETD').attr("disabled", "disabled");
+                }
+                else {
+                    $('.ETD').removeAttr("disabled");
+                }
+
+
+                $('.RdlFobDet').change(function () {
+                    var currentrOW = $(this).closest("tr").index();
+                    //alert('currentrOW->' + currentrOW);
+                    var detId = $('#OrderTable tbody tr').eq(currentrOW).find("input.TempOrderId").val();
+                    var RdlFob = $('#OrderTable tbody tr').eq(currentrOW).find("input.RdlFobDet").val();
+                    //alert('detId ' + detId);
+                    var delivTable = $('#DelivTable tbody tr').length - 1;
+                    //alert('delivTable ' + delivTable);
+                    for (var i = 0; i < delivTable; i++) {
+                        var delivOrderId = $('#DelivTable tbody tr').eq(i).find("input.DelivOrderDetTempId").val();
+                        //alert('delivOrderId ' + delivOrderId);
+                        if (detId == delivOrderId) {
+                            $('#DelivTable tbody tr').eq(i).find("input.RdlFobDetailDet").val(RdlFob);
+                            //alert('tempRdlFOB ' + tempRdlFOB + '--> currentRdlFob ' + currentRdlFob);
+                        }
+                    }
+                });
+
+
+
+
+                //UpdateTableMilestoneColor();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    function SetCategory(currRow, selCatVal, selCatTypeVal, selSizeVal)
+    {
+        //alert (currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+        var selectedValue = $('#BuyerInfoId').val();
+
+
+        $.ajax({
+            type: "post",
+            url: "/ProdCategory/GetProductTypeNames",
+            datatype: "json",
+            data: { Id: selectedValue },
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").html(selOptions);
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+                jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selCatVal);
+
+
+                SetCategoryType(currRow, selCatVal, selCatTypeVal, selSizeVal);
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            }
+        });
+
+    }
+
+    function SetCategoryType(currRow, selCatVal, selCatTypeVal, selSizeVal)
+    {
+        //alert ("type: " + currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+
+        $.ajax({
+            type: "post",
+            url: "/ProdCatType/GetNames",
+            data: { Id: selCatVal },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.ProdTypeId").html(selOptions);
+
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.ProdTypeId").val(selCatTypeVal);
+
+                SetSizeRange(currRow, selCatTypeVal, selSizeVal);
+
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+
+
+    function SetSizeRange(currRow, selCatTypeVal, selSizeVal)
+    {
+        var selectedDeptValue = $('#ProdDepartmentId option:selected').val();
+
+
+        $.ajax({
+            type: "post",
+            url: "/ProdSize/GetNames",
+            data: { Id: selectedDeptValue },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.SizeRangeId").html(selOptions);
+
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.SizeRangeId").val(selSizeVal);
+
+                //SetSizeRange(currRow, selCatTypeVal, selColorVal);
+
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+
+
+        //11aug 18
+
+
+    function FabricSupplier(currRow, selFabSupplierId) {
+
+        //var selectedDeptValue = $('#ProdDepartmentId option:selected').val();
+
+
+        $.ajax({
+            type: "post",
+            url: "/FabricSuppliers/GetNames",
+            //data: { Id: selFabSupplierId },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricSupplier").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricSupplier").val(selFabSupplierId);
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    function SetFabricInfo(currRow, selFabricType, selFabricItemId, selProdCatId ) {
+       //alert(currRow + ",selFabricType  " + selFabricType + ", selProdCatId " + selProdCatId);
+       // var selectedValue = $('#BuyerInfoId').val();
+        //$.ajax({
+        //    type: "post",
+        //    url: "/FabricTypes/GetNames",
+        //    datatype: "json",
+        //    //data: { Id: selFabricType },
+        //    traditional: true,
+        //    success: function (data) {
+        //        var selOptions = "<select>";
+        //        selOptions = selOptions + '<option value=""></option>';
+        //        for (var i = 0; i < data.length; i++) {
+        //            selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+        //        }
+        //        selOptions = selOptions + '</select>';
+        //        //alert(selOptions);
+        //        jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricType").html(selOptions);
+        //        jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricType").val(selFabricType);
+        //        SetFabricDescription(currRow, selFabricType, selFabricItemId);
+        //    }
+        //});
+
+       // var stateSelectFabricType = row.find('.FabricType');
+      //  alert('stateSelectFabricType ' + stateSelectFabricType);
+        $.ajax({
+            type: "post",
+            url: "/FabricTypes/GetNamesOnProdType",
+            data: { Id: selProdCatId },
+            datatype: "json",
+            traditional: true,
+
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+               // alert(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricType").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricType").val(selFabricType);
+                SetFabricDescription(currRow, selFabricType, selFabricItemId);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+
+        });
+
+
+
+
+
+    }
+
+    function SetFabricDescription(currRow, selFabricType, selFabricItemId) {
+      //  alert("type: " + currRow + ", " + selFabricType + ", " + selFabricItemId);
+
+        $.ajax({
+            type: "post",
+            url: "/FabricItem/GetDesc",
+            data: { Id: selFabricType },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+               // alert('success: ' + data.length + ' ' + selFabricItemId);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricDes").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.FabricDes").val(selFabricItemId);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+        //11aug 18 end
+
+
+    function SetColor(currRow, selColorVal)
+    {
+        //alert ("type: " + currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+        var selectedValue = $('#ProdDepartmentId option:selected').val();
+        var selectedSeasonValue = $('#SeasonInfoId option:selected').val();
+
+        $.ajax({
+            type: "post",
+            url: "/ProdColors/GetProdColorNames",
+            datatype: "json",
+            data: { DeptId: selectedValue, SeasonId: selectedSeasonValue },
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.ColorId").html(selOptions);
+
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.ColorId").val(selColorVal);
+
+                //SetSizeRange(currRow, selCatTypeVal, selColorVal);
+
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    function SetFactory(currRow, selFactoryVal)
+    {
+        //alert ("type: " + currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+
+        $.ajax({
+            type: "post",
+            url: "/Supplier/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                //alert('success: ' + data.length + ' ' + selCatVal);
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.factoryId").html(selOptions);
+
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.factoryId").val(selFactoryVal);
+
+                //SetSizeRange(currRow, selCatTypeVal, selColorVal);
+
+                //$("div.id_100 select").val("val2");
+
+                //BindProductCategory();
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    function BindProductCategory2()
+    {
+        $('#OrderTable').on('change', '.ProdCatId', function() {
+            var selectedValue = $(this).val();
+            var row = $(this).closest('tr');
+            var stateSelect = row.find('.ProdTypeId');
+            //alert('change detected');
+            if (selectedValue.length > 0) {
+                //if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length){
+                //    AddNewRow();
+                //}
+            }
+            else
+            {
+                stateSelect.empty();
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/ProdCatType/GetNames",
+                data: { Id: selectedValue },
+                datatype: "json",
+                traditional: true,
+                success: function(data) {
+                    stateSelect.empty();
+                    stateSelect.append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+                    })
+                    BindProductType();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        })
+    }
+
+
+
+    $(document).ajaxStart(ProcUIBlock()).ajaxStop(ProcUIUnBlock());
+
+
+    function ProcUIBlock(){
+
+        var block = $('#panelBodyMain');
+        $(block).block({
+            message: '<span class="text-semibold"><i class="icon-spinner4 spinner position-left"></i>&nbsp; Loading data</span>',
+            overlayCSS: {
+                backgroundColor: '#fff',
+                opacity: 0.8,
+                cursor: 'wait'
+            },
+            css: {
+                width: 'auto',
+                border: 0,
+                color: '#fff',
+                padding: '10px 15px',
+                backgroundColor: '#333'
+            }
+        });
+
+    }
+
+    function ProcUIUnBlock(){
+        var block = $('#panelBodyMain');
+        $(block).unblock();
+    }
+
+
+    $('#btnCloseDelivery').click(function () {
+        $("#DV_Order_Deliv").hide();
+        $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+        $('#OrderTable tr').eq(currSelDelivRow).find("button.Delivery_btn").css('color', 'black');
+    });
+
+    function ShowDelivDetail(e)
+    {
+
+        if (currSelDelivRow > 0)
+        {
+            $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+        }
+
+        var currRowIndex = $(e).closest('tr').index() + 1;
+
+        $('#OrderTable tr').find("button.Delivery_btn").css('color', 'black');
+        $('#OrderTable tr').eq(currRowIndex).addClass("bg-brown");
+        $('#OrderTable tr').eq(currRowIndex).find("button.Delivery_btn").css('color', 'white');
+
+
+        currSelDelivRow = currRowIndex;
+
+        currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+        //currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+        currSelOrderId = $('#OrderTable tr').eq(currRowIndex).find("input.OrderDetId").val();
+
+        $("#delivStyle").val($('#OrderTable tr').eq(currRowIndex).find("input.styleNo").val());
+        $("#delivQnty").val($('#OrderTable tr').eq(currRowIndex).find("input.itemQnty").val());
+
+        var cn = 1;
+        //for (var i = 1; i < $('#DelivTable tr').length - 1; i++)
+        //{
+        //    if (currSelOrderId == 0)
+        //    {
+        //        if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+        //            $('#DelivTable tr').eq(i).css("visibility", "visible");
+        //            $('#DelivTable tr').eq(i).find("td.index").text(cn);
+        //            cn++;
+        //        }
+        //        else {
+        //            $('#DelivTable tr').eq(i).css("visibility", "collapse");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetId").val() == currSelOrderId)
+        //        {
+        //            $('#DelivTable tr').eq(i).css("visibility", "visible");
+        //            $('#DelivTable tr').eq(i).find("td.index").text(cn);
+        //            cn++;
+        //        }
+        //        else
+        //        {
+        //            $('#DelivTable tr').eq(i).css("visibility", "collapse");
+        //        }
+
+        //    }
+        //}
+        for (var i = 1; i < $('#DelivTable tr').length - 1; i++) {
+            //if (currSelOrderId == 0) {
+            if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+                $('#DelivTable tr').eq(i).css("visibility", "visible");
+                $('#DelivTable tr').eq(i).find("td.index").text(cn);
+                cn++;
+            }
+            else {
+                $('#DelivTable tr').eq(i).css("visibility", "collapse");
+            }
+            //}
+            //else {
+            //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetId").val() == currSelOrderId) {
+            //        $('#DelivTable tr').eq(i).css("visibility", "visible");
+            //        $('#DelivTable tr').eq(i).find("td.index").text(cn);
+            //        cn++;
+            //    }
+            //    else {
+            //        $('#DelivTable tr').eq(i).css("visibility", "collapse");
+            //    }
+
+            //}
+        }
+
+        PopulateDelivTotalValue();
+        $("#DV_Order_Deliv").show();
+
+    }
+
+
+    //function LoadSavedDelivData() {
+
+    //    var Id = $('#Id').val();
+
+    //    $.ajax({
+    //        url: '/BuyerOrder/GetDelivDataByOrderMasId/',
+    //        data: { Id: Id },
+    //        dataType: 'json',
+    //        TYPE: 'POST',
+    //        success: function (data) {
+    //            console.log(data);
+    //            for (var i = 0; i < data.length; i++) {
+
+    //                var row = $('<tr><td class="index"></td>'
+    //                    + '<td><input type="hidden" name="DelivOrderDetTempId" value="' + data[i].BuyerOrderDetId + '" class="DelivOrderDetTempId"/>'
+    //                    + '<input type="hidden" name="DelivOrderDetId" value="'+ data[i].BuyerOrderDetId +'" class="DelivOrderDetId" />'
+    //                    + '<input type="hidden" name="DelivDetId" value="' + data[i].Id + '" class="DelivDetId" /><input type="text" name="BuyerSlNo" value="' + data[i].BuyerSlNo + '" class="BuyerSlNo form-control input-xs" /></td>'
+    //                    + '<td><input type="text" name="HandoverDate" value="'+ data[i].HandoverDate +'" class="HandoverDate form-control datepicker input-xs" /></td>'
+    //                    + '<td><input type="text" name="ETD" value="'+ data[i].ETD +'" class="ETD form-control datepicker input-xs" /></td>'
+    //                    + '<td><select name="DestinationPortId" class="DestinationPortId form-control select2 input-xs"><option value=""></option></select></td>'
+    //                    + '<td><input type="text" name="DelivQuantity" value="'+ data[i].DelivQuantity +'" class="DelivQuantity form-control input-xs text-right" /></td>'
+    //                    + '<td><input type="text" name="RdlFobDetailDet" value="' + data[i].RdlFobDetailDet + '" class="RdlFobDetailDet form-control input-xs text-right" /></td>'
+    //                    + '<td class="bg-green-300 text-right" name="RdlValue" value="' + data[i].RdlValue + '"><label class="RdlValue text-bold text-right"></label></td>'
+    //                    + '<td><input type="text" name="BuyersPONo" value="' + data[i].BuyersPONo + '" class="BuyersPONo form-control input-xs" /></td>'
+    //                    + '<td><select name="ShipmentMode" class="ShipmentMode form-control select2 input-xs"><option value=""></option></select></td>'
+    //                    + '<td><button onclick="RemoveDelivRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+
+    //                var currRow = $('table.DelivTable tbody').find('tr:last').index() + 1;
+    //                $('table.DelivTable tbody').find('tr:last').before(row);
+
+    //                SetDestination(currRow, data[i].DestinationPortId);
+    //                SetShipmentMode(currRow, data[i].ShipmentMode, data[i].BuyMasId);
+    //            }
+
+    //            $(".select2").select2();
+    //            //PopulateDelivTotalValue();
+    //            RebindDatePicker();
+    //            //UpdateTableRowIndex();
+
+    //        },
+    //        error: function (jqXHR, textStatus, errorThrown) {
+    //            alert('Error: ' + textStatus + ' - ' + errorThrown);
+    //        }
+    //    });
+    //}
+
+
+
+    function LoadSavedDelivData(buyerDetId) {
+        $.ajax({
+            url: '/BuyerOrder/GetDelivDataByOrderDetId/',
+            data: { Id: buyerDetId },
+            dataType: 'json',
+            TYPE: 'POST',
+            async: false,
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+
+                    var row = $('<tr><td class="index"></td>'
+                        + '<td><input type="hidden" name="DelivOrderDetTempId" value="' + cnOrderTempId + '" class="DelivOrderDetTempId"/>'
+                        + '<input type="hidden" name="DelivOrderDetId" value="' + data[i].BuyerOrderDetId + '" class="DelivOrderDetId" />'
+                        + '<input type="hidden" name="DelivDetId" value="' + data[i].Id + '" class="DelivDetId" /><input type="text" name="BuyerSlNo" value="' + data[i].BuyerSlNo + '" class="BuyerSlNo form-control input-xs" /></td>'
+                        + '<td><input type="text" name="HandoverDate" value="' + data[i].HandoverDate + '" class="HandoverDate form-control datepicker input-xs" /></td>'
+                        + '<td><input type="text" name="ETD" value="' + data[i].ETD + '" class="ETD form-control datepicker input-xs" /></td>'
+                        + '<td><select name="DestinationPortId" class="DestinationPortId form-control select2 input-xs"><option value=""></option></select></td>'
+                        + '<td><input type="text" name="DelivQuantity" value="' + data[i].DelivQuantity + '" class="DelivQuantity form-control input-xs text-right" /></td>'
+                        + '<td><input type="text" name="RdlFobDetailDet" value="' + data[i].RdlFobDetailDet + '" class="RdlFobDetailDet form-control input-xs text-right" /></td>'
+                        + '<td class="bg-green-300 text-right" name="RdlValue" value="' + data[i].RdlValue + '"><label class="RdlValue text-bold text-right"></label></td>'
+                        + '<td><input type="text" name="BuyersPONo" value="' + data[i].BuyersPONo + '" class="BuyersPONo form-control input-xs" /></td>'
+                        + '<td><select name="ShipmentMode" class="ShipmentMode form-control select2 input-xs"><option value=""></option></select></td>'
+                        + '<td><button onclick="RemoveDelivRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+
+                    var currRow = $('table.DelivTable tbody').find('tr:last').index() + 1;
+                    $('table.DelivTable tbody').find('tr:last').before(row);
+
+                    SetDestination(currRow, data[i].DestinationPortId);
+                    //SetShipmentMode(currRow, data[i].ShipmentMode, data[i].BuyMasId);
+                    SetShipmentMode(currRow, data[i].ShipmentMode, data[i].BuyerOrderDetId);
+                }
+
+
+
+                $('.DelivQuantity').change(function () {
+                    //PopulateDelivTotalValue();
+                    //PopulateTotalValue();
+                    PopulateDelivTotalValue();
+
+                    if (DelivQtyCheck == false) {
+                        $(this).val("");
+                        PopulateDelivTotalValue();
+                    }
+                    PopulateTotalValue();
+
+                });
+
+
+                $('.RdlFobDetailDet').change(function () {
+                    PopulateDelivTotalValue();
+                    if (DelivQtyCheck == false) {
+                        $(this).val("");
+                        PopulateDelivTotalValue();
+                    }
+                    PopulateTotalValue();
+                });
+
+                $(".select2").select2();
+                //PopulateDelivTotalValue();
+                RebindDatePicker();
+                //UpdateTableRowIndex();
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+
+    function SetDestination(currRow, selPortVal)
+    {
+        //alert (currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+
+        var selectedValue = $('#BuyerInfoId option:selected').val();
+
+        $.ajax({
+            type: "post",
+            url: "/DestinationPort/GetNewNames",
+            datatype: "json",
+            data: { Id: selectedValue },
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.DelivTable tr').eq(currRow).find("select.DestinationPortId").html(selOptions);
+
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+                jQuery('table.DelivTable tr').eq(currRow).find("select.DestinationPortId").val(selPortVal);
+
+            }
+        });
+    }
+
+    //function SetShipmentMode(currRow, ShipmentModeId, BuyMasId) {
+
+    function SetShipmentMode(currRow, ShipmentModeId, BuyerOrderDetId) {
+
+      //  alert(currRow + ", ShipmentModeId " + ShipmentModeId + ", BuyMasId " + BuyMasId);
+        //alert(currRow + ", ShipmentModeId " + ShipmentModeId + ", BuyerOrderDetId " + BuyerOrderDetId);
+
+
+
+
+        $.ajax({
+            type: "post",
+            url: "/BuyerOrder/GetShipmentModeDeliv",
+            datatype: "json",
+           // data: { Id: BuyMasId },
+            data: { Id: BuyerOrderDetId },
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                  //  alert(data[i].ShipmentModeValue);
+                }
+                selOptions = selOptions + '</select>';
+                console.log(selOptions);
+                //alert(selOptions);
+                jQuery('table.DelivTable tr').eq(currRow).find("select.ShipmentMode").html(selOptions);
+                jQuery('table.DelivTable tr').eq(currRow).find("select.ShipmentMode").val(ShipmentModeId);
+
+            }
+        });
+    }
+
+
+    $('#btnAddRowDeliv').click(function () {
+        AddNewRowDeliv();
+    });
+
+
+    function AddNewRowDeliv() {
+
+        var newRow = jQuery('<tr><td class="index"></td>'
+                 + '<td><input type="hidden" name="DelivOrderDetId" value="' + 0 + '" class="DelivOrderDetId" /><input type="text" name="BuyerSlNo" class="BuyerSlNo form-control  input-xs" /></td>'
+                 + '<td><input type="hidden" name="DelivOrderDetTempId" value="' + currSelOrderTempId + '" class="DelivOrderDetTempId" />'
+                 //+ '<input type="hidden" name="DelivDetId" value="0" class="DelivDetId" /><input type="text" name="ExFactoryDate" class="ExFactoryDate form-control datepicker input-xs" /></td>'
+                 + '<input type="hidden" name="DelivDetId" value="0" class="DelivDetId"/><input type="text" name="HandoverDate" class="HandoverDate form-control datepicker input-xs" /></td>'
+                 + '<td><input type="text" name="ETD" class="ETD form-control datepicker input-xs" /></td>'
+                 + '<td><select name="DestinationPortId" class="DestinationPortId form-control select2 input-xs"><option value=""></option></select></td>'
+                 + '<td><input type="text" name="DelivQuantity" class="DelivQuantity form-control input-xs text-right" /></td>'
+                 + '<td><input type="text" name="RdlFobDetailDet" class="RdlFobDetailDet form-control input-xs text-right" /></td>'
+
+                // + '<td><input type="text" name="RdlValue" class="RdlValue form-control input-xs text-right" /></td>'
+
+                 + '<td class="bg-green-300 text-right"><label class="RdlValue text-bold text-right"></label></td>'
+                 + '<td><input type="text" name="BuyersPONo" value="" class="BuyersPONo form-control input-xs" /></td>'
+                 + '<td><select name="ShipmentMode" class="ShipmentMode form-control select2 input-xs"><option value=""></option></select></td>'
+                 + '<td><button onclick="RemoveDelivRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+        jQuery('table.DelivTable tbody').find('tr:last').before(newRow);
+
+
+        var currROW = jQuery('table.DelivTable tbody').find('tr:last').index() - 1;
+        if ($('#FOBType').val() == 0) {
+            var rdlFob = $('#OrderTable tr').eq(currSelDelivRow).find(".RdlFobDet").val();
+            $('#DelivTable tbody tr').eq(currROW).find("input.RdlFobDetailDet").val(rdlFob);
+
+        }
+
+
+
+
+
+
+
+        $('.DelivQuantity').change(function () {
+            //PopulateDelivTotalValue();
+            //PopulateTotalValue();
+            PopulateDelivTotalValue();
+
+            if (DelivQtyCheck == false) {
+                $(this).val("");
+                PopulateDelivTotalValue();
+            }
+            PopulateTotalValue();
+
+        });
+
+
+        $('.RdlFobDetailDet').change(function () {
+            PopulateDelivTotalValue();
+            if (DelivQtyCheck == false) {
+                $(this).val("");
+                PopulateDelivTotalValue();
+            }
+            PopulateTotalValue();
+        });
+
+
+        $(".select2").select2();
+        var selectedValue = $('#BuyerInfoId option:selected').val();
+
+        $.ajax({
+            type: "post",
+            url: "/DestinationPort/GetNewNames",
+            datatype: "json",
+            data: { Id: selectedValue },
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                jQuery('table.DelivTable tbody').find('tr:last').prev().find("select.DestinationPortId").html(selOptions);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+        //nabid 8july 18
+
+        $.ajax({
+            type: "post",
+            url: "/BuyerOrder/GetShipmentMode",
+            datatype: "json",
+            //data: { Id: selectedValue },
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                jQuery('table.DelivTable tbody').find('tr:last').prev().find("select.ShipmentMode").html(selOptions);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+
+        //end nabid 8 july
+
+
+
+        RebindDatePicker();
+        //UpdateTableRowIndex();
+
+        //if Style is selected
+        if ($('#FOBType').val() == 0) {
+
+            $('.RdlFobDetailDet').attr("disabled", "disabled");
+        }
+        else {
+
+            $('.RdlFobDetailDet').removeAttr("disabled");
+        }
+
+
+        //if Handover Date is selected
+        if ($('#DeliveryBased').val() == 0) {
+
+            $('.ETD').attr("disabled", "disabled");
+        }
+        else {
+            $('.ETD').removeAttr("disabled");
+        }
+
+    }
+
+    function RemoveDelivRow(e) {
+
+        if (confirm('Do you really want to delete?') == false) {
+            return;
+        }
+
+        var currRowIndex = $(e).closest('tr').index() + 1;
+
+        var id = $('#DelivTable tr').eq(currRowIndex).find("input.DelivDetId").val();
+
+
+        if (id > 0) {
+            deletedDelivItems.push(id);
+
+            $(e).parent().parent().remove();
+            PopulateDelivTotalValue();
+        }
+        else {
+            $(e).parent().parent().remove();
+            PopulateDelivTotalValue();
+        }
+
+
+    }
+
+
+
+
+    //function PopulateDelivTotalValue() {
+    //    var grandTotQnty = 0;
+    //    var grandTotFobValue = 0.0;
+    //    var totRow = $('#DelivTable tr').length - 2;
+    //   // alert('totRow ' + totRow);
+    //    for (var i = 1; i <= totRow; i++) {
+    //        var strQntyVal = 0;
+
+    //        var rdlFobDelivery = 0.0;
+    //        var deliveryTotal = 0.0;
+
+    //        var tempId = $('#DelivTable  tr').eq(i).find("input.DelivOrderDetTempId").val();
+
+    //        //alert('tempId=' + tempId + "->" + 'currSelOrderTempId->' + currSelOrderTempId);
+
+    //        if ($('#DelivTable  tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+
+
+    //            //alert('tempId=' + tempId + "->" +'currSelOrderTempId->'+ currSelOrderTempId);
+
+    //            strQntyVal = $('#DelivTable tr').eq(i).find(".DelivQuantity").val();
+    //            //alert('Qty->' + strQntyVal);
+    //            rdlFobDelivery = $('#DelivTable tr').eq(i).find(".RdlFobDetailDet").val();
+    //            //alert('rdlFobDelivery ' + rdlFobDelivery);
+    //            deliveryTotal = parseInt(strQntyVal) * parseFloat(rdlFobDelivery);
+
+
+
+    //            if (!$.isNumeric(deliveryTotal)) {
+    //                deliveryTotal = 0;
+    //            }
+
+
+
+    //            //alert('deliveryTotal ' + deliveryTotal);
+    //            $('#DelivTable  tr').eq(i).find(".RdlValue").text(deliveryTotal);
+
+    //        }
+
+    //        //if (currSelOrderId == 0) {
+    //        //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+    //        //        strQntyVal = $('#DelivTable tr').eq(i).find(".DelivQuantity").val();
+    //        //    }
+    //        //}
+    //        //else {
+    //        //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetId").val() == currSelOrderId) {
+    //        //        strQntyVal = $('#DelivTable tr').eq(i).find(".DelivQuantity").val();
+    //        //    }
+    //        //}
+
+    //        if ($.isNumeric(strQntyVal) && $.isNumeric(rdlFobDelivery)) {
+
+    //            grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+    //            grandTotFobValue = grandTotFobValue + deliveryTotal;
+    //            //alert(grandTotQnty);
+    //        }
+
+    //    }
+
+    //    //$('#OrderTable tr').eq(currSelDelivRow).find("input.itemQnty").val(grandTotQnty);
+    //    $('#DelivTable tbody tr').eq(totRow).find(".grandTotalDelivQnty").text(numeral(grandTotQnty).format('0,0'));
+    //    $('#DelivTable tbody tr').eq(totRow).find(".grandTotalFobVal").text(numeral(grandTotFobValue).format('0,0'));
+
+    //    PopulateTotalValue();
+
+    //   // alert('currSelDelivRow ' + currSelDelivRow);
+    //    //16 aug 18
+    //    var detQty = $('#OrderTable tr').eq(currSelDelivRow).find("input.itemQnty").val();
+
+    //    if (grandTotQnty > detQty) {
+    //        alert('Delivery Quantity is greater than Order Quantity');
+    //        DelivQtyCheck = false;
+    //    }
+    //    else {
+    //        DelivQtyCheck = true;
+    //    }
+
+
+    //}
+
+
+    function PopulateDelivTotalValue() {
+
+
+        var grandTotQnty = 0;
+        var grandTotFobValue = 0.0;
+        var totRow = $('#DelivTable tr').length - 1;
+
+        //alert('totRow ' + totRow);
+        for (var i = 1; i < totRow; i++) {
+            //debugger;
+            var strQntyVal = 0;
+
+            var rdlFobDelivery = 0.0;
+            var deliveryTotal = 0.0;
+            if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+                strQntyVal = $('#DelivTable tr').eq(i).find(".DelivQuantity").val();
+                rdlFobDelivery = $('#DelivTable tr').eq(i).find(".RdlFobDetailDet").val();
+                //alert('rdlFobDelivery ' + rdlFobDelivery);
+                deliveryTotal = parseInt(strQntyVal) * parseFloat(rdlFobDelivery);
+                // alert('deliveryTotal ' + deliveryTotal);
+
+
+                if (!$.isNumeric(deliveryTotal)) {
+                    deliveryTotal = 0;
+                }
+
+                //$('#DelivTable tr').eq(i).find(".RdlValue").text(deliveryTotal);
+
+                //strFactTotVal = $('#DelivTable tr').eq(i).find(".FactFOBValue").val();
+                //if ($.isNumeric(deliveryTotal)) {
+                //    grandTotFactValue = grandTotFactValue + total;
+                //}
+
+
+
+
+                //16aug18
+                $('#DelivTable tr').eq(i).find(".RdlValue").text(deliveryTotal.toFixed(2));
+
+            }
+
+            //if (currSelOrderId == 0) {
+            //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetTempId").val() == currSelOrderTempId) {
+            //        strQntyVal = $('#DelivTable tr').eq(i).find(".DelivQuantity").val();
+            //    }
+            //}
+            //else {
+            //    if ($('#DelivTable tr').eq(i).find("input.DelivOrderDetId").val() == currSelOrderId) {
+            //        strQntyVal = $('#DelivTable tr').eq(i).find(".DelivQuantity").val();
+            //    }
+            //}
+
+            if ($.isNumeric(strQntyVal) && $.isNumeric(rdlFobDelivery)) {
+
+                grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+                grandTotFobValue = grandTotFobValue + deliveryTotal;
+
+            }
+        }
+
+        //16.8.18
+        //$('#OrderTable tr').eq(currSelDelivRow).find("input.itemQnty").val(grandTotQnty);
+        var detQty = $('#OrderTable tr').eq(currSelDelivRow).find("input.itemQnty").val();
+        //alert('test ' + detQty);
+        if (grandTotQnty > detQty) {
+            alert('Delivery Quantity is greater than Order Quantity');
+            DelivQtyCheck = false;
+        }
+        else {
+            DelivQtyCheck = true;
+        }
+
+        $('#DelivTable tr').eq(totRow).find(".grandTotalDelivQnty").text(numeral(grandTotQnty).format('0,0'));
+        $('#DelivTable tr').eq(totRow).find(".grandTotalFobVal").text(numeral(grandTotFobValue).format('0,0'));
+
+
+
+        //  $('#OrderTable tr').eq(currSelDelivRow).find("input.itemQnty").val(numeral(grandTotFobValue).format('0,0'));
+
+        if ($("#FOBType").val() == 1) {
+
+            $('#OrderTable tr').eq(currSelDelivRow).find("label.totalValue").text(numeral(grandTotFobValue).format('0,0'));
+            $('#OrderTable tr').eq(currSelDelivRow).find("input.totalDetailValue").val(grandTotFobValue);
+        }
+
+    }
+
+
+
+
+    </script>
+
+
+
+
+}

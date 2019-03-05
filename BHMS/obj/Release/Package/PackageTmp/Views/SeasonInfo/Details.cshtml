@@ -1,0 +1,49 @@
+﻿@model BHMS.Models.SeasonInfo
+
+@{
+    ViewBag.Title = "Seasons";
+    ViewBag.SubTitle = "Details";
+}
+
+<div class="panel panel-primary panel-bordered" id="panelBodyMain">
+    <div class="panel-heading">
+        <h5 class="panel-title">Season Information</h5>
+    </div>
+    <div class="panel-body">
+
+        <div>
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.BuyerInfo.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BuyerInfo.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dd class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        </div>
+    </div>

@@ -1,0 +1,87 @@
+﻿@model BHMS.Models.ProdSize
+
+@{
+    ViewBag.Title = "Size Range";
+    ViewBag.SubTitle = "Details";
+}
+
+<div class="panel panel-primary panel-bordered" id="panelBodyMain">
+    <div class="panel-heading">
+        <h5 class="panel-title">Size Range Information</h5>
+    </div>
+    <div class="panel-body">
+
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                   <label>Buyer</label>
+                </dt>
+
+                <dd>
+                   <label>@ViewBag.BuyerId</label>
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ProdDepartment.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ProdDepartment.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.SizeRange)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.SizeRange)
+                </dd>
+
+                @*<dt>
+                    @Html.DisplayNameFor(model => model.IsAuth)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.IsAuth)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.OpBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.OpBy)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.OpOn)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.OpOn)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.AuthBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AuthBy)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.AuthOn)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AuthOn)
+                </dd>*@
+                <dd class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>

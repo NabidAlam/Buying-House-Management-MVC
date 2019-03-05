@@ -1,0 +1,413 @@
+﻿@model BHMS.Models.LCAmendInfo
+
+@{
+    ViewBag.Title = "LC Amend Information";
+    ViewBag.SubTitle = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Master LC Amendment</h5>
+    </div>
+    <div class="panel-body">
+
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.MasterLCInfoMasId, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @*@Html.DropDownList("MasterLCInfoMasId", null, "", htmlAttributes: new { @class = "form-control select2" })*@
+                                @Html.HiddenFor(model => model.MasterLCInfoMasId)
+                                <input class="form-control" id="LCNo" readonly="readonly" />
+                                @*@Html.ValidationMessageFor(model => model.MasterLCInfoMasId, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @*<label class="control-label col-md-4">LC Date</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="LCDate" readonly="readonly" />
+                            </div>*@
+
+                            @Html.LabelFor(model => model.AmendLCNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.AmendLCNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AmendLCNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Buyer</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="BuyerName" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">LC Opening Date</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="LCDate" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AmendDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.AmendDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.AmendDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">LC Recv Date</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="LCReceiveDate" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AmendLCRecvDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.AmendLCRecvDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.AmendLCRecvDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">Latest Shipment Date</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="LatestShipmentDate" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AmendLatestShipDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.AmendLatestShipDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.AmendLatestShipDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">LC Exp. Date</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="LCExpiryDate" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AmendLCExpiryDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.AmendLCExpiryDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.AmendLatestShipDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">LC Qty (pcs)</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="LCQuantity" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AmendQuantity, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.AmendQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AmendQuantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">LC Value ($)</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="LCTotalValue" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AmendTotalValue, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.AmendTotalValue, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AmendTotalValue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                  
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">LC Tenor</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="LCTenor" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AmendTenor, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.AmendTenor, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.AmendTenor, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+              
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="control-label col-md-4">LC Payment Term</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="LCPaymentTerm" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.AmendPaymentTerm, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @*@Html.EditorFor(model => model.AmendPaymentTerm, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.DropDownList("AmendPaymentTerm", null, "", htmlAttributes: new { @class = "form-control select2" })
+                                @Html.ValidationMessageFor(model => model.AmendPaymentTerm, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                               
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div> <!-- panel body -->
+    @*<div class="panel-footer">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+        </div>*@
+
+</div>
+
+
+@*<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>*@
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+@section Scripts {
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        //$('body').addClass("sidebar-xs");
+        $(".select2").select2();
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+        // jquery validator bug fix using moment
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+        }
+
+        //$('#OrderTable').on('change', '.unitPrice, .itemQnty', function () {
+        //    if ($.isNumeric($(this).val()) == false) {
+        //        $(this).val('');
+        //        alert('Only numeric allowed');
+        //    }
+        //    PopulateTotalValue();
+        //});
+
+        //AddNewRow();
+
+        LoadLCInfo()
+    });
+
+
+    function LoadLCInfo() {
+        
+        var MasLCId = $("#MasterLCInfoMasId").val();
+
+        $.ajax({
+            url: '/MasterLC/GetLCInfo/',
+            data: { Id: MasLCId },
+            dataType: 'json',
+            TYPE: 'POST',
+            success: function (data) {
+
+                //if (data.flag == true) {
+                $('#LCNo').val(data.LCNo);
+                $('#LCDate').val(data.LCDate);
+                $('#LCReceiveDate').val(data.LCReceiveDate);
+                $('#LatestShipmentDate').val(data.LatestShipmentDate);
+                $('#LCExpiryDate').val(data.LCExpiryDate);
+                $('#BuyerName').val(data.BuyerName);
+                $('#LCQuantity').val(data.Quantity);
+                $('#LCTotalValue').val(data.TotalValue);
+                $('#LCTenor').val(data.Tenor);
+                $('#LCPaymentTerm').val(data.PaymentTerm);
+                //}
+                //else {
+                //    alert('Error Load Master');
+                //    alert(data.message);
+                //}
+
+                //LoadFactory();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+    }
+
+
+    //$('#MasterLCInfoMasId').change(function () {
+
+    //    var selectedValue = $(this).val();
+    //    //var row = $(this).closest('tr');
+    //    //var stateSelect = $('.SupplierId');
+
+    //    //$('#OrderTable tbody').empty();
+    //    //$("#saveState").attr("disabled", "disabled");
+
+    //    $('#LCDate').val('');
+    //    $('#LCReceiveDate').val('');
+    //    $('#LatestShipmentDate').val('');
+    //    $('#LCExpiryDate').val('');
+    //    $('#BuyerName').val('');
+    //    $('#LCQuantity').val('');
+    //    $('#LCTotalValue').val('');
+    //    $('#LCTenor').val('');
+    //    $('#LCPaymentTerm').val('');
+        
+
+    //    if (selectedValue.length > 0) {
+    //        //if ($(this).closest('tr').index() + 3 == $('#OrderTable tr').length) {
+    //        //    AddNewRow();
+    //        //}
+    //    }
+    //    else {
+    //        //stateSelect.empty();
+
+    //        return;
+    //    }
+        
+
+    //    $.ajax({
+    //        url: '/MasterLC/GetLCInfo/',
+    //        data: { Id: selectedValue },
+    //        dataType: 'json',
+    //        TYPE: 'POST',
+    //        success: function (data) {
+
+    //            //if (data.flag == true) {
+    //            $('#LCNo').val(data.LCNo);
+    //            $('#LCDate').val(data.LCDate);
+    //            $('#LCReceiveDate').val(data.LCReceiveDate);
+    //            $('#LatestShipmentDate').val(data.LatestShipmentDate);
+    //            $('#LCExpiryDate').val(data.LCExpiryDate);
+    //            $('#BuyerName').val(data.BuyerName);
+    //            $('#LCQuantity').val(data.Quantity);
+    //            $('#LCTotalValue').val(data.TotalValue);
+    //            $('#LCTenor').val(data.Tenor);
+    //            $('#LCPaymentTerm').val(data.PaymentTerm);
+    //            //}
+    //            //else {
+    //            //    alert('Error Load Master');
+    //            //    alert(data.message);
+    //            //}
+
+    //            //LoadFactory();
+    //        },
+    //        error: function (jqXHR, textStatus, errorThrown) {
+    //            alert('Error: ' + textStatus + ' - ' + errorThrown);
+    //        }
+    //    });
+
+
+        
+    //})
+
+</script>
+
+}

@@ -1,0 +1,785 @@
+﻿@model BHMS.Models.InvoiceCommFactMas
+
+@{
+    ViewBag.Title = "Commercial Invoice Factory Information";
+    ViewBag.SubTitle = "Create";
+}
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-heading">
+        <h5 class="panel-title">Commercial Invoice Factory Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.IssueDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.IssueDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p style="padding-left:5px; padding-top:5px;">
+                            @Html.ActionLink("Create Single Invoice", "CreatePrev",
+                                          null, new { @style = "color:#ffffff;", id = "lnkCreate", @class = "btn btn-success" })
+                        </p>
+                    </div>
+                </div>
+                @*<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-xs">
+                                @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownList("SupplierId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                    @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-xs">
+                                @Html.LabelFor(model => model.BuyerInfoId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownList("BuyerInfoId", null, "", htmlAttributes: new { @class = "form-control select2 input-xs" })
+                                    @Html.ValidationMessageFor(model => model.BuyerInfoId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-xs">
+                                @Html.LabelFor(model => model.InvoiceNoFact, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.InvoiceNoFact, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InvoiceNoFact, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-xs">
+                                @Html.LabelFor(model => model.IssueDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.IssueDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                    @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        }
+
+        <br />
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th class="col-lg-2">Buyer Name</th>
+                        <th class="col-lg-2">Factory Name</th>
+                        <th class="col-lg-4">Factory Invoice No.</th>
+                        <th class="col-lg-1">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <br />
+    </div> <!-- panel body -->
+</div>
+
+
+<!--Exfactory Detail table-->
+
+<div class="panel panel-primary panel-bordered" id="DV_Exfact_Detail" style="display:none;">
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs DetailItemTable" id="DetailTable">
+                <thead>
+                    <tr class="bg-primary-400">
+                        <th style="min-width:150px;">RDL Ref. No.</th>
+                        <th style="min-width:100px;">Quantity (Pcs)</th>
+                        <th style="min-width:50px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-right">
+                            @*<button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button>*@
+                            <label class="text-bold">Total:</label>
+                        </td>
+                        @*<td colspan="7" class="text-right"></td>*@
+                        <td class="bg-green-300 position-right text-right"><label class="text-bold grandTotalQnty text-right"></label></td>
+                        @*<td class="bg-green-300 text-right"><label class="text-bold grandTotaValue text-right"></label></td>*@
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Delivery-->
+
+<div class="panel panel-primary panel-bordered" id="DV_Order_Deliv" style="display:none;">
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-group-xs">
+                        <label class="control-label col-md-6">RDL Ref. No.</label>
+                        <div class="col-md-6">
+                            <input name="delivRef" id="delivRef" value="" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-group-xs">
+                        <label class="control-label col-md-6">Quantity</label>
+                        <div class="col-md-6">
+                            <input name="delivQnty" id="delivQnty" value="" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn bg-grey-400 btn-rounded btn-xs" id="btnCloseDelivery" @*style="margin:10px 0 10px 10px"*@><i class="icon-close2 position-left"></i> Close Delivery Detail</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-xxs DelivTable" id="DelivTable">
+                <thead>
+                    <tr class="bg-brown-400">
+                        @*<th>Delivery No</th>*@
+                        <th style="min-width:200px;">Style No.</th>
+                        <th style="min-width:100px;">P.O. No.</th>
+                        <th style="min-width:100px;">Delivery No.</th>
+                        @*<th style="min-width:180px;">Size</th>
+                        <th style="min-width:120px;">Color</th>*@
+                        <th style="min-width:180px;">Destination/Port</th>
+                        <th style="min-width:200px;">Order Quantity</th>
+                        <th style="min-width:200px;">Shipment Quantity</th>
+                        <th style="min-width:200px;">Factory FOB</th>
+                        <th style="min-width:200px;">Factory Value</th>
+                        <th style="min-width:200px;">Discount Adjusted %</th>
+                        <th style="min-width:200px;">Discount Adjusted Value</th>
+                        <th style="min-width:200px;">Factory Transfer FOB after previous adjustment</th>
+                        <th style="min-width:200px;">Factory Invoice Value after previous adjustment</th>
+                        @*<th style="min-width:200px;">Action</th>*@
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                @*<tfoot>
+                        <tr>
+                            <td colspan="5" class="text-right"><label class="text-bold">Total:</label></td>
+                            <td class="bg-green-300 text-right"><label class="text-bold grandTotalDelivQnty text-right"></label></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>*@
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Delivery End-->
+
+
+
+
+<div class="panel panel-primary panel-bordered">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        //-- global var---
+        var currSelDelivRow = 0; //
+        var cnOrderTempId = 0; //
+        var currSelOrderTempId = 0; //
+        var currSelectedRow = 0;
+        var cnDetailTempId = 0;
+        //var currSelOrderId = 0;
+        //--------------
+
+
+        function RebindDatePicker() {
+            $('.datepicker').datepicker("destroy");
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        }
+
+        $(document).ready(function () {
+            $('body').addClass("sidebar-xs");
+            $(".select2").select2();
+
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+            // jquery validator bug fix using moment
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+
+            //$('#OrderTable').on('change', '.unitPrice, .itemQnty', function () {
+            //    if ($.isNumeric($(this).val()) == false) {
+            //        $(this).val('');
+            //        alert('Only numeric allowed');
+            //    }
+            //    PopulateTotalValue();
+            //});
+
+            //AddNewRow();
+        });
+
+
+        //$('#SupplierId').change(function () {
+        //    EmptyAllTables();
+        //    $('#IssueDate').val("");
+
+        //    var selectedValue = $(this).val();
+        //    var stateSelect = $('#BuyerInfoId');
+
+        //    if (selectedValue > 0) {
+        //        $.ajax({
+        //            type: "post",
+        //            url: "/InvoiceCommFact/GetBuyerNamesBySupplierId",
+        //            data: { Id: selectedValue },
+        //            datatype: "json",
+        //            traditional: true,
+        //            success: function (data) {
+        //                stateSelect.empty();
+        //                stateSelect.append('<option value=""></option>');
+        //                $.each(data, function (index, item) {
+        //                    stateSelect.append($('<option></option>').val(item.Id).text(item.Name));
+        //                })
+        //            },
+        //            error: function (jqXHR, textStatus, errorThrown) {
+        //                alert('Error: ' + textStatus + ' - ' + errorThrown);
+        //            }
+        //        });
+        //    }
+        //    else {
+        //        stateSelect.empty();
+        //    }
+
+        //});
+
+
+        //$('#BuyerInfoId').change(function () {
+        //    EmptyAllTables();
+        //    $('#IssueDate').val("");
+        //});
+
+
+        function EmptyAllTables() {
+            $('#OrderTable tbody').empty();
+            $('#DelivTable tbody').empty();
+            $("#DV_Order_Deliv").hide();
+            PopulateTotalValue();
+            $("#saveState").attr("disabled", "disabled");
+        }
+
+        //$(document).on("change", "#BuyerInfoId, #SupplierId", function () {
+        //    $('#OrderTable tbody').empty();
+        //    $('#DelivTable tbody').empty();
+        //    $("#DV_Order_Deliv").hide();
+        //    PopulateTotalValue();
+        //    $("#saveState").attr("disabled", "disabled");
+        //});
+
+        //$('#IssueDate').change(function () {
+
+        //    $('#OrderTable tbody').empty();
+        //    $('#DelivTable tbody').empty();
+        //    $("#DV_Order_Deliv").hide();
+        //    PopulateTotalValue();
+        //    $("#saveState").attr("disabled", "disabled");
+        //    //$('#RefDate').val('');
+        //    //$('#SalesContractNo').val('');
+
+        //    var selectedBuyerValue = $('#BuyerInfoId').val();
+        //    var SelectedSupplierValue = $('#SupplierId').val();
+        //    var SelectedExFactoryDate = $('#IssueDate').val();
+
+        //    //var row = $(this).closest('tr');
+        //    //var stateSelect = $('#BuyerInfoId');
+
+
+        //    //if (selectedValue.length > 0) {
+
+        //    //}
+        //    //else {
+        //    //    stateSelect.empty();
+        //    //    return;
+        //    //}
+
+
+        //    $.ajax({
+        //        type: "post",
+        //        url: "/InvoiceCommFact/GetOrderMasterInfo",
+        //        data: { SupplierId: SelectedSupplierValue, BuyerInfoId: selectedBuyerValue, ExFactoryDate: SelectedExFactoryDate },
+        //        datatype: "json",
+        //        traditional: true,
+        //        success: function (data) {
+        //            console.log(data);
+        //            if (data.length > 0) {
+        //                $("#saveState").removeAttr("disabled");
+        //            }
+
+        //            for (var i = 0; i < data.length; i++) {
+        //                var row = $('<tr>'
+        //                    //+'<td><input type="hidden" name="ExFactoryShipDetId" class="ExFactoryShipDetId" value="' + data[i].ExFactoryShipDetId + '" /><input type="hidden" name="OrderMasId" class="OrderMasId" value="' + data[i].OrderMasId + '" />' + data[i].OrderRefNo + '<input type="hidden" name="OrderRefNo" class="OrderRefNo" value="' + data[i].OrderRefNo + '" /></td>'
+        //                    + '<td><input type="hidden" name="ExFactoryDetId" class="ExFactoryDetId" value="' + data[i].ExFactoryDetId + '" /><input type="hidden" name="OrderMasId" class="OrderMasId" value="' + data[i].OrderMasId + '" />' + data[i].OrderRefNo + '<input type="hidden" name="OrderRefNo" class="OrderRefNo" value="' + data[i].OrderRefNo + '" /></td>'
+
+        //                    + '<td class="bg-green-300 text-right"><label class="label_ShipQuantity text-bold text-right">' + data[i].ShipQuantity + '</label><input type="hidden" name="ShipQuantity" class="ShipQuantity" value="' + data[i].ShipQuantity + '" /></td>'
+        //                + '<td><button onclick="ShowDelivDetail(this)" type="button" class="btn btn-link deliverybtn">Delivery</button></td>'
+        //                + '</tr>');
+        //                $('table.OrderItemTable tbody').append(row);
+
+        //            }
+
+        //            PopulateTotalValue();
+
+        //        },
+        //        error: function (jqXHR, textStatus, errorThrown) {
+        //            alert('Error: ' + textStatus + ' - ' + errorThrown);
+        //        }
+        //    });
+
+        //})
+
+
+
+        $('#IssueDate').change(function () {
+
+            $('#OrderTable tbody').empty();
+            //$('#DelivTable tbody').empty();
+            $('table.DetailItemTable tbody').empty();
+            $('table.DelivTable tbody').empty();
+         
+            $("#DV_Exfact_Detail").hide();
+            $("#DV_Order_Deliv").hide();
+
+
+            PopulateTotalValue();
+            $("#saveState").attr("disabled", "disabled");
+            //$('#RefDate').val('');
+            //$('#SalesContractNo').val('');
+
+            var selectedBuyerValue = $('#BuyerInfoId').val();
+            var SelectedSupplierValue = $('#SupplierId').val();
+            var SelectedExFactoryDate = $('#IssueDate').val();
+
+            //var row = $(this).closest('tr');
+            //var stateSelect = $('#BuyerInfoId');
+
+
+            //if (selectedValue.length > 0) {
+
+            //}
+            //else {
+            //    stateSelect.empty();
+            //    return;
+            //}
+
+
+            $.ajax({
+                type: "post",
+                url: "/InvoiceCommFact/GetOrderMasterInfo",
+                data: { ExFactoryDate: SelectedExFactoryDate },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        $("#saveState").removeAttr("disabled");
+                    }
+
+                    for (var i = 0; i < data.length; i++) {
+                        cnDetailTempId++;
+                        
+                        var row = $('<tr>'
+                            + '<td><input type="hidden" name = "TempDetailId" value="' + cnDetailTempId + '" class="TempDetailId" />'
+                            + '<input type="hidden" name="ExFactoryMasId" class="ExFactoryMasId" value="' + data[i].ExFactoryMasId + '" />'
+                            + '<input type="hidden" name="ExFactoryDate" class="ExFactoryDate" value="' + data[i].ExFactoryDate + '" />'
+                            + '<input type="hidden" name="BuyerInfoId" class="BuyerInfoId" value="' + data[i].BuyerInfoId + '" />' + data[i].BuyerInfoName + '</td>'
+                            + '<td><label >' + data[i].SupplierName + '</label><input type="hidden" name="SupplierId" class="SupplierId" value="' + data[i].SupplierId + '" /></td>'
+                            + '<td><input type="text" name="FactInvoiceNo" class="FactInvoiceNo form-control input-xs" value="" /></td>'
+                            + '<td><button onclick="ShowDetail(this)" type="button" class="btn btn-link detailDetbtn">Details</button></td>'
+                            + '</tr>');
+                        $('table.OrderItemTable tbody').append(row);
+
+                    }
+
+                    PopulateTotalValue();
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+
+        })
+
+
+
+        $('#btnCloseDelivery').click(function () {
+            $("#DV_Order_Deliv").hide();
+            $('#OrderTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+            $('#OrderTable tr').eq(currSelDelivRow).find("button.detailDetbtn").css("color", "black");
+        });
+
+
+
+        function ShowDetail(e) {
+            if (currSelectedRow > 0) {
+                $('#OrderTable tr').eq(currSelectedRow).removeClass("bg-brown");
+                $('#OrderTable tr').eq(currSelectedRow).find("button.detailDetbtn").css("color", "black");
+            }
+
+            $('table.DetailItemTable tbody').empty();
+            $('table.DelivTable tbody').empty();
+            $("#DV_Exfact_Detail").hide();
+            $("#DV_Order_Deliv").hide();
+            
+
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+            $('#OrderTable tr').eq(currRowIndex).addClass("bg-brown");
+            $('#OrderTable tr').eq(currRowIndex).find("button.detailDetbtn").css("color", "white");
+            currSelectedRow = currRowIndex;
+
+            currSelDetailId = $('#OrderTable tr').eq(currRowIndex).find("input.TempDetailId").val();
+
+            var SelectedSupplierValue = $('#OrderTable tr').eq(currRowIndex).find("input.SupplierId").val();
+            var selectedBuyerValue = $('#OrderTable tr').eq(currRowIndex).find("input.BuyerInfoId").val();
+            var ExFactoryMasId = $('#OrderTable tr').eq(currRowIndex).find("input.ExFactoryMasId").val();
+            var SelectedExFactoryDate = $('#IssueDate').val();
+            
+
+                $.ajax({
+                    type: "post",
+                    url: "/InvoiceCommFact/GetDetailData",
+                    data: { SupplierId: SelectedSupplierValue, BuyerInfoId: selectedBuyerValue, ExFactoryDate: SelectedExFactoryDate},
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        console.log(data);
+                        if (data.length > 0) {
+                            $("#saveState").removeAttr("disabled");
+                        }
+
+                        for (var i = 0; i < data.length; i++) {
+                            var row = $('<tr>'
+                                //+'<td><input type="hidden" name="ExFactoryShipDetId" class="ExFactoryShipDetId" value="' + data[i].ExFactoryShipDetId + '" /><input type="hidden" name="OrderMasId" class="OrderMasId" value="' + data[i].OrderMasId + '" />' + data[i].OrderRefNo + '<input type="hidden" name="OrderRefNo" class="OrderRefNo" value="' + data[i].OrderRefNo + '" /></td>'
+                                + '<td><input type="hidden" name="ExFactoryDetId" class="ExFactoryDetId" value="' + data[i].ExFactoryDetId + '" /><input type="hidden" name="OrderMasId" class="OrderMasId" value="' + data[i].OrderMasId + '" />' + data[i].OrderRefNo + '<input type="hidden" name="OrderRefNo" class="OrderRefNo" value="' + data[i].OrderRefNo + '" /></td>'
+
+                                + '<td class="bg-green-300 text-right"><label class="label_ShipQuantity text-bold text-right">' + data[i].ShipQuantity + '</label><input type="hidden" name="ShipQuantity" class="ShipQuantity" value="' + data[i].ShipQuantity + '" /></td>'
+                            + '<td><button onclick="ShowDelivDetail(this)" type="button" class="btn btn-link deliverybtn">Delivery</button></td>'
+                            + '</tr>');
+                            $('table.DetailItemTable tbody').append(row);
+
+                        }
+
+                        PopulateTotalValue();
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+                $("#DV_Exfact_Detail").show();
+
+        }
+
+
+
+        function ShowDelivDetail(e) {
+
+            if (currSelDelivRow > 0) {
+                $('#DetailTable tr').eq(currSelDelivRow).removeClass("bg-brown");
+                $('#DetailTable tr').eq(currSelDelivRow).find("button.deliverybtn").css("color", "black");
+            }
+
+            var currRowIndex = $(e).closest('tr').index() + 1;
+            //alert('currRowIndex->' + currRowIndex);
+
+            $('#DetailTable tr').eq(currRowIndex).addClass("bg-brown");
+
+            currSelDelivRow = currRowIndex;
+            //alert('currSelDelivRow->' + currSelDelivRow);
+
+            //currSelOrderTempId = $('#OrderTable tr').eq(currRowIndex).find("input.TempOrderId").val();
+            $('#DetailTable tr').eq(currRowIndex).find("button.deliverybtn").css("color", "white");
+
+            currSelOrderId = $('#DetailTable tr').eq(currRowIndex).find("input.OrderMasId").val();
+            //alert('currSelOrderId->' + currSelOrderId);
+
+            $("#delivRef").val($('#DetailTable tr').eq(currRowIndex).find("input.OrderRefNo").val());
+            $("#delivQnty").val($('#DetailTable tr').eq(currRowIndex).find("input.ShipQuantity").val());
+
+            $('#DelivTable tbody').empty();
+
+            var exFactDate = $('#IssueDate').val();
+
+            exFactoryDetId = $('#DetailTable tr').eq(currRowIndex).find("input.ExFactoryDetId").val();
+            
+            //alert(exFactoryDetId);
+
+            $.ajax({
+                url: '/InvoiceCommFact/GetDelivData/',
+                data: { Id: currSelOrderId, exFactoryDate: exFactDate, ExFactoryDetId: exFactoryDetId },
+                dataType: 'json',
+                TYPE: 'POST',
+                success: function (data) {
+                    //console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+
+                        //var row = $('<tr><td class="index"></td>'
+                        var row = $('<tr>'
+                            + '<td>' + data[i].StyleNo + '</td>'
+                            + '<td>' + data[i].BuyersPONo + '</td>'
+                            + '<td>' + data[i].DelivSlno + '</td>'
+                            //+ '<td>' + data[i].ProdSizeName + '</td>'
+                            //+ '<td>' + data[i].ProdColorName + '</td>'
+                            + '<td>' + data[i].DestinationPortName + '</td>'
+                            + '<td class="bg-green-300 text-right">' + data[i].OrderQuantity + '</td>'
+                            + '<td class="bg-green-300 text-right">' + data[i].ShipQuantity + '</td>'
+                            + '<td class="text-right">' + data[i].FactoryTransferPrice + '</td>'
+                            //+ '<td>' + data[i].FactoryInvoiceValue + '</td>'
+                            + '<td class="bg-green-300 text-right">' + (data[i].ShipQuantity * data[i].FactoryTransferPrice) + '</td>'
+                            //+ '<td class="text-right"><input type="hidden" name="DelivQuantity" value="' + data[i].DelivQuantity + '" class="DelivQuantity" />' + data[i].DelivQuantity + '</td>'
+                           + '</tr>');
+
+                        //var currRow = $('table.DelivTable tbody').find('tr:last').index() + 1;
+                        //$('table.DelivTable tbody').find('tr:last').before(row);
+                        $('table.DelivTable tbody').append(row);
+
+                        //SetDestination(currRow, data[i].DestinationPortId);
+                    }
+
+
+                    //PopulateDelivTotalValue();
+                    //UpdateTableRowIndex();
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+
+
+            $("#DV_Order_Deliv").show();
+            //$('#OrderTable tr').eq(currSelDelivRow).find("button.deliverybtn").css("color", "black");
+        }
+
+
+        function PopulateTotalValue() {
+            var grandTotQnty = 0;
+            var strQntyVal = 0;
+            var totRow = $('#OrderTable tr').length - 1;
+            for (var i = 1; i < totRow; i++) {
+                strQntyVal = $('#OrderTable tr').eq(i).find(".ShipQuantity").val();
+                if ($.isNumeric(strQntyVal)) {
+                    grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+                }
+            }
+            $('#OrderTable tr').eq(totRow).find(".grandTotalQnty").text(numeral(grandTotQnty).format('0,0'));
+        }
+
+        function BindBuyerOrder() {
+            $('#IssueDate').change(function () {
+                alert('Test');
+                $('#OrderTable tbody').empty();
+                $("#saveState").attr("disabled", "disabled");
+                //$('#RefDate').val('');
+                //$('#SalesContractNo').val('');
+
+                var selectedBuyerValue = $('#BuyerInfoId').val();
+                var SelectedSupplierValue = $('#SupplierId').val();
+                var SelectedExFactoryDate = $('#IssueDate').val();
+
+                //var row = $(this).closest('tr');
+                //var stateSelect = $('#BuyerInfoId');
+
+
+                //if (selectedValue.length > 0) {
+
+                //}
+                //else {
+                //    stateSelect.empty();
+                //    return;
+                //}
+
+
+                $.ajax({
+                    type: "post",
+                    url: "/InvoiceCommFact/GetOrderMasterInfo",
+                    data: { SupplierId: SelectedSupplierValue, BuyerInfoId: selectedBuyerValue, ExFactoryDate: SelectedExFactoryDate },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        console.log(data);
+                        if (data.length > 0) {
+                            $("#saveState").removeAttr("disabled");
+                        }
+                        for (var i = 0; i < data.length; i++) {
+
+                            var row = $('<tr><td><input type="hidden" name="OrderMasId" class="OrderMasId" value="' + data[i].OrderMasId + '" />' + data[i].OrderRefNo + '</td>'
+                            + '<td class="bg-green-300 text-right"><label class="totalFactValue text-bold text-right">' + data[i].ShipQuantity + '</label><input type="hidden" name="ShipQuantity" class="ShipQuantity" value="' + data[i].ShipQuantity + '" /></td>'
+                            + '<td><button onclick="ShowDelivDetail(this)" type="button" class="btn btn-link">Detail</button></td>'
+                            + '</tr>');
+                            $('table.OrderItemTable tbody').append(row);
+
+                        }
+
+                        //PopulateTotalValue();
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    }
+                });
+
+            })
+        }
+
+        $('#saveState').click(function () {
+
+            var ExFactoryDate = moment($('#IssueDate').val(), "DD/MM/YYYY", true);
+
+            //if ($.trim($('#InvoiceNoFact').val()) === "") {
+            //    alert('Factory Invoice no required');
+            //    //$('#InvoiceNoFact').focus();
+            //}
+
+            //else if (ExFactoryDate.isValid() == false) {
+            //    alert('Valid Ex-Factory date required<br />Usage:[dd/mm/yyyy]');
+            //    //$('#SalesContractDate').focus();
+            //}
+            //else if ($('#BuyerInfoId option:selected').text() == "") {
+            //    alert('Please select Buyer');
+            //    //$('#BuyerInfoId').focus();
+            //    $('#BuyerInfoId').select2('open');
+            //}
+            //    //else if ($('#SupplierId option:selected').text() == "") {
+            //    //    alert('Please select factory');
+            //    //    $('#SupplierId').select2('open');
+            //    //}
+
+            //else {
+            //    SaveInvoiceData();
+            //}
+
+            SaveInvoiceData();
+
+        });
+
+
+        function SaveInvoiceData() {
+
+            $("#saveState").attr("disabled", "disabled");
+
+            //Id, BuyerOrderMasId, SalesContractNo, SalesContractDate, SupplierId
+            //var SupplierId = $('#SupplierId').val();
+            //var BuyerInfoId = $('#BuyerInfoId').val();
+            //var InvoiceNoFact = $.trim($('#InvoiceNoFact').val());
+            var ExfactoryDate = $('#IssueDate').val();
+
+            //Master data
+            var SupplierId = document.getElementsByName("SupplierId");
+            var BuyerInfoId = document.getElementsByName("BuyerInfoId");
+            var InvoiceNoFact = document.getElementsByName("FactInvoiceNo");
+            var ExfactoryMasId = document.getElementsByName("ExFactoryMasId");
+            
+
+            var OItems = [];
+
+            for (var i = 0; i < SupplierId.length; i++) {
+                OItems.push({ Id: 0, SupplierId: SupplierId[i].value, BuyerInfoId: BuyerInfoId[i].value, InvoiceNoFact: InvoiceNoFact[i].value, IssueDate: ExfactoryDate, ExFactoryMasId: ExfactoryMasId[i].value });
+            }
+
+            //ExFactoryShipDetId
+            //var ExFactoryDetId = document.getElementsByName("ExFactoryDetId");
+
+
+            //var OItems = [];
+
+            //for (var i = 0; i < ExFactoryDetId.length; i++) {
+            //    OItems.push({ Id: 0, ExFactoryDetId: ExFactoryDetId[i].value });
+            //}
+
+            //InvoiceDetails = JSON.stringify({ InvoiceDetails: OItems, Id: 0, SupplierId: SupplierId, BuyerInfoId: BuyerInfoId, InvoiceNoFact: InvoiceNoFact, IssueDate: ExfactoryDate });
+            InvoiceDetails = JSON.stringify({ InvoiceMas: OItems});
+            
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/InvoiceCommFact/SaveInvoiceFactList',
+                data: InvoiceDetails,
+                success: function (result) {
+                    console.log(result);
+                    //$("#saveState").removeAttr("disabled");
+                    if (result.flag == true) {
+                        alert("Record save successfully!");
+                        //window.location = "/InvoiceCommFact/Edit/" + result.Id;
+                        window.location = "/InvoiceCommFact/Index";
+                    }
+                    else {
+                        alert(result.message);
+                        $("#saveState").removeAttr("disabled");
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                    $("#saveState").removeAttr("disabled");
+                }
+            });
+
+        }
+
+    </script>
+}

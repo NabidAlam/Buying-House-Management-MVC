@@ -1,0 +1,464 @@
+﻿@model BHMS.Models.BuyerOrderDet
+
+@{
+    //if (Request.IsAjaxRequest())
+    //{
+    //    Layout = null;
+    //}
+
+    ViewBag.Title = "Buyer Order Delivery Details";
+    ViewBag.SubTitle = "Edit";
+}
+
+<div class="panel panel-primary panel-bordered" id="panelBodyMain">
+    <div class="panel-heading">
+        <h5 class="panel-title">Buyer Order Delivery Information</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {           
+            
+            <div class="form-horizontal">               
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.StyleNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.StyleNo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-xs">
+                            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @readonly ="readonly" } })                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                           
+
+                
+            </div>
+        }
+
+            
+        
+        </div> <!-- panel body -->
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-xxs OrderItemTable" id="OrderTable">
+            <thead>
+                <tr class="bg-primary-400">
+                    <th>Delivery No</th>
+                    <th style="min-width:100px;">Ex-Factory Date</th>
+                    <th style="min-width:100px;">Handover Date</th>
+                    <th style="min-width:100px;">ETD Date</th>
+                    <th style="min-width:180px;">Destination / Country</th>
+                    <th style="min-width:120px;">Delivery Quantity</th>
+                    <th style="min-width:200px;">Buyer PO No.</th>
+                    <th style="min-width:200px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><button type="button" class="btn btn-default btn-rounded btn-xs" id="btnAddRow"><i class="icon-add position-left"></i> Add Row</button> </td>
+                    <td colspan="4" class="text-right"><label class="text-bold">Total:</label></td>
+                    <td class="bg-green-300 text-right"><label class="text-bold grandTotalQnty text-right"></label></td>                    
+                    <td colspan="2"></td>
+                </tr>                
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel-footer">
+    <div class="form-group">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success" id="saveState">Save <i class="icon-arrow-right14 position-right"></i></button>
+        </div>
+    </div>
+
+    </div>
+    
+</div>
+
+
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+
+@section Scripts {
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript" src="~/Scripts/plugins/loaders/blockui.min.js"></script>
+
+<script type="text/javascript">
+    //-- global var---
+    var deletedItems = [];
+    //--------------
+
+    function UpdateTableRowIndex()
+    {
+        $('td.index').each(function(idx, elem){
+            $(elem).text(idx+1);
+        });
+    };
+
+    
+    function RebindDatePicker()
+    {
+        $('.datepicker').datepicker("destroy");
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+        
+    }
+
+
+
+
+    $(document).ready(function () {
+        $('body').addClass("sidebar-xs");
+        $(".select2").select2();
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            todayBtn: true,
+            autoclose: true
+        });
+        
+        $('#OrderTable').on('change', '.DelivQuantity', function () {
+            if ($.isNumeric($(this).val()) == false) {
+                $(this).val('');
+                alert('Only numeric allowed');
+            }
+            PopulateTotalValue();
+        });
+
+        //BindProductCategory2();
+
+        //AddNewRow();
+        LoadSavedData();
+    });
+
+    $('#btnAddRow').click(function () {
+        AddNewRow();
+    });
+
+    $('#saveState').click(function () {
+
+        if (CheckOrderGridData()== false)
+        {
+
+        }
+        else
+        {
+            SaveOrderData();
+        }
+
+    });
+    // DelivDetId ExFactoryDate HandoverDate ETD DestinationPortId DelivQuantity BuyersPONo
+    function AddNewRow() {
+        var newRow = jQuery('<tr><td class="index"></td>'
+                    +'<td><input type="hidden" name="DelivDetId" value="0" class="DelivDetId" /><input type="text" name="ExFactoryDate" class="ExFactoryDate form-control datepicker input-xs" /></td>'
+                    + '<td><input type="text" name="HandoverDate" class="HandoverDate form-control datepicker input-xs" /></td>'
+                    + '<td><input type="text" name="ETD" class="ETD form-control datepicker input-xs" /></td>'
+                    + '<td><select name="DestinationPortId" class="DestinationPortId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><input type="text" name="DelivQuantity" class="DelivQuantity form-control input-xs" /></td>'
+                    + '<td><input type="text" name="BuyersPONo" value="" class="BuyersPONo form-control input-xs" /></td>'                    
+                    + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+
+        jQuery('table.OrderItemTable tbody').find('tr:last').before(newRow);
+
+        $(".select2").select2();
+
+        $.ajax({
+            type: "post",
+            url: "/DestinationPort/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //alert(selOptions);
+                jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("select.DestinationPortId").html(selOptions);
+                
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+        RebindDatePicker();
+        UpdateTableRowIndex();
+
+    }
+
+
+   
+   
+    function PopulateTotalValue()
+    {
+        var grandTotQnty = 0;
+        //var grandTotVal = 0.0;
+
+        var totRow = $('#OrderTable tr').length - 1;
+        for (var i = 1; i < totRow; i++)
+        {
+            //var strUnitPrice = $('#OrderTable tr').eq(i).find(".unitPrice").val();
+            var strQntyVal = $('#OrderTable tr').eq(i).find(".DelivQuantity").val();
+
+            if ($.isNumeric(strQntyVal))
+            {
+                //var totVal = parseFloat(strUnitPrice) * parseInt(strQntyVal);
+                //$('#OrderTable tr').eq(i).find(".totalValue").text(numeral(totVal).format('$ 0,0.00'));
+                grandTotQnty = grandTotQnty + parseInt(strQntyVal);
+                //grandTotVal = grandTotVal + totVal
+            }
+            else
+            {
+                //$('#OrderTable tr').eq(i).find(".totalValue").text(numeral(0).format('$ 0,0.00'));
+            }
+        }
+
+        $('#OrderTable tr').eq(totRow).find(".grandTotalQnty").text(numeral(grandTotQnty).format('0,0'));
+        //$('#OrderTable tr').eq(totRow).find(".grandTotaValue").text(numeral(grandTotVal).format('$ 0,0.00'));
+    }
+
+    function RemoveOrderRow(e)
+    {
+        if ($('#OrderTable tr').length == 3) {
+            alert('You cannot delete this row.\nOrder requires atleast one record.');
+            return;
+        }
+
+        if (confirm('Do you really want to delete?')==false)
+        {
+            return;
+        }
+
+        var currRowIndex = $(e).closest('tr').index() + 1;
+      
+        var id = $('#OrderTable tr').eq(currRowIndex).find("input.DelivDetId").val();
+        
+        
+        if (id>0)
+        {
+            deletedItems.push(id); 
+
+            $(e).parent().parent().remove();
+            PopulateTotalValue();
+        }
+        else
+        {
+            $(e).parent().parent().remove();
+            PopulateTotalValue();
+        }
+
+        
+    }
+
+    function CheckOrderGridData()
+    {
+        // ProdCatId ProdTypeId styleNo unitPrice itemQnty factoryId
+
+        //var totRow = $('#OrderTable tr').length - 1;
+        //for (var i = 1; i < totRow; i++) {
+        //    if ($('#OrderTable tr').eq(i).find(".ProdCatId").val() == "")
+        //    {
+        //        alert('Product category required');
+        //        return false;
+        //    };
+        //}
+        return true;
+    }
+
+
+    function SaveOrderData()
+    {
+
+        $("#saveState").attr("disabled", "disabled");
+
+        
+        //DelivDetId ExFactoryDate HandoverDate ETD DestinationPortId DelivQuantity BuyersPONo
+        
+        var DelivDetId = document.getElementsByName("DelivDetId");
+        var ExFactoryDate = document.getElementsByName("ExFactoryDate");
+        var HandoverDate = document.getElementsByName("HandoverDate");
+        var ETD = document.getElementsByName("ETD");
+        var DestinationPortId = document.getElementsByName("DestinationPortId");
+        var DelivQuantity = document.getElementsByName("DelivQuantity");
+        var BuyersPONo = document.getElementsByName("BuyersPONo");
+        
+
+        //return;
+        var OItems = [];
+
+        for (var i = 0; i < ExFactoryDate.length; i++) {
+            if (ExFactoryDate[i].value =="") { break; }
+            OItems.push({ Id: DelivDetId[i].value, ExFactoryDate: ExFactoryDate[i].value, HandoverDate: HandoverDate[i].value, ETD: ETD[i].value, DestinationPortId: DestinationPortId[i].value, DelivQuantity: DelivQuantity[i].value, BuyersPONo: BuyersPONo[i].value});
+
+        }
+        //console.log(OItems);
+        DeliveryDetails = JSON.stringify({ DelivDetails: OItems, Id: @Model.Id, DelItems: deletedItems });
+        //OrderDetails = JSON.stringify({ OrderDetails: OItems});
+        //alert(DeliveryDetails);
+        //return;
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: '/BuyerOrder/UpdateDeliveryDetail',
+            data: DeliveryDetails,
+            success: function (result) {
+                console.log(result);
+                $("#saveState").removeAttr("disabled");
+                if (result.flag == true) {
+                    //alert("Record save successfully!");
+                    window.location = "/BuyerOrder/DelivDetails/@Model.Id";
+                }
+                else {
+                    alert(result.message);
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+                $("#saveState").removeAttr("disabled");
+            }
+        });
+
+    }
+
+
+//------
+    function LoadSavedData() {
+
+        var Id = @Model.Id;
+
+        $.ajax({
+            url: '/BuyerOrder/GetDelivData/',
+            data: { Id: Id },
+            dataType: 'json',
+            TYPE: 'POST',
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {   
+                    
+                    var row = $('<tr><td class="index"></td>'
+                    +'<td><input type="hidden" name="DelivDetId" value="'+ data[i].Id +'" class="DelivDetId" /><input type="text" name="ExFactoryDate" value="'+ data[i].ExFactoryDate +'" class="ExFactoryDate form-control datepicker input-xs" /></td>'
+                    + '<td><input type="text" name="HandoverDate" value="'+ data[i].HandoverDate +'" class="HandoverDate form-control datepicker input-xs" /></td>'
+                    + '<td><input type="text" name="ETD" value="'+ data[i].ETD +'" class="ETD form-control datepicker input-xs" /></td>'
+                    + '<td><select name="DestinationPortId" class="DestinationPortId form-control select2 input-xs"><option value=""></option></select></td>'
+                    + '<td><input type="text" name="DelivQuantity" value="'+ data[i].DelivQuantity +'" class="DelivQuantity form-control input-xs" /></td>'
+                    + '<td><input type="text" name="BuyersPONo" value="'+ data[i].BuyersPONo +'" class="BuyersPONo form-control input-xs" /></td>'                    
+                    + '<td><button onclick="RemoveOrderRow(this)" type="button" class="btn  text-warning-600 btn-flat btn-icon btn-rounded"><i class="icon-cross"></i></button></td></tr>');
+                    
+                    
+                    var currRow = $('table.OrderItemTable tbody').find('tr:last').index() + 1;
+                    $('table.OrderItemTable tbody').find('tr:last').before(row);
+
+                    SetDestination(currRow, data[i].DestinationPortId);
+                    
+
+                }
+                
+                $(".select2").select2();  
+                PopulateTotalValue();  
+                RebindDatePicker();
+                UpdateTableRowIndex();
+                
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
+
+
+    function SetDestination(currRow, selPortVal)
+    {
+        //alert (currRow + ", " + selCatVal + ", " +  selCatTypeVal);
+        
+        $.ajax({
+            type: "post",
+            url: "/DestinationPort/GetNames",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var selOptions = "<select>";
+                selOptions = selOptions + '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    selOptions = selOptions + '<option value=' + data[i].Id + '>' + data[i].Name + '</option>';
+                }
+                selOptions = selOptions + '</select>';
+                //jQuery('table.OrderItemTable tbody').find('tr:last').prev().find("td:eq(0) select.ProdCatId").html(selOptions);
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.DestinationPortId").html(selOptions);
+                
+                //jQuery('table.OrderItemTable tr').eq(currRow).find("td:eq(0) select.ProdCatId").val(selVal).trigger('change');
+                jQuery('table.OrderItemTable tr').eq(currRow).find("select.DestinationPortId").val(selPortVal);
+
+                
+
+                
+            }
+        });
+
+    }
+    
+      
+      
+
+    $(document).ajaxStart(ProcUIBlock()).ajaxStop(ProcUIUnBlock());
+
+
+    function ProcUIBlock(){
+        
+        var block = $('#panelBodyMain');
+        $(block).block({ 
+            message: '<span class="text-semibold"><i class="icon-spinner4 spinner position-left"></i>&nbsp; Loading data</span>',
+            overlayCSS: {
+                backgroundColor: '#fff',
+                opacity: 0.8,
+                cursor: 'wait'
+            },
+            css: {
+                width: 'auto',
+                border: 0,
+                color: '#fff',
+                padding: '10px 15px',
+                backgroundColor: '#333'
+            }
+        });
+
+    }
+
+    function ProcUIUnBlock(){
+        var block = $('#panelBodyMain');    
+        $(block).unblock();
+    }
+
+
+
+
+</script>
+
+
+
+
+}

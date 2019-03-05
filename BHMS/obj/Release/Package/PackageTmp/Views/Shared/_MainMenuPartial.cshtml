@@ -1,0 +1,279 @@
+﻿
+
+<div class="sidebar-category sidebar-category-visible">
+    <div class="category-content no-padding">
+        <ul class="navigation navigation-main navigation-accordion">
+            <!-- Main -->
+            @*<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>*@
+            @*<li><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>*@
+
+            @*@{
+                    AOP.MultiMenu.menu menuEntities = new AOP.MultiMenu.menu();
+                    System.Data.DataTable category = menuEntities.get_category().Tables[0];
+                }
+
+
+                @foreach (System.Data.DataRow dr in category.Rows)
+                {
+                    <li>
+                        <a href="#"><i class=@dr["Icon"]></i> <span>@dr["Name"]</span></a>
+                        @{
+                            //((AOP.Controllers.MenuController)this.ViewContext.Controller).get_Submenu(Convert.ToInt32(dr["Id"]));
+
+                            System.Data.DataTable ds = menuEntities.get_Subcategory(Convert.ToInt32(dr["Id"])).Tables[0];
+                            List<AOP.Models.tbl_MenuSCat> submenulist = new List<AOP.Models.tbl_MenuSCat>();
+                            foreach (System.Data.DataRow drow in ds.Rows)
+                            {
+                                submenulist.Add(new AOP.Models.tbl_MenuSCat
+                                {
+                                    Id = Convert.ToInt32(drow["Id"]),
+                                    Name = drow["Name"].ToString(),
+                                    Url = drow["Url"].ToString()
+                                });
+                            }
+                            //Session["submenu"] = submenulist;
+
+                        }
+                        <ul>
+                            @foreach (AOP.Models.tbl_MenuSCat subitem in submenulist)
+                            {
+                                var x = subitem.Url.Split('/');
+                                if (x.Length > 1)
+                                {
+                                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == x[0].ToString() ? "active" : "")"><a href="@Url.Content("~/" + subitem.Url)">@subitem.Name</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="@Url.Content("~/" + subitem.Url)">@subitem.Name</a></li>
+                                }
+                            }
+
+                        </ul>
+                    </li>
+                            }*@
+
+            @*<li>
+                    <a href="#"><i class="icon-lock"></i> <span>Logout</span></a>
+                </li>*@
+
+            <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Home" ? "active" : "")"><a href="@Url.Action("Index","Home")"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+            <li>
+                <a href="#"><i class="icon-stack2"></i> <span>Information</span></a>
+                <ul>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="BuyerOrder" ? "active" : "")">
+                        <a href="#">Buyers Order</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "BuyerOrder")</li>
+                            <li>@Html.ActionLink("Order List", "Index", "BuyerOrder")</li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="FactoryOrder" ? "active" : "")">
+                        <a href="#">Factory Order</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "FactoryOrder")</li>
+                            <li>@Html.ActionLink("Order List", "Index", "FactoryOrder")</li>
+                        </ul>
+                    </li>
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="CommissionDist" ? "active" : "")">
+                        <a href="#">Commission Distribution</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "CommissionDist")</li>
+                            <li>@Html.ActionLink("Distribution List", "Index", "CommissionDist")</li>
+                        </ul>
+                    </li>
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="MasterLC" ? "active" : "")">
+                        <a href="#">Master LC</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "MasterLC")</li>
+                            <li>@Html.ActionLink("LC List", "Index", "MasterLC")</li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="LCTransfer" ? "active" : "")">
+                        <a href="#">LC Transfer</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "LCTransfer")</li>
+                            <li>@Html.ActionLink("LC List", "Index", "LCTransfer")</li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="LCAmend" ? "active" : "")">
+                        <a href="#">LC Amend</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "LCAmend")</li>
+                            <li>@Html.ActionLink("Amend LC List", "Index", "LCAmend")</li>
+                        </ul>
+                    </li>
+                    <li class="navigation-divider"></li>
+
+
+
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Discount" ? "active" : "")">
+                        <a href="#">Discount</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "Discount")</li>
+                            <li>@Html.ActionLink("Discount List", "Index", "Discount")</li>
+                        </ul>
+                    </li>
+
+                    
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="DiscountAdjustmentFactoryMas" ? "active" : "")">
+                        <a href="#">Discount Adjustment Factory</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "DiscountAdjustmentFactoryMas")</li>
+                            <li>@Html.ActionLink("Discount Adjustment Factory List", "Index", "DiscountAdjustmentFactoryMas")</li>
+                        </ul>
+                    </li>
+
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="BuyerDiscountAjustment" ? "active" : "")">
+                        <a href="#">Discount Adjustment Buyer</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "BuyerDiscountAjustment")</li>
+                            <li>@Html.ActionLink("Discount Adjustment Buyer List", "Index", "BuyerDiscountAjustment")</li>
+                        </ul>
+                    </li>
+
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="ExFactoryInformation" ? "active" : "")">
+                        <a href="#">Ex Factory</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "ExFactoryInformation")</li>
+                            <li>@Html.ActionLink("Ex Factory List", "Index", "ExFactoryInformation")</li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="InvoiceCommFact" ? "active" : "")">
+                        <a href="#">Invoice Commercial Factory</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "InvoiceCommFact")</li>
+                            <li>@Html.ActionLink("Invoice Commercial Factory List", "Index", "InvoiceCommFact")</li>
+                        </ul>
+                    </li>
+
+            
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="InvoiceCommercialRDL" ? "active" : "")">
+                        <a href="#">Invoice Commercial RDL List</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "InvoiceCommercialRDL")</li>
+                            <li>@Html.ActionLink("Invoice Commercial RDL List", "Index", "InvoiceCommercialRDL")</li>
+                        </ul>
+                    </li>
+
+
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="DocSubmission" ? "active" : "")">
+                        <a href="#">Document Submission</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "DocSubmission")</li>
+                            <li>@Html.ActionLink("Document Submission List", "Index", "DocSubmission")</li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="ProceedRealization" ? "active" : "")">
+                        <a href="#">Proceed Realization</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "ProceedRealization")</li>
+                            <li>@Html.ActionLink("Proceed Realization List", "Index", "ProceedRealization")</li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="FDDPayment" ? "active" : "")"><a href="@Url.Action("PendingFDD", "FDDPayment")"><span>Pending FDD List</span></a></li>
+                    
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="CommissionRealization" ? "active" : "")"><a href="@Url.Action("PendingRealization", "CommissionRealization")"><span>Pending Commission List</span></a></li>
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="FactoryCashAdjustments" ? "active" : "")">
+                        <a href="#">Factory Cash Adjustment</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "FactoryCashAdjustments")</li>
+                            <li>@Html.ActionLink("Factory Cash Adjustments List", "Index", "FactoryCashAdjustments")</li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="BuyerCashAdjustments" ? "active" : "")">
+                        <a href="#">Buyer Cash Adjustment</a>
+                        <ul>
+                            <li>@Html.ActionLink("Create New", "Create", "BuyerCashAdjustments")</li>
+                            <li>@Html.ActionLink("Buyer Cash Adjustments List", "Index", "BuyerCashAdjustments")</li>
+                        </ul>
+                    </li>
+                    @*<li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="CommissionRealization" ? "active" : "")"><a href="@Url.Action("PendingRealization", "CommissionRealization")"><span>Pending Realization List</span></a></li>*@
+
+                    @*<li>@Html.ActionLink("Product Category", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Product Size", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Fabric Item", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Season", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Color", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Company Resources", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Buyer", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Buyers Department", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Commission Template", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Supplier", "Datatables", "Demo")</li>
+                        <li>@Html.ActionLink("Destination Port", "Datatables", "Demo")</li>*@
+                </ul>
+            </li>
+
+
+
+
+
+
+            <li>
+                <a href="#"><i class="icon-file-empty"></i> <span>Parameters</span></a>
+                <ul>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Company" ? "active" : "")">@Html.ActionLink("Company", "Index", "Company")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="MiddleParty" ? "active" : "")">@Html.ActionLink("Middle Party", "Index", "MiddleParty")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="BankBranch" ? "active" : "")">@Html.ActionLink("Bank Branch", "Index", "BankBranch")</li>
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="BuyerInfo" ? "active" : "")">@Html.ActionLink("Buyer", "Index", "BuyerInfo")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Brand" ? "active" : "")">@Html.ActionLink("Buyers Brand", "Index", "Brand")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="ProdDepartment" ? "active" : "")">@Html.ActionLink("Buyers Department", "Index", "ProdDepartment")</li>
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="CommissionTemplate" ? "active" : "")">@Html.ActionLink("Commission Template", "Index", "CommissionTemplate")</li>
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="ProdCategory" ? "active" : "")">@Html.ActionLink("Product Type", "Index", "ProdCategory")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="ProdCatType" ? "active" : "")">@Html.ActionLink("Product Category", "Index", "ProdCatType")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="ProdSize" ? "active" : "")">@Html.ActionLink("Product Size", "Index", "ProdSize")</li>
+                    <li class="navigation-divider"></li>
+                    
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="FabricTypes" ? "active" : "")">@Html.ActionLink("Fabric Types", "Index", "FabricTypes")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="FabricItem" ? "active" : "")">@Html.ActionLink("Fabric Item", "Index", "FabricItem")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="FabricSuppliers" ? "active" : "")">@Html.ActionLink("Fabric Suppliers", "Index", "FabricSuppliers")</li>
+
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="SeasonInfo" ? "active" : "")">@Html.ActionLink("Season", "Index", "SeasonInfo")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="ProdColors" ? "active" : "")">@Html.ActionLink("Color", "Index", "ProdColors")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="CompanyResource" ? "active" : "")">@Html.ActionLink("Company Resources", "Index", "CompanyResource")</li>
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Supplier" ? "active" : "")">@Html.ActionLink("Supplier", "Index", "Supplier")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="DestinationPort" ? "active" : "")">@Html.ActionLink("Destination Port", "Index", "DestinationPort")</li>
+                    <li class="navigation-divider"></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="CourierInfoes" ? "active" : "")">@Html.ActionLink("Courier", "Index", "CourierInfoes")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="TimeActionMas" ? "active" : "")">@Html.ActionLink("Time & Action", "Index", "TimeActionMas")</li>
+                    <li class="navigation-divider"></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#"><i class="icon-file-pdf"></i> <span>Reports</span></a>
+                <ul>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "OrderInfoFactoryWise" ? "active" : "")">@Html.ActionLink("Order Information Factory Wise", "OrderInfoFactoryWise", "Report")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "LCTransferinfoFactoryWise" ? "active" : "")">@Html.ActionLink("LC Transfer Information Factory Wise", "LCTransferinfoFactoryWise", "Report")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "OrderInfoBuyerWise" ? "active" : "")">@Html.ActionLink("Order Information Buyer Wise", "OrderInfoBuyerWise", "Report")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "LCInfoBuyerWise" ? "active" : "")">@Html.ActionLink("LC Information Buyer Wise", "LCInfoBuyerWise", "Report")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "OrderInfoBuyerWiseDetailReport" ? "active" : "")">@Html.ActionLink("Order Information Buyer Wise Detail", "OrderInfoBuyerWiseDetailReport", "Report")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "CustomerWiseSalesRecap" ? "active" : "")">@Html.ActionLink("Customer Wise Sales", "CustomerWiseSalesRecap", "Report")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "CustomerWiseFactoryComm" ? "active" : "")">@Html.ActionLink("Factory Wise Export Value & RSL Commission", "CustomerWiseFactoryComm", "Report")</li>                   
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "CustomerWiseExpComm" ? "active" : "")">@Html.ActionLink("Customer Wise Export Value & RSL Commission", "CustomerWiseExpComm", "Report")</li>                
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "FactoryWiseOrderAllocation"  ? "active" : "")">@Html.ActionLink("Factory Wise Order Allocation", "FactoryWiseOrderAllocation", "Report")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "BuyerWiseOrderAllocation"  ? "active" : "")">@Html.ActionLink("Customer Wise Order Allocation", "BuyerWiseOrderAllocation", "Report")</li>
+
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "BuyerAccDiscount" ? "active" : "")">@Html.ActionLink("Buyer Account Discount", "BuyerAccDiscount", "Report")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString()=="Report" && ViewContext.RouteData.Values["Action"].ToString()== "FactAccDiscount" ? "active" : "")">@Html.ActionLink("Factory Account Discount", "FactAccDiscount", "Report")</li>
+                </ul>
+            </li>
+
+
+        </ul>
+    </div>
+</div>
+
+
